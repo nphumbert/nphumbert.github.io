@@ -4,13 +4,831 @@
   <title><![CDATA[Nadia Humbert-Labeaumaz]]></title>
   <link href="http://nadia-humbert.github.io/atom.xml" rel="self"/>
   <link href="http://nadia-humbert.github.io/"/>
-  <updated>2015-12-04T08:24:25+01:00</updated>
+  <updated>2015-12-04T22:20:25+01:00</updated>
   <id>http://nadia-humbert.github.io/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Testing Spring MVC Controllers]]></title>
+    <link href="http://nadia-humbert.github.io/blog/2015/10/31/testing-spring-mvc-controllers/"/>
+    <updated>2015-10-31T12:54:08+01:00</updated>
+    <id>http://nadia-humbert.github.io/blog/2015/10/31/testing-spring-mvc-controllers</id>
+    <content type="html"><![CDATA[<p>Since Spring 3.2 (January, 2013), it is possible to test Spring MVC controllers without an external framework.
+The goal of this article is to show how to test Spring MVC controllers using only Spring testing capabilities.</p>
+
+<!-- more -->
+
+
+<p>To do so, a very simple Spring Boot project will be used as a support. You can find it on <a href="https://github.com/nadia-humbert/demo-test-spring-mvc">GitHub</a>. The controller to test will first be introduced. Then, explanations will be given on how to test it.</p>
+
+<h2>Controller</h2>
+
+<p>The controller that will be tested is showed below. It permits to do a search in a fruit list.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Controller</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ApplicationController</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&quot;/fruits&quot;</span><span class="o">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">RequestMethod</span><span class="o">.</span><span class="na">GET</span><span class="o">)</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getFruits</span><span class="o">(</span><span class="nd">@RequestParam</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&quot;search&quot;</span><span class="o">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">false</span><span class="o">)</span> <span class="n">String</span> <span class="n">search</span><span class="o">,</span> <span class="kd">final</span> <span class="n">Model</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">model</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">&quot;fruitBowl&quot;</span><span class="o">,</span> <span class="n">search</span><span class="o">(</span><span class="n">search</span><span class="o">));</span>
+</span><span class='line'>        <span class="k">return</span> <span class="s">&quot;fruits&quot;</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">search</span><span class="o">(</span><span class="n">String</span> <span class="n">search</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="o">(</span><span class="n">StringUtils</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">(</span><span class="n">search</span><span class="o">))</span> <span class="o">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nf">fruitBowl</span><span class="o">();</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="nf">fruitBowl</span><span class="o">().</span><span class="na">stream</span><span class="o">()</span>
+</span><span class='line'>                <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">fruit</span> <span class="o">-&gt;</span> <span class="n">fruit</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="n">search</span><span class="o">))</span>
+</span><span class='line'>                <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">toList</span><span class="o">());</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">fruitBowl</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nf">asList</span><span class="o">(</span><span class="s">&quot;banana&quot;</span><span class="o">,</span> <span class="s">&quot;orange&quot;</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Test</h2>
+
+<p>The test class must be annotated with the following annotations:</p>
+
+<ul>
+<li><code>@RunWith(SpringJUnit4ClassRunner.class)</code> to benefit from Spring features in JUnit tests.</li>
+<li><code>@SpringApplicationConfiguration(classes = DemoTestSpringMvcApplication.class)</code> to specify the configuration class that will be used during the test.</li>
+<li><code>@WebAppConfiguration</code> to indicate that the Spring application context that must be loaded is a <code>WebApplicationContext</code>.</li>
+</ul>
+
+
+<p>The entry point used to perform the tests is the class <code>MockMvc</code>. Thereafter, the usage of this class will be explained.</p>
+
+<h3>Set up</h3>
+
+<p>The set up of the <code>MockMvc</code> class can be done as follows:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Before</span>
+</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">setUp</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">ApplicationController</span> <span class="n">controller</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">ApplicationController</span><span class="o">();</span> <span class="c1">// 1</span>
+</span><span class='line'>    <span class="k">this</span><span class="o">.</span><span class="na">mockMvc</span> <span class="o">=</span> <span class="n">MockMvcBuilders</span><span class="o">.</span><span class="na">standaloneSetup</span><span class="o">(</span><span class="n">controller</span><span class="o">).</span><span class="na">build</span><span class="o">();</span> <span class="c1">// 2</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>First, the controller must be instantiated (<code>1</code>). Then, the mock is initialized using the static method <code>MockMvcBuilders.standaloneSetup()</code> (<code>2</code>). At this point, the mock is ready to test the controller.</p>
+
+<h3>Perform</h3>
+
+<p>The method <code>MockMvc.perform()</code> allows to simulate HTTP requests to the controller. For instance, a GET request is done as follows:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">mockMvc</span><span class="o">.</span><span class="na">perform</span><span class="o">(</span>
+</span><span class='line'>    <span class="n">get</span><span class="o">(</span><span class="s">&quot;/fruits&quot;</span><span class="o">)</span> <span class="c1">// 1</span>
+</span><span class='line'>        <span class="o">.</span><span class="na">param</span><span class="o">(</span><span class="s">&quot;search&quot;</span><span class="o">,</span> <span class="s">&quot;ban&quot;</span><span class="o">)</span> <span class="c1">// 2</span>
+</span><span class='line'><span class="o">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The class <code>MockMvcRequestBuilders</code> provides static methods, such as <code>get</code> or <code>post</code>, to simulate HTTP requests on a particular endpoint of the controller (<code>1</code>). HTTP parameters can be added fluently to the request (<code>2</code>).</p>
+
+<p>Furthermore, other static methods are provided by the <code>MockMvcRequestBuilders</code> class:</p>
+
+<ul>
+<li>HTTP verbs like <code>delete</code>, <code>put</code> or <code>patch</code>.</li>
+<li><code>fileUpload</code> to upload binary files.</li>
+<li>Others (<a href="http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/test/web/servlet/request/MockMvcRequestBuilders.html">documentation</a>).</li>
+</ul>
+
+
+<h3>Assert</h3>
+
+<p>MockMvc permits to add assertions to the controller&rsquo;s response.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">mockMvc</span><span class="o">.</span><span class="na">perform</span><span class="o">(</span><span class="n">get</span><span class="o">(</span><span class="s">&quot;/fruits&quot;</span><span class="o">)</span>
+</span><span class='line'>    <span class="o">.</span><span class="na">param</span><span class="o">(</span><span class="s">&quot;search&quot;</span><span class="o">,</span> <span class="s">&quot;ban&quot;</span><span class="o">))</span>
+</span><span class='line'>    <span class="o">.</span><span class="na">andExpect</span><span class="o">(</span><span class="n">status</span><span class="o">().</span><span class="na">isOk</span><span class="o">())</span> <span class="c1">// 1</span>
+</span><span class='line'>    <span class="o">.</span><span class="na">andExpect</span><span class="o">(</span><span class="n">view</span><span class="o">().</span><span class="na">name</span><span class="o">(</span><span class="s">&quot;fruits&quot;</span><span class="o">))</span> <span class="c1">// 2</span>
+</span><span class='line'>    <span class="o">.</span><span class="na">andExpect</span><span class="o">(</span><span class="n">model</span><span class="o">().</span><span class="na">attribute</span><span class="o">(</span><span class="s">&quot;fruitBowl&quot;</span><span class="o">,</span> <span class="n">contains</span><span class="o">(</span><span class="s">&quot;banana&quot;</span><span class="o">)));</span> <span class="c1">// 3</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Assertions are done with the <code>andExpect()</code> method. The class <code>MockMvcResultMatchers</code> provides static methods to do assertions on the HTTP status (<code>1</code>), the view asked by the controller (<code>2</code>) and on the model completed by the controller (<code>3</code>).</p>
+
+<h2>Conclusion</h2>
+
+<p>The Spring test framework is a very powerful, complete and simple way to test Spring MVC controllers. Its fluent API allows to write elegant and yet precise tests.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Exposer Des Ressources Statiques Avec Spring MVC]]></title>
+    <link href="http://nadia-humbert.github.io/blog/2015/09/18/exposer-des-ressources-statiques-avec-spring-mvc/"/>
+    <updated>2015-09-18T13:59:06+02:00</updated>
+    <id>http://nadia-humbert.github.io/blog/2015/09/18/exposer-des-ressources-statiques-avec-spring-mvc</id>
+    <content type="html"><![CDATA[<p>Il est souvent nécessaire d'exposer des ressources statiques telles que des images, des fichiers pdf, des vidéos, etc. dans une application web.
+Ces fichiers sont stockés sur le serveur et ne sont donc pas accessibles à l'utilisateur via une URL.</p>
+
+<p>L'objectif de cet article est d'exposer des fichiers stockés sur le serveur via une URL dans une application Spring MVC.</p>
+
+<!-- more -->
+
+
+<h2>Surcharge de la configuration web</h2>
+
+<p>Pour exposer des ressources statiques, il faut surcharger la configuration web de Spring MVC.
+Pour ce faire, une classe de configuration qui hérite de <code>WebMvcConfigurerAdapter</code> doit être implémentée.
+Plus précisément, il est nécessaire de surcharger la méthode <code>addResourceHandlers()</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Configuration</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">WebConfig</span> <span class="kd">extends</span> <span class="n">WebMvcConfigurerAdapter</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">DIRECTORY</span> <span class="o">=</span> <span class="s">&quot;/path/to/server/disk/resources&quot;</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addResourceHandlers</span><span class="o">(</span><span class="n">ResourceHandlerRegistry</span> <span class="n">registry</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">registry</span><span class="o">.</span><span class="na">addResourceHandler</span><span class="o">(</span><span class="s">&quot;/resources/**&quot;</span><span class="o">)</span> <span class="c1">// 1</span>
+</span><span class='line'>                <span class="o">.</span><span class="na">addResourceLocations</span><span class="o">(</span><span class="s">&quot;file:///&quot;</span> <span class="o">+</span> <span class="n">DIRECTORY</span> <span class="o">+</span> <span class="s">&quot;/&quot;</span><span class="o">);</span> <span class="c1">// 2</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>La méthode de configuration fournit un objet de type <code>ResourceHandlerRegistry</code> qui permet d'associer une URL (<code>1</code>) à un dossier (<code>2</code>). Ainsi, l'URL <code>http://example.com/resources/file.pdf</code> sera associée au fichier <code>/path/to/server/disk/resources/file.pdf</code>.</p>
+
+<h2>Conclusion</h2>
+
+<p>Pour conclure, Spring permet d'exposer des ressources statiques via des URL de manière simple et rapide.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Transférer Des Paramètres à Travers Un Redirect Avec Spring MVC]]></title>
+    <link href="http://nadia-humbert.github.io/blog/2015/07/25/transferer-des-parametres-a-travers-un-redirect-avec-spring-mvc/"/>
+    <updated>2015-07-25T12:06:04+02:00</updated>
+    <id>http://nadia-humbert.github.io/blog/2015/07/25/transferer-des-parametres-a-travers-un-redirect-avec-spring-mvc</id>
+    <content type="html"><![CDATA[<p>Dans une application web, il est courant d'effectuer une redirection après la soumission d'un formulaire. Cette redirection permet notamment de rendre l'url <em>bookmarkable</em> et d'empêcher l'utilisateur de resoumettre le formulaire par erreur (suite à un <em>refresh</em>, par exemple).</p>
+
+<p>Il peut être intéressant de passer des paramètres à travers ce redirect. Par exemple, pour indiquer à l'utilisateur que son formulaire a bien été soumis. Pour ce faire, il est possible d'ajouter des paramètres directement dans l'url : <code>redirect:/path/to/endpoint?formSubmitted=true</code>.
+Cette solution n'est pas toujours adpatée pour des raisons de confidentialité, de taille d'url ou simplement d'esthétique.</p>
+
+<p>L'objectif de cet article est de démontrer comment transférer des paramètres à travers une redirection avec Spring MVC en utilisant des <em>flash attributes</em>. L'exemple utilisé consistera en un formulaire qui permet d'envoyer un nom. Ce nom s'affichera ensuite une fois le formulaire soumis.</p>
+
+<!-- more -->
+
+
+<h2>Traitement du formulaire</h2>
+
+<p>Le code suivant décrit la gestion de la soumission du formulaire par un <em>controller</em> Spring MVC :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&quot;/&quot;</span><span class="o">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">RequestMethod</span><span class="o">.</span><span class="na">POST</span><span class="o">)</span>
+</span><span class='line'><span class="kd">public</span> <span class="n">ModelAndView</span> <span class="nf">post</span><span class="o">(</span><span class="nd">@RequestParam</span><span class="o">(</span><span class="s">&quot;name&quot;</span><span class="o">)</span> <span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="n">RedirectAttributes</span> <span class="n">redirectAttributes</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>   <span class="n">redirectAttributes</span><span class="o">.</span><span class="na">addFlashAttribute</span><span class="o">(</span><span class="s">&quot;name&quot;</span><span class="o">,</span> <span class="n">name</span><span class="o">);</span> <span class="c1">// 1</span>
+</span><span class='line'>   <span class="k">return</span> <span class="k">new</span> <span class="nf">ModelAndView</span><span class="o">(</span><span class="s">&quot;redirect:/&quot;</span><span class="o">);</span> <span class="c1">// 2</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Afin d'ajouter un <em>flash attribute</em> à la redirection, il faut utiliser une instance de la classe <code>RedirectAttributes</code> (<code>1</code>). Cette instance est automatiquement injectée par Spring lorsqu'elle est déclarée dans la méthode du <em>controller</em>.</p>
+
+<p>Une fois le <em>flash attribute</em> ajouté, il est possible de faire la redirection (<code>2</code>).</p>
+
+<h2>Traitement de l'affichage</h2>
+
+<p>Le code suivant décrit le traitement de la requête <code>GET</code> par un <em>controller</em> Spring MVC :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&quot;/&quot;</span><span class="o">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">RequestMethod</span><span class="o">.</span><span class="na">GET</span><span class="o">)</span>
+</span><span class='line'><span class="kd">public</span> <span class="n">ModelAndView</span> <span class="nf">get</span><span class="o">(</span><span class="n">HttpServletRequest</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="n">ModelAndView</span> <span class="n">modelAndView</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">ModelAndView</span><span class="o">(</span><span class="s">&quot;default&quot;</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="o">?&gt;</span> <span class="n">flashMap</span> <span class="o">=</span> <span class="n">RequestContextUtils</span><span class="o">.</span><span class="na">getInputFlashMap</span><span class="o">(</span><span class="n">request</span><span class="o">);</span> <span class="c1">// 1</span>
+</span><span class='line'>   <span class="k">if</span> <span class="o">(!</span><span class="n">CollectionUtils</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">(</span><span class="n">flashMap</span><span class="o">))</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">modelAndView</span><span class="o">.</span><span class="na">addObject</span><span class="o">(</span><span class="s">&quot;name&quot;</span><span class="o">,</span> <span class="n">flashMap</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&quot;name&quot;</span><span class="o">));</span> <span class="c1">// 2</span>
+</span><span class='line'>   <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="k">return</span> <span class="n">modelAndView</span><span class="o">;</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Pour récupérer la <em>map</em> contenant les <em>flash attributes</em>, il faut utiliser la méthode <code>RequestContextUtils.getInputFlashMap</code> sur la requête <code>HttpServletRequest</code> (<code>1</code>). Cette requête est également injectée par Spring lorsqu'elle est déclarée dans la méthode du <em>controller</em>.</p>
+
+<p>La valeur de l'attribut peut alors être récupérée depuis la <em>map</em> pour être utilisée, ici dans le <code>ModelAndView</code> (<code>2</code>).</p>
+
+<p>Ci-dessous un exemple est donné pour afficher conditionnellement cet attribut dans un template <a href="http://www.thymeleaf.org/">Thymeleaf</a> :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s">&quot;alert alert-success&quot;</span> <span class="n">role</span><span class="o">=</span><span class="s">&quot;alert&quot;</span> <span class="nl">th:</span><span class="k">if</span><span class="o">=</span><span class="s">&quot;${not #strings.isEmpty(name)}&quot;</span><span class="o">&gt;</span>
+</span><span class='line'>   <span class="n">Hello</span><span class="o">,</span> <span class="o">&lt;</span><span class="n">span</span> <span class="nl">th:</span><span class="n">text</span><span class="o">=</span><span class="s">&quot;${name}&quot;</span><span class="o">&gt;</span><span class="n">John</span> <span class="n">Doe</span><span class="o">&lt;/</span><span class="n">span</span><span class="o">&gt;!</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Conclusion</h2>
+
+<p>Les <em>flash attributes</em> de Spring MVC peuvent être utilisés pour transférer des paramètres à travers une redirection. Ce mécanisme permet notamment d'implémenter très facilement une confirmation de soumission de formulaire à l'utilisateur.</p>
+
+<p>Le code source du projet de démonstration peut être trouvé sur <a href="https://github.com/nadia-humbert/demo-flash-attributes">GitHub</a>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Spring Security Et Spring Boot]]></title>
+    <link href="http://nadia-humbert.github.io/blog/2015/06/21/spring-security-et-spring-boot/"/>
+    <updated>2015-06-21T11:51:37+02:00</updated>
+    <id>http://nadia-humbert.github.io/blog/2015/06/21/spring-security-et-spring-boot</id>
+    <content type="html"><![CDATA[<p>Depuis Spring 3.1, il est possible de configurer Spring en Java.
+La configuration Java de Spring Security est supportée depuis sa version 3.2 (<a href="http://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#jc">source</a>).</p>
+
+<p>L'objectif de cet article est de montrer comment configurer Spring Security en Java config, dans une application Spring Boot, avec une base de données qui contient les utilisateurs et leur mot de passe hashé. De plus, une authentification HTTP basic sera mise en place.</p>
+
+<!-- more -->
+
+
+<h2>Créer la classe de configuration</h2>
+
+<p>La classe Java qui doit gérer la configuration doit être munie de l'annotation <code>@Configuration</code> définie par Spring. De plus, elle doit étendre la classe <code>WebSecurityConfigurerAdapter</code>. Spring Boot mettant en place une configuration par défaut, il faut donc finalement utiliser l'annotation <code>@Order</code> afin d'indiquer que la nouvelle configuration doit être utilisée.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Configuration</span>
+</span><span class='line'><span class="nd">@Order</span><span class="o">(</span><span class="n">SecurityProperties</span><span class="o">.</span><span class="na">ACCESS_OVERRIDE_ORDER</span><span class="o">)</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SecurityConfiguration</span> <span class="kd">extends</span> <span class="n">WebSecurityConfigurerAdapter</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Configurer Spring Security pour utiliser une base de données</h2>
+
+<p>Pour indiquer à Spring la méthode d'authentification, il faut redéfinir la méthode <code>configure(AuthenticationManagerBuilder)</code>. Spring Security offre une API <em>fluent</em> pour configurer une authentification à partir de l'objet <code>AuthenticationManagerBuilder</code>.</p>
+
+<p>Le code ci-dessous permet de configurer l'authentification en utilisant une base de données.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Configuration</span>
+</span><span class='line'><span class="nd">@Order</span><span class="o">(</span><span class="n">SecurityProperties</span><span class="o">.</span><span class="na">ACCESS_OVERRIDE_ORDER</span><span class="o">)</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SecurityConfiguration</span> <span class="kd">extends</span> <span class="n">WebSecurityConfigurerAdapter</span> <span class="o">{</span>
+</span><span class='line'>  
+</span><span class='line'>    <span class="nd">@Autowired</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">DataSource</span> <span class="n">dataSource</span><span class="o">;</span> <span class="c1">// 3</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">(</span><span class="n">AuthenticationManagerBuilder</span> <span class="n">auth</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">auth</span><span class="o">.</span><span class="na">jdbcAuthentication</span><span class="o">()</span> <span class="c1">// 1</span>
+</span><span class='line'>                <span class="o">.</span><span class="na">passwordEncoder</span><span class="o">(</span><span class="k">new</span> <span class="nf">ShaPasswordEncoder</span><span class="o">(</span><span class="mi">256</span><span class="o">))</span> <span class="c1">// 6</span>
+</span><span class='line'>                <span class="o">.</span><span class="na">dataSource</span><span class="o">(</span><span class="n">dataSource</span><span class="o">)</span> <span class="c1">// 2</span>
+</span><span class='line'>                <span class="o">.</span><span class="na">usersByUsernameQuery</span><span class="o">(</span><span class="s">&quot;SELECT login, password, active FROM user WHERE login=?&quot;</span><span class="o">)</span> <span class="c1">// 4</span>
+</span><span class='line'>                <span class="o">.</span><span class="na">authoritiesByUsernameQuery</span><span class="o">(</span><span class="s">&quot;SELECT login, role FROM user WHERE login=?&quot;</span><span class="o">);</span> <span class="c1">// 5</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Dans le cadre de cet article, il s'agit d'une authentification JDBC (<code>1</code>). La base de données à laquelle Spring doit accéder est accessible via une <code>dataSource</code> (<code>2</code>). Elle a été configurée dans l'application (typiquement dans <code>application.properties</code>) et peut donc être directement injectée par Spring grâce à l'annotation <code>@Autowired</code> (<code>3</code>).</p>
+
+<p>La requête pour récupérer un utilisateur à partir de son login est fournie via la méthode <code>usersByUsernameQuery</code> (<code>4</code>) et celle pour récupérer les rôles d'un utilisateur à partir de son login via la méthode <code>authoritiesByUsernameQuery</code> (<code>5</code>). Un utilisateur est caractérisé par un login, un mot de passe et un booléen indiquant s'il est actif. Un rôle est une chaîne de caractères qui correspondra à un profil ayant un ensemble de droits.</p>
+
+<p>Finalement, il est indiqué que les mots de passe dans la base sont hashés à l'aide de l'agorithme SHA-256 (<code>6</code>).</p>
+
+<h2>Configuration de l'authentification HTTP basic</h2>
+
+<p>La méthode d'authentification <a href="https://fr.wikipedia.org/wiki/Authentification_HTTP#M.C3.A9thode_.C2.AB_Basic_.C2.BB">HTTP basic</a> est une méthode d'authentification simple en HTTP et sera utilisée dans cet article.
+Cette méthode est indiquée en surchargeant la méthode <code>configure(HTTPSecurity)</code>. De même que dans la section précédente, Spring Security offre une API <em>fluent</em> pour configurer une authentification HTTP à partir de l'objet <code>HTTPSecurity</code>.</p>
+
+<p>Le code ci-dessous permet de configurer l'authentification HTTP basic.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Override</span>
+</span><span class='line'><span class="kd">protected</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">(</span><span class="n">HttpSecurity</span> <span class="n">http</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">http</span><span class="o">.</span><span class="na">httpBasic</span><span class="o">()</span> <span class="c1">// 1</span>
+</span><span class='line'>            <span class="o">.</span><span class="na">and</span><span class="o">()</span>
+</span><span class='line'>                <span class="o">.</span><span class="na">authorizeRequests</span><span class="o">()</span>
+</span><span class='line'>                    <span class="o">.</span><span class="na">antMatchers</span><span class="o">(</span><span class="s">&quot;/&quot;</span><span class="o">,</span> <span class="s">&quot;/css/**&quot;</span><span class="o">,</span> <span class="s">&quot;/js/**&quot;</span><span class="o">).</span><span class="na">permitAll</span><span class="o">()</span> <span class="c1">// 2</span>
+</span><span class='line'>                    <span class="o">.</span><span class="na">anyRequest</span><span class="o">().</span><span class="na">authenticated</span><span class="o">()</span> <span class="c1">// 3</span>
+</span><span class='line'>            <span class="o">.</span><span class="na">and</span><span class="o">()</span>
+</span><span class='line'>                <span class="o">.</span><span class="na">formLogin</span><span class="o">()</span>
+</span><span class='line'>                   <span class="o">.</span><span class="na">loginPage</span><span class="o">(</span><span class="s">&quot;/login&quot;</span><span class="o">).</span><span class="na">permitAll</span><span class="o">()</span> <span class="c1">// 4</span>
+</span><span class='line'>            <span class="o">.</span><span class="na">and</span><span class="o">()</span>
+</span><span class='line'>               <span class="o">.</span><span class="na">logout</span><span class="o">()</span>
+</span><span class='line'>                   <span class="o">.</span><span class="na">logoutUrl</span><span class="o">(</span><span class="s">&quot;/logout&quot;</span><span class="o">)</span> <span class="c1">// 5</span>
+</span><span class='line'>                   <span class="o">.</span><span class="na">logoutSuccessUrl</span><span class="o">(</span><span class="s">&quot;/&quot;</span><span class="o">);</span> <span class="c1">// 6</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>La méthode d'authentification HTTP est précisée avec la méthode <code>httpBasic</code> (<code>1</code>). La racine, les fichiers CSS et javascript sont accessibles à tout le monde (<code>2</code>) tandis que toutes les autres requêtes nécessitent d'être authentifié (<code>3</code>).</p>
+
+<p>L'URL de login est spécifiée via la méthode <code>loginPage</code> (<code>4</code>) et celle de logout via la méthode <code>logoutUrl</code> (<code>5</code>). Après la déconnexion, l'utilisateur est redirigé vers la racine (<code>6</code>).</p>
+
+<p>Le code suivant illustre un formulaire de login et un formulaire de logout.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="c">&lt;!-- Formulaire de login --&gt;</span>
+</span><span class='line'><span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">&quot;/login&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">name=</span><span class="s">&quot;username&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;password&quot;</span> <span class="na">name=</span><span class="s">&quot;password&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span><span class="nt">&gt;</span>Login<span class="nt">&lt;/button&gt;</span>
+</span><span class='line'><span class="nt">&lt;/form&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&lt;!-- Formulaire de logout --&gt;</span>
+</span><span class='line'><span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">&quot;/logout&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span><span class="nt">&gt;</span>Logout<span class="nt">&lt;/button&gt;</span>
+</span><span class='line'><span class="nt">&lt;/form&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Conclusion</h2>
+
+<p>La configuration de Spring Security en Java config est relativement simple et directe. Elle permet de contrôler et de centraliser les accès à toutes les URL de l'application. De plus, il est possible de définir très simplement les URL de login et de logout, Spring Security se chargeant des traitements des requêtes.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Injections De Dépendances Avec Spring]]></title>
+    <link href="http://nadia-humbert.github.io/blog/2015/06/14/injections-de-dependances-avec-spring/"/>
+    <updated>2015-06-14T08:35:20+02:00</updated>
+    <id>http://nadia-humbert.github.io/blog/2015/06/14/injections-de-dependances-avec-spring</id>
+    <content type="html"><![CDATA[<p>Il existe plusieurs méthodes pour injecter une dépendance dans un objet Java :</p>
+
+<ul>
+<li>Injection sur un setter</li>
+<li>Injection sur le constructeur</li>
+<li>Injection directe sur la déclaration de l'attribut</li>
+</ul>
+
+
+<p>Cet article a pour objectif de définir ces différentes méthodes, de décrire leurs avantages et inconvénients et indiquer leurs cas d'utilisation.</p>
+
+<!-- more -->
+
+
+<p>Dans la plupart des applications Java d'entreprise, il y a des services ayant besoin de DAO pour accéder à la base de données. Le code suivant est une illustration de ce cas :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserServiceImpl</span> <span class="kd">implements</span> <span class="n">UserService</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="kd">private</span> <span class="n">UserDao</span> <span class="n">userDao</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="nd">@Override</span>
+</span><span class='line'>   <span class="kd">public</span> <span class="n">User</span> <span class="nf">save</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">User</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">// NullPointerException car userDao n&#39;est pas injecté.</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">userDao</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
+</span><span class='line'>   <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Dans le cadre de cet article, l'annotation <code>@Autowired</code> de Spring sera utilisée pour injecter <code>userDao</code> dans le service.</p>
+
+<h2>Injection sur un setter</h2>
+
+<p>Il est possible de créer un setter et de l'annoter avec <code>@Autowired</code>. Spring va alors utiliser ce setter pour injecter <code>userDao</code> dans le service.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserServiceImpl</span> <span class="kd">implements</span> <span class="n">UserService</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="kd">private</span> <span class="n">UserDao</span> <span class="n">userDao</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="nd">@Autowired</span>
+</span><span class='line'>   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setUserDao</span><span class="o">(</span><span class="n">UserDao</span> <span class="n">userDao</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="k">this</span><span class="o">.</span><span class="na">userDao</span> <span class="o">=</span> <span class="n">userDao</span><span class="o">;</span>
+</span><span class='line'>   <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="nd">@Override</span>
+</span><span class='line'>   <span class="kd">public</span> <span class="n">User</span> <span class="nf">save</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">User</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">// userDao est injecté via le setter annoté.</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">userDao</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
+</span><span class='line'>   <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Cette méthode a pour avantage de rendre le <code>userDao</code> facilement injectable dans un test unitaire sans avoir à utiliser de framework particulier. Comme montré dans l'exemple ci-après :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserServiceTest</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="nd">@Test</span>
+</span><span class='line'>   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">test_save</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">// given</span>
+</span><span class='line'>      <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;Martin&quot;</span><span class="o">;</span>
+</span><span class='line'>      <span class="n">UserService</span> <span class="n">userService</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">UserServiceImpl</span><span class="o">();</span>
+</span><span class='line'>      <span class="n">userService</span><span class="o">.</span><span class="na">setUserDao</span><span class="o">(</span><span class="k">new</span> <span class="nf">FakeUserDaoImpl</span><span class="o">());</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">// when</span>
+</span><span class='line'>      <span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="n">userService</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">// then</span>
+</span><span class='line'>      <span class="n">assertThat</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getName</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="kd">private</span> <span class="kd">class</span> <span class="nc">FakeUserDaoImpl</span> <span class="kd">implements</span> <span class="n">UserDao</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nd">@Override</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="n">User</span> <span class="nf">save</span><span class="o">(</span><span class="n">User</span> <span class="n">user</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>         <span class="k">return</span> <span class="n">user</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>   <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Cependant, elle a pour inconvénient de rendre l'attribut <code>userDao</code> du service modifiable par tous les objets qui disposent d'une instance du service (ils peuvent donc même le rendre <code>null</code>).</p>
+
+<h2>Injection sur le constructeur</h2>
+
+<p>Dans cette méthode d'injection, le <code>userDao</code> est injecté dans le service via son constructeur annoté avec <code>@Autowired</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserServiceImpl</span> <span class="kd">implements</span> <span class="n">UserService</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="kd">private</span> <span class="kd">final</span> <span class="n">UserDao</span> <span class="n">userDao</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="nd">@Autowired</span>
+</span><span class='line'>   <span class="kd">public</span> <span class="nf">UserServiceImpl</span><span class="o">(</span><span class="n">UserDao</span> <span class="n">userDao</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="k">this</span><span class="o">.</span><span class="na">userDao</span> <span class="o">=</span> <span class="n">userDao</span><span class="o">;</span>
+</span><span class='line'>   <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="nd">@Override</span>
+</span><span class='line'>   <span class="kd">public</span> <span class="n">User</span> <span class="nf">save</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">User</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">// userDao est injecté via le constructeur annoté.</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">userDao</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
+</span><span class='line'>   <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Comme la méthode d'injection à l'aide du setter, celle-ci permet de rendre le <code>userDao</code> facilement injectable dans un test unitaire.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserServiceTest</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="nd">@Test</span>
+</span><span class='line'>   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">test_save</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">// given</span>
+</span><span class='line'>      <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;Martin&quot;</span><span class="o">;</span>
+</span><span class='line'>      <span class="n">UserService</span> <span class="n">userService</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">UserServiceImpl</span><span class="o">(</span><span class="k">new</span> <span class="nf">FakeUserDaoImpl</span><span class="o">());</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">// when</span>
+</span><span class='line'>      <span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="n">userService</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">// then</span>
+</span><span class='line'>      <span class="n">assertThat</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getName</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="kd">private</span> <span class="kd">class</span> <span class="nc">FakeUserDaoImpl</span> <span class="kd">implements</span> <span class="n">UserDao</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nd">@Override</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="n">User</span> <span class="nf">save</span><span class="o">(</span><span class="n">User</span> <span class="n">user</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>         <span class="k">return</span> <span class="n">user</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>   <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>De plus, elle permet également d'assurer que le <code>userDao</code> ne sera jamais modifié. Il suffirait donc de mettre un contrôle de nullité dans le constructeur pour certifier qu'il ne sera jamais <code>null</code>.</p>
+
+<p>Cependant, elle a pour inconvénient d'imposer la création de la dépendance dès l'instanciation du service même si elle n'est pas nécessaire.</p>
+
+<h2>Injection sur la déclaration de l'attribut</h2>
+
+<p>Cette méthode consiste à ajouter l'annotation <code>@Autowired</code> directement sur la déclaration de l'attribut.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserServiceImpl</span> <span class="kd">implements</span> <span class="n">UserService</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="nd">@Autowired</span>
+</span><span class='line'>   <span class="kd">private</span> <span class="n">UserDao</span> <span class="n">userDao</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="nd">@Override</span>
+</span><span class='line'>   <span class="kd">public</span> <span class="n">User</span> <span class="nf">save</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">User</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">// userDao est injecté via l&#39;annotation @Autowired.</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">userDao</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
+</span><span class='line'>   <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Cette manière d'injecter a l'avantage d'être simple à utiliser.</p>
+
+<p>Néanmoins, elle n'est pas conseillée car elle force à employer la réfléxion, ce qui la rend notamment plus compliquée à tester (utilisation obligatoire d'un framework de test).</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserServiceTest</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="nd">@Test</span>
+</span><span class='line'>   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">test_save</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">// given</span>
+</span><span class='line'>      <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;Martin&quot;</span><span class="o">;</span>
+</span><span class='line'>      <span class="n">UserService</span> <span class="n">userService</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">UserServiceImpl</span><span class="o">();</span>
+</span><span class='line'>      <span class="n">UserDao</span> <span class="n">fakeUserDao</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">FakeUserDaoImpl</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">// Utilisation de la classe ReflectionTestUtils de Spring.</span>
+</span><span class='line'>      <span class="n">ReflectionTestUtils</span><span class="o">.</span><span class="na">setField</span><span class="o">(</span><span class="n">userService</span><span class="o">,</span> <span class="s">&quot;userDao&quot;</span><span class="o">,</span> <span class="n">fakeUserDao</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">// when</span>
+</span><span class='line'>      <span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="n">userService</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">// then</span>
+</span><span class='line'>      <span class="n">assertThat</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getName</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="kd">private</span> <span class="kd">class</span> <span class="nc">FakeUserDaoImpl</span> <span class="kd">implements</span> <span class="n">UserDao</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nd">@Override</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="n">User</span> <span class="nf">save</span><span class="o">(</span><span class="n">User</span> <span class="n">user</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>         <span class="k">return</span> <span class="n">user</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>   <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>De plus, elle rompt le principe de la programmation orientée objet qui stipule que les objets sont responsables de leurs attributs privés. En effet, l'attribut privé est ici manipulé directement par Spring ou le framework de test choisi.</p>
+
+<h2>Conclusion</h2>
+
+<p>L'injection d'un attribut d'un objet peut se faire de différentes manières.
+L'injection par setter a pour avantage de rendre le code facilement testable. L'injection par constructeur a, en plus, l'avantage de pouvoir contrôler la nullité de l'attribut. Elle est donc conseilée pour les attributs obligatoires. Finalement, l'injection sur la déclaration de l'attribut est déconseilée car elle rend le code moins facilement testable et crée des dépendances cachées.</p>
+
+<p>La testabilité du code est importante. En effet, un code non testable est signe d'un code qui sera difficile à comprendre et à maintenir.</p>
+]]></content>
+  </entry>
   
 </feed>

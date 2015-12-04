@@ -1,9 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://nadia-humbert.github.io/blog/2015/10/31/testing-spring-mvc-controllers/</loc>
+    <lastmod>2015-10-31T12:54:08+01:00</lastmod>
+  </url>
+  <url>
+    <loc>http://nadia-humbert.github.io/blog/2015/09/18/exposer-des-ressources-statiques-avec-spring-mvc/</loc>
+    <lastmod>2015-09-18T13:59:06+02:00</lastmod>
+  </url>
+  <url>
+    <loc>http://nadia-humbert.github.io/blog/2015/07/25/transferer-des-parametres-a-travers-un-redirect-avec-spring-mvc/</loc>
+    <lastmod>2015-07-25T12:06:04+02:00</lastmod>
+  </url>
+  <url>
+    <loc>http://nadia-humbert.github.io/blog/2015/06/21/spring-security-et-spring-boot/</loc>
+    <lastmod>2015-06-21T11:51:37+02:00</lastmod>
+  </url>
+  <url>
+    <loc>http://nadia-humbert.github.io/blog/2015/06/14/injections-de-dependances-avec-spring/</loc>
+    <lastmod>2015-06-14T08:35:20+02:00</lastmod>
+  </url>
+  <url>
     <loc>http://nadia-humbert.github.io/</loc>
   </url>
   <url>
     <loc>http://nadia-humbert.github.io/blog/archives/</loc>
+  </url>
+  <url>
+    <loc>http://nadia-humbert.github.io/litesln/</loc>
+  </url>
+  <url>
+    <loc>http://nadia-humbert.github.io/about/</loc>
+  </url>
+  <url>
+    <loc>http://nadia-humbert.github.io/blog/categories/spring/</loc>
+  </url>
+  <url>
+    <loc>http://nadia-humbert.github.io/blog/categories/java/</loc>
+  </url>
+  <url>
+    <loc>http://nadia-humbert.github.io/blog/categories/spring-security/</loc>
+  </url>
+  <url>
+    <loc>http://nadia-humbert.github.io/blog/categories/spring-boot/</loc>
+  </url>
+  <url>
+    <loc>http://nadia-humbert.github.io/blog/categories/spring-mvc/</loc>
+  </url>
+  <url>
+    <loc>http://nadia-humbert.github.io/blog/categories/test/</loc>
   </url>
 </urlset>

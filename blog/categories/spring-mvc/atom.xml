@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Spring Mvc | Nadia Humbert-Labeaumaz]]></title>
+  <link href="http://nadia-humbert.github.io/blog/categories/spring-mvc/atom.xml" rel="self"/>
+  <link href="http://nadia-humbert.github.io/"/>
+  <updated>2015-12-04T22:20:25+01:00</updated>
+  <id>http://nadia-humbert.github.io/</id>
+  <author>
+    <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Testing Spring MVC Controllers]]></title>
+    <link href="http://nadia-humbert.github.io/blog/2015/10/31/testing-spring-mvc-controllers/"/>
+    <updated>2015-10-31T12:54:08+01:00</updated>
+    <id>http://nadia-humbert.github.io/blog/2015/10/31/testing-spring-mvc-controllers</id>
+    <content type="html"><![CDATA[<p>Since Spring 3.2 (January, 2013), it is possible to test Spring MVC controllers without an external framework.
+The goal of this article is to show how to test Spring MVC controllers using only Spring testing capabilities.</p>
+
+<!-- more -->
+
+
+<p>To do so, a very simple Spring Boot project will be used as a support. You can find it on <a href="https://github.com/nadia-humbert/demo-test-spring-mvc">GitHub</a>. The controller to test will first be introduced. Then, explanations will be given on how to test it.</p>
+
+<h2>Controller</h2>
+
+<p>The controller that will be tested is showed below. It permits to do a search in a fruit list.</p>
+
+<pre><code class="java">@Controller
+public class ApplicationController {
+
+    @RequestMapping(value = "/fruits", method = RequestMethod.GET)
+    public String getFruits(@RequestParam(value = "search", required = false) String search, final Model model) {
+        model.addAttribute("fruitBowl", search(search));
+        return "fruits";
+    }
+
+    private List&lt;String&gt; search(String search) {
+        if (StringUtils.isEmpty(search)) {
+            return fruitBowl();
+        }
+
+        return fruitBowl().stream()
+                .filter(fruit -&gt; fruit.startsWith(search))
+                .collect(toList());
+    }
+
+    private List&lt;String&gt; fruitBowl() {
+        return asList("banana", "orange");
+    }
+}
+</code></pre>
+
+<h2>Test</h2>
+
+<p>The test class must be annotated with the following annotations:</p>
+
+<ul>
+<li><code>@RunWith(SpringJUnit4ClassRunner.class)</code> to benefit from Spring features in JUnit tests.</li>
+<li><code>@SpringApplicationConfiguration(classes = DemoTestSpringMvcApplication.class)</code> to specify the configuration class that will be used during the test.</li>
+<li><code>@WebAppConfiguration</code> to indicate that the Spring application context that must be loaded is a <code>WebApplicationContext</code>.</li>
+</ul>
+
+
+<p>The entry point used to perform the tests is the class <code>MockMvc</code>. Thereafter, the usage of this class will be explained.</p>
+
+<h3>Set up</h3>
+
+<p>The set up of the <code>MockMvc</code> class can be done as follows:</p>
+
+<pre><code class="java">@Before
+public void setUp() {
+    ApplicationController controller = new ApplicationController(); // 1
+    this.mockMvc = MockMvcBuilders.standaloneSetup(controller).build(); // 2
+}
+</code></pre>
+
+<p>First, the controller must be instantiated (<code>1</code>). Then, the mock is initialized using the static method <code>MockMvcBuilders.standaloneSetup()</code> (<code>2</code>). At this point, the mock is ready to test the controller.</p>
+
+<h3>Perform</h3>
+
+<p>The method <code>MockMvc.perform()</code> allows to simulate HTTP requests to the controller. For instance, a GET request is done as follows:</p>
+
+<pre><code class="java">mockMvc.perform(
+    get("/fruits") // 1
+        .param("search", "ban") // 2
+);
+</code></pre>
+
+<p>The class <code>MockMvcRequestBuilders</code> provides static methods, such as <code>get</code> or <code>post</code>, to simulate HTTP requests on a particular endpoint of the controller (<code>1</code>). HTTP parameters can be added fluently to the request (<code>2</code>).</p>
+
+<p>Furthermore, other static methods are provided by the <code>MockMvcRequestBuilders</code> class:</p>
+
+<ul>
+<li>HTTP verbs like <code>delete</code>, <code>put</code> or <code>patch</code>.</li>
+<li><code>fileUpload</code> to upload binary files.</li>
+<li>Others (<a href="http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/test/web/servlet/request/MockMvcRequestBuilders.html">documentation</a>).</li>
+</ul>
+
+
+<h3>Assert</h3>
+
+<p>MockMvc permits to add assertions to the controller&rsquo;s response.</p>
+
+<pre><code class="java">mockMvc.perform(get("/fruits")
+    .param("search", "ban"))
+    .andExpect(status().isOk()) // 1
+    .andExpect(view().name("fruits")) // 2
+    .andExpect(model().attribute("fruitBowl", contains("banana"))); // 3
+</code></pre>
+
+<p>Assertions are done with the <code>andExpect()</code> method. The class <code>MockMvcResultMatchers</code> provides static methods to do assertions on the HTTP status (<code>1</code>), the view asked by the controller (<code>2</code>) and on the model completed by the controller (<code>3</code>).</p>
+
+<h2>Conclusion</h2>
+
+<p>The Spring test framework is a very powerful, complete and simple way to test Spring MVC controllers. Its fluent API allows to write elegant and yet precise tests.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Exposer Des Ressources Statiques Avec Spring MVC]]></title>
+    <link href="http://nadia-humbert.github.io/blog/2015/09/18/exposer-des-ressources-statiques-avec-spring-mvc/"/>
+    <updated>2015-09-18T13:59:06+02:00</updated>
+    <id>http://nadia-humbert.github.io/blog/2015/09/18/exposer-des-ressources-statiques-avec-spring-mvc</id>
+    <content type="html"><![CDATA[<p>Il est souvent nécessaire d'exposer des ressources statiques telles que des images, des fichiers pdf, des vidéos, etc. dans une application web.
+Ces fichiers sont stockés sur le serveur et ne sont donc pas accessibles à l'utilisateur via une URL.</p>
+
+<p>L'objectif de cet article est d'exposer des fichiers stockés sur le serveur via une URL dans une application Spring MVC.</p>
+
+<!-- more -->
+
+
+<h2>Surcharge de la configuration web</h2>
+
+<p>Pour exposer des ressources statiques, il faut surcharger la configuration web de Spring MVC.
+Pour ce faire, une classe de configuration qui hérite de <code>WebMvcConfigurerAdapter</code> doit être implémentée.
+Plus précisément, il est nécessaire de surcharger la méthode <code>addResourceHandlers()</code>.</p>
+
+<pre><code class="java">@Configuration
+public class WebConfig extends WebMvcConfigurerAdapter {
+
+    private static final String DIRECTORY = "/path/to/server/disk/resources";
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/resources/**") // 1
+                .addResourceLocations("file:///" + DIRECTORY + "/"); // 2
+    }
+}
+</code></pre>
+
+<p>La méthode de configuration fournit un objet de type <code>ResourceHandlerRegistry</code> qui permet d'associer une URL (<code>1</code>) à un dossier (<code>2</code>). Ainsi, l'URL <code>http://example.com/resources/file.pdf</code> sera associée au fichier <code>/path/to/server/disk/resources/file.pdf</code>.</p>
+
+<h2>Conclusion</h2>
+
+<p>Pour conclure, Spring permet d'exposer des ressources statiques via des URL de manière simple et rapide.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Transférer Des Paramètres à Travers Un Redirect Avec Spring MVC]]></title>
+    <link href="http://nadia-humbert.github.io/blog/2015/07/25/transferer-des-parametres-a-travers-un-redirect-avec-spring-mvc/"/>
+    <updated>2015-07-25T12:06:04+02:00</updated>
+    <id>http://nadia-humbert.github.io/blog/2015/07/25/transferer-des-parametres-a-travers-un-redirect-avec-spring-mvc</id>
+    <content type="html"><![CDATA[<p>Dans une application web, il est courant d'effectuer une redirection après la soumission d'un formulaire. Cette redirection permet notamment de rendre l'url <em>bookmarkable</em> et d'empêcher l'utilisateur de resoumettre le formulaire par erreur (suite à un <em>refresh</em>, par exemple).</p>
+
+<p>Il peut être intéressant de passer des paramètres à travers ce redirect. Par exemple, pour indiquer à l'utilisateur que son formulaire a bien été soumis. Pour ce faire, il est possible d'ajouter des paramètres directement dans l'url : <code>redirect:/path/to/endpoint?formSubmitted=true</code>.
+Cette solution n'est pas toujours adpatée pour des raisons de confidentialité, de taille d'url ou simplement d'esthétique.</p>
+
+<p>L'objectif de cet article est de démontrer comment transférer des paramètres à travers une redirection avec Spring MVC en utilisant des <em>flash attributes</em>. L'exemple utilisé consistera en un formulaire qui permet d'envoyer un nom. Ce nom s'affichera ensuite une fois le formulaire soumis.</p>
+
+<!-- more -->
+
+
+<h2>Traitement du formulaire</h2>
+
+<p>Le code suivant décrit la gestion de la soumission du formulaire par un <em>controller</em> Spring MVC :</p>
+
+<pre><code class="java">@RequestMapping(value = "/", method = RequestMethod.POST)
+public ModelAndView post(@RequestParam("name") String name, RedirectAttributes redirectAttributes) {
+   redirectAttributes.addFlashAttribute("name", name); // 1
+   return new ModelAndView("redirect:/"); // 2
+}
+</code></pre>
+
+<p>Afin d'ajouter un <em>flash attribute</em> à la redirection, il faut utiliser une instance de la classe <code>RedirectAttributes</code> (<code>1</code>). Cette instance est automatiquement injectée par Spring lorsqu'elle est déclarée dans la méthode du <em>controller</em>.</p>
+
+<p>Une fois le <em>flash attribute</em> ajouté, il est possible de faire la redirection (<code>2</code>).</p>
+
+<h2>Traitement de l'affichage</h2>
+
+<p>Le code suivant décrit le traitement de la requête <code>GET</code> par un <em>controller</em> Spring MVC :</p>
+
+<pre><code class="java">@RequestMapping(value = "/", method = RequestMethod.GET)
+public ModelAndView get(HttpServletRequest request) {
+
+   ModelAndView modelAndView = new ModelAndView("default");
+
+   Map&lt;String, ?&gt; flashMap = RequestContextUtils.getInputFlashMap(request); // 1
+   if (!CollectionUtils.isEmpty(flashMap)) {
+      modelAndView.addObject("name", flashMap.get("name")); // 2
+   }
+
+   return modelAndView;
+}
+</code></pre>
+
+<p>Pour récupérer la <em>map</em> contenant les <em>flash attributes</em>, il faut utiliser la méthode <code>RequestContextUtils.getInputFlashMap</code> sur la requête <code>HttpServletRequest</code> (<code>1</code>). Cette requête est également injectée par Spring lorsqu'elle est déclarée dans la méthode du <em>controller</em>.</p>
+
+<p>La valeur de l'attribut peut alors être récupérée depuis la <em>map</em> pour être utilisée, ici dans le <code>ModelAndView</code> (<code>2</code>).</p>
+
+<p>Ci-dessous un exemple est donné pour afficher conditionnellement cet attribut dans un template <a href="http://www.thymeleaf.org/">Thymeleaf</a> :</p>
+
+<p>```java</p>
+
+<div class="alert alert-success" role="alert" th:if="${not #strings.isEmpty(name)}">
+   Hello, <span th:text="${name}">John Doe</span>!
+</div>
+
+
+<p>```</p>
+
+<h2>Conclusion</h2>
+
+<p>Les <em>flash attributes</em> de Spring MVC peuvent être utilisés pour transférer des paramètres à travers une redirection. Ce mécanisme permet notamment d'implémenter très facilement une confirmation de soumission de formulaire à l'utilisateur.</p>
+
+<p>Le code source du projet de démonstration peut être trouvé sur <a href="https://github.com/nadia-humbert/demo-flash-attributes">GitHub</a>.</p>
+]]></content>
+  </entry>
+  
+</feed>

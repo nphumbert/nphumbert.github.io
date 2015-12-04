@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Blog Archive - Nadia Humbert-Labeaumaz</title>
+  <title>Exposer Des Ressources Statiques Avec Spring MVC - Nadia Humbert-Labeaumaz</title>
   <meta name="author" content="Nadia Humbert-Labeaumaz">
 
   
-  <meta name="description" content="Blog Archive 2015 Testing Spring MVC Controllers
-Oct 31 2015 posted in java, spring, spring mvc, test Exposer Des Ressources Statiques Avec Spring &hellip;">
+  <meta name="description" content="Il est souvent nécessaire d'exposer des ressources statiques telles que des images, des fichiers pdf, des vidéos, etc. dans une application web.
+Ces &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +19,7 @@ Oct 31 2015 posted in java, spring, spring mvc, test Exposer Des Ressources Stat
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://nadia-humbert.github.io/blog/archives">
+  <link rel="canonical" href="http://nadia-humbert.github.io/blog/2015/09/18/exposer-des-ressources-statiques-avec-spring-mvc">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Nadia Humbert-Labeaumaz" type="application/atom+xml">
@@ -101,102 +101,132 @@ Oct 31 2015 posted in java, spring, spring mvc, test Exposer Des Ressources Stat
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Blog Archive</h1>
+    
+      
+        <h1 class="entry-title">Exposer Des Ressources Statiques Avec Spring MVC</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-18T13:59:06+02:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:59 pm</span></time>
+        
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives">
 
 
+<div class="entry-content"><p>Il est souvent nécessaire d'exposer des ressources statiques telles que des images, des fichiers pdf, des vidéos, etc. dans une application web.
+Ces fichiers sont stockés sur le serveur et ne sont donc pas accessibles à l'utilisateur via une URL.</p>
 
-  
-  <h2>2015</h2>
+<p>L'objectif de cet article est d'exposer des fichiers stockés sur le serveur via une URL dans une application Spring MVC.</p>
 
-<article>
-  
-<h1><a href="/blog/2015/10/31/testing-spring-mvc-controllers/">Testing Spring MVC Controllers</a></h1>
-<time datetime="2015-10-31T12:54:08+01:00" pubdate><span class='month'>Oct</span> <span class='day'>31</span> <span class='year'>2015</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/java/'>java</a>, <a class='category' href='/blog/categories/spring/'>spring</a>, <a class='category' href='/blog/categories/spring-mvc/'>spring mvc</a>, <a class='category' href='/blog/categories/test/'>test</a></span>
-</footer>
+<!-- more -->
 
 
-</article>
+<h2>Surcharge de la configuration web</h2>
+
+<p>Pour exposer des ressources statiques, il faut surcharger la configuration web de Spring MVC.
+Pour ce faire, une classe de configuration qui hérite de <code>WebMvcConfigurerAdapter</code> doit être implémentée.
+Plus précisément, il est nécessaire de surcharger la méthode <code>addResourceHandlers()</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Configuration</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">WebConfig</span> <span class="kd">extends</span> <span class="n">WebMvcConfigurerAdapter</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">DIRECTORY</span> <span class="o">=</span> <span class="s">&quot;/path/to/server/disk/resources&quot;</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addResourceHandlers</span><span class="o">(</span><span class="n">ResourceHandlerRegistry</span> <span class="n">registry</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">registry</span><span class="o">.</span><span class="na">addResourceHandler</span><span class="o">(</span><span class="s">&quot;/resources/**&quot;</span><span class="o">)</span> <span class="c1">// 1</span>
+</span><span class='line'>                <span class="o">.</span><span class="na">addResourceLocations</span><span class="o">(</span><span class="s">&quot;file:///&quot;</span> <span class="o">+</span> <span class="n">DIRECTORY</span> <span class="o">+</span> <span class="s">&quot;/&quot;</span><span class="o">);</span> <span class="c1">// 2</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
+<p>La méthode de configuration fournit un objet de type <code>ResourceHandlerRegistry</code> qui permet d'associer une URL (<code>1</code>) à un dossier (<code>2</code>). Ainsi, l'URL <code>http://example.com/resources/file.pdf</code> sera associée au fichier <code>/path/to/server/disk/resources/file.pdf</code>.</p>
 
-<article>
-  
-<h1><a href="/blog/2015/09/18/exposer-des-ressources-statiques-avec-spring-mvc/">Exposer Des Ressources Statiques Avec Spring MVC</a></h1>
-<time datetime="2015-09-18T13:59:06+02:00" pubdate><span class='month'>Sep</span> <span class='day'>18</span> <span class='year'>2015</span></time>
+<h2>Conclusion</h2>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/spring/'>spring</a>, <a class='category' href='/blog/categories/spring-mvc/'>spring mvc</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2015/07/25/transferer-des-parametres-a-travers-un-redirect-avec-spring-mvc/">Transférer Des Paramètres à Travers Un Redirect Avec Spring MVC</a></h1>
-<time datetime="2015-07-25T12:06:04+02:00" pubdate><span class='month'>Jul</span> <span class='day'>25</span> <span class='year'>2015</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/spring/'>spring</a>, <a class='category' href='/blog/categories/spring-mvc/'>spring mvc</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2015/06/21/spring-security-et-spring-boot/">Spring Security Et Spring Boot</a></h1>
-<time datetime="2015-06-21T11:51:37+02:00" pubdate><span class='month'>Jun</span> <span class='day'>21</span> <span class='year'>2015</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/java/'>java</a>, <a class='category' href='/blog/categories/spring/'>spring</a>, <a class='category' href='/blog/categories/spring-boot/'>spring boot</a>, <a class='category' href='/blog/categories/spring-security/'>spring security</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2015/06/14/injections-de-dependances-avec-spring/">Injections De Dépendances Avec Spring</a></h1>
-<time datetime="2015-06-14T08:35:20+02:00" pubdate><span class='month'>Jun</span> <span class='day'>14</span> <span class='year'>2015</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/java/'>java</a>, <a class='category' href='/blog/categories/spring/'>spring</a></span>
-</footer>
-
-
-</article>
-
+<p>Pour conclure, Spring permet d'exposer des ressources statiques via des URL de manière simple et rapide.</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
-</article>
 
 
-</div>
 
-<aside class="sidebar">
+  <span class="byline author vcard">Authored by <span class="fn">
   
+    Nadia Humbert-Labeaumaz
+  
+  </span></span>
+
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-09-18T13:59:06+02:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:59 pm</span></time>
+      
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/spring/'>spring</a>, <a class='category' href='/blog/categories/spring-mvc/'>spring mvc</a>
+  
+</span>
+
+
+    </p>
     
+      <div class="sharing">
   
-</aside>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://nadia-humbert.github.io/blog/2015/09/18/exposer-des-ressources-statiques-avec-spring-mvc/" data-via="nphumbert" data-counturl="http://nadia-humbert.github.io/blog/2015/09/18/exposer-des-ressources-statiques-avec-spring-mvc/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
 
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/25/transferer-des-parametres-a-travers-un-redirect-avec-spring-mvc/" title="Previous Post: Transférer des paramètres à travers un redirect avec Spring MVC">&laquo; Transférer des paramètres à travers un redirect avec Spring MVC</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/10/31/testing-spring-mvc-controllers/" title="Next Post: Testing Spring MVC controllers">Testing Spring MVC controllers &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
 
     </div>
   </div>
