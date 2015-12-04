@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
+  <title><![CDATA[Nadia Humbert-Labeaumaz]]></title>
   <link href="http://nadia-humbert.github.io/atom.xml" rel="self"/>
   <link href="http://nadia-humbert.github.io/"/>
-  <updated>2015-12-03T13:38:38+01:00</updated>
+  <updated>2015-12-04T08:24:25+01:00</updated>
   <id>http://nadia-humbert.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
