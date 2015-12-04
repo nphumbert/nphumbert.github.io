@@ -7,12 +7,11 @@ sharing: true
 footer: true
 ---
 
-I'm an entrepreneur and I currently work as a software engineer and manager of my company. I create my own online solutions : [LiteSln](http://nadia-humbert.github.io/litesln).
+I'm an entrepreneur and I currently work as a software engineer and manager of my company. I create my own applications : [LiteSln](http://nadia-humbert.github.io/litesln).
 
 I am a very accesible person and enjoy to talk to people from all over the world. I speak French, Spanish, English, Portuguese and a bit of Italian.  
-I challenge myself very often.  
 I love my husband, family, sports, music and programming.
 
 If you want to know more about me, you can read the following comic. You can also contact me anytime [here](mailto:contact@litesln.com) and follow me on twitter [here](https://twitter.com/nphumbert).
 
-->![About me](images/cartoon.png)<-
+{% img center /images/cartoon.png %}
