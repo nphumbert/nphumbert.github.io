@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Spring Security | Nadia Humbert-Labeaumaz]]></title>
-  <link href="http://nadia-humbert.github.io/blog/categories/spring-security/atom.xml" rel="self"/>
-  <link href="http://nadia-humbert.github.io/"/>
-  <updated>2015-12-04T22:28:29+01:00</updated>
-  <id>http://nadia-humbert.github.io/</id>
+  <link href="http://nphumbert.github.io/blog/categories/spring-security/atom.xml" rel="self"/>
+  <link href="http://nphumbert.github.io/"/>
+  <updated>2015-12-05T12:28:12+01:00</updated>
+  <id>http://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Spring Security Et Spring Boot]]></title>
-    <link href="http://nadia-humbert.github.io/blog/2015/06/21/spring-security-et-spring-boot/"/>
+    <link href="http://nphumbert.github.io/blog/2015/06/21/spring-security-et-spring-boot/"/>
     <updated>2015-06-21T11:51:37+02:00</updated>
-    <id>http://nadia-humbert.github.io/blog/2015/06/21/spring-security-et-spring-boot</id>
+    <id>http://nphumbert.github.io/blog/2015/06/21/spring-security-et-spring-boot</id>
     <content type="html"><![CDATA[<p>Depuis Spring 3.1, il est possible de configurer Spring en Java.
 La configuration Java de Spring Security est supportée depuis sa version 3.2 (<a href="http://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#jc">source</a>).</p>
 

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Spring Mvc | Nadia Humbert-Labeaumaz]]></title>
-  <link href="http://nadia-humbert.github.io/blog/categories/spring-mvc/atom.xml" rel="self"/>
-  <link href="http://nadia-humbert.github.io/"/>
-  <updated>2015-12-04T22:28:29+01:00</updated>
-  <id>http://nadia-humbert.github.io/</id>
+  <link href="http://nphumbert.github.io/blog/categories/spring-mvc/atom.xml" rel="self"/>
+  <link href="http://nphumbert.github.io/"/>
+  <updated>2015-12-05T12:28:12+01:00</updated>
+  <id>http://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
     
@@ -15,16 +15,16 @@
   
   <entry>
     <title type="html"><![CDATA[Testing Spring MVC Controllers]]></title>
-    <link href="http://nadia-humbert.github.io/blog/2015/10/31/testing-spring-mvc-controllers/"/>
+    <link href="http://nphumbert.github.io/blog/2015/10/31/testing-spring-mvc-controllers/"/>
     <updated>2015-10-31T12:54:08+01:00</updated>
-    <id>http://nadia-humbert.github.io/blog/2015/10/31/testing-spring-mvc-controllers</id>
+    <id>http://nphumbert.github.io/blog/2015/10/31/testing-spring-mvc-controllers</id>
     <content type="html"><![CDATA[<p>Since Spring 3.2 (January, 2013), it is possible to test Spring MVC controllers without an external framework.
 The goal of this article is to show how to test Spring MVC controllers using only Spring testing capabilities.</p>
 
 <!-- more -->
 
 
-<p>To do so, a very simple Spring Boot project will be used as a support. You can find it on <a href="https://github.com/nadia-humbert/demo-test-spring-mvc">GitHub</a>. The controller to test will first be introduced. Then, explanations will be given on how to test it.</p>
+<p>To do so, a very simple Spring Boot project will be used as a support. You can find it on <a href="https://github.com/nphumbert/demo-test-spring-mvc">GitHub</a>. The controller to test will first be introduced. Then, explanations will be given on how to test it.</p>
 
 <h2>Controller</h2>
 
@@ -123,9 +123,9 @@ public void setUp() {
   
   <entry>
     <title type="html"><![CDATA[Exposer Des Ressources Statiques Avec Spring MVC]]></title>
-    <link href="http://nadia-humbert.github.io/blog/2015/09/18/exposer-des-ressources-statiques-avec-spring-mvc/"/>
+    <link href="http://nphumbert.github.io/blog/2015/09/18/exposer-des-ressources-statiques-avec-spring-mvc/"/>
     <updated>2015-09-18T13:59:06+02:00</updated>
-    <id>http://nadia-humbert.github.io/blog/2015/09/18/exposer-des-ressources-statiques-avec-spring-mvc</id>
+    <id>http://nphumbert.github.io/blog/2015/09/18/exposer-des-ressources-statiques-avec-spring-mvc</id>
     <content type="html"><![CDATA[<p>Il est souvent nécessaire d'exposer des ressources statiques telles que des images, des fichiers pdf, des vidéos, etc. dans une application web.
 Ces fichiers sont stockés sur le serveur et ne sont donc pas accessibles à l'utilisateur via une URL.</p>
 
@@ -163,9 +163,9 @@ public class WebConfig extends WebMvcConfigurerAdapter {
   
   <entry>
     <title type="html"><![CDATA[Transférer Des Paramètres à Travers Un Redirect Avec Spring MVC]]></title>
-    <link href="http://nadia-humbert.github.io/blog/2015/07/25/transferer-des-parametres-a-travers-un-redirect-avec-spring-mvc/"/>
+    <link href="http://nphumbert.github.io/blog/2015/07/25/transferer-des-parametres-a-travers-un-redirect-avec-spring-mvc/"/>
     <updated>2015-07-25T12:06:04+02:00</updated>
-    <id>http://nadia-humbert.github.io/blog/2015/07/25/transferer-des-parametres-a-travers-un-redirect-avec-spring-mvc</id>
+    <id>http://nphumbert.github.io/blog/2015/07/25/transferer-des-parametres-a-travers-un-redirect-avec-spring-mvc</id>
     <content type="html"><![CDATA[<p>Dans une application web, il est courant d'effectuer une redirection après la soumission d'un formulaire. Cette redirection permet notamment de rendre l'url <em>bookmarkable</em> et d'empêcher l'utilisateur de resoumettre le formulaire par erreur (suite à un <em>refresh</em>, par exemple).</p>
 
 <p>Il peut être intéressant de passer des paramètres à travers ce redirect. Par exemple, pour indiquer à l'utilisateur que son formulaire a bien été soumis. Pour ce faire, il est possible d'ajouter des paramètres directement dans l'url : <code>redirect:/path/to/endpoint?formSubmitted=true</code>.
@@ -228,7 +228,7 @@ public ModelAndView get(HttpServletRequest request) {
 
 <p>Les <em>flash attributes</em> de Spring MVC peuvent être utilisés pour transférer des paramètres à travers une redirection. Ce mécanisme permet notamment d'implémenter très facilement une confirmation de soumission de formulaire à l'utilisateur.</p>
 
-<p>Le code source du projet de démonstration peut être trouvé sur <a href="https://github.com/nadia-humbert/demo-flash-attributes">GitHub</a>.</p>
+<p>Le code source du projet de démonstration peut être trouvé sur <a href="https://github.com/nphumbert/demo-flash-attributes">GitHub</a>.</p>
 ]]></content>
   </entry>
   

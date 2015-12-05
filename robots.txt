@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 
-Sitemap: http://nadia-humbert.github.io/sitemap.xml
+Sitemap: http://nphumbert.github.io/sitemap.xml
