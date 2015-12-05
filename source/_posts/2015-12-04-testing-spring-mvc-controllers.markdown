@@ -11,7 +11,7 @@ The goal of this article is to show how to test Spring MVC controllers using onl
 
 <!-- more -->
 
-To do so, a very simple Spring Boot project will be used as a support. You can find it on [GitHub](https://github.com/nadia-humbert/demo-test-spring-mvc). The controller to test will first be introduced. Then, explanations will be given on how to test it.
+To do so, a very simple Spring Boot project will be used as a support. You can find it on [GitHub](https://github.com/nphumbert/demo-test-spring-mvc). The controller to test will first be introduced. Then, explanations will be given on how to test it.
 
 ## Controller
 

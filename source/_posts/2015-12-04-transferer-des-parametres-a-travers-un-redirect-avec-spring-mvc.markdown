@@ -69,4 +69,4 @@ Ci-dessous un exemple est donné pour afficher conditionnellement cet attribut d
 
 Les _flash attributes_ de Spring MVC peuvent être utilisés pour transférer des paramètres à travers une redirection. Ce mécanisme permet notamment d'implémenter très facilement une confirmation de soumission de formulaire à l'utilisateur.
 
-Le code source du projet de démonstration peut être trouvé sur [GitHub](https://github.com/nadia-humbert/demo-flash-attributes).
+Le code source du projet de démonstration peut être trouvé sur [GitHub](https://github.com/nphumbert/demo-flash-attributes).
