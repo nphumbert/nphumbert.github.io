@@ -5,7 +5,7 @@ date: 2015-12-05 19:09:13 +0100
 comments: true
 categories: [LiteSln, Nano]
 ---
-I am pleased to announce the first release of [Nano](https://nano.litesln.com) by LiteSln. Nano is an application to manage invoices and enforce their consistency using a numeration strategy that can be adapted to the country's legislation. It also allows you to edit invoices with your own custom template and to monitor your performance through statistics.
+I am pleased to announce the first release of [Nano](https://nano.litesln.com) by LiteSln. Nano is a web site that manages invoices and enforce their consistency using a numeration strategy that can be adapted to the country's legislation. It also allows you to edit invoices with your own custom template and to monitor your performance through statistics.
 
 The goal of this article is to introduce the main features of Nano.
 
