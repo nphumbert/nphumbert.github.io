@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Spring Security | Nadia Humbert-Labeaumaz]]></title>
+  <title><![CDATA[Category: spring security | Nadia Humbert-Labeaumaz]]></title>
   <link href="http://nphumbert.github.io/blog/categories/spring-security/atom.xml" rel="self"/>
   <link href="http://nphumbert.github.io/"/>
-  <updated>2015-12-05T12:39:24+01:00</updated>
+  <updated>2015-12-05T12:47:40+01:00</updated>
   <id>http://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Spring Security Et Spring Boot]]></title>
+    <title type="html"><![CDATA[Spring Security et Spring Boot]]></title>
     <link href="http://nphumbert.github.io/blog/2015/06/21/spring-security-et-spring-boot/"/>
     <updated>2015-06-21T11:51:37+02:00</updated>
     <id>http://nphumbert.github.io/blog/2015/06/21/spring-security-et-spring-boot</id>

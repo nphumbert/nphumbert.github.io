@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Java | Nadia Humbert-Labeaumaz]]></title>
+  <title><![CDATA[Category: java | Nadia Humbert-Labeaumaz]]></title>
   <link href="http://nphumbert.github.io/blog/categories/java/atom.xml" rel="self"/>
   <link href="http://nphumbert.github.io/"/>
-  <updated>2015-12-05T12:39:24+01:00</updated>
+  <updated>2015-12-05T12:47:40+01:00</updated>
   <id>http://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Testing Spring MVC Controllers]]></title>
+    <title type="html"><![CDATA[Testing Spring MVC controllers]]></title>
     <link href="http://nphumbert.github.io/blog/2015/10/31/testing-spring-mvc-controllers/"/>
     <updated>2015-10-31T12:54:08+01:00</updated>
     <id>http://nphumbert.github.io/blog/2015/10/31/testing-spring-mvc-controllers</id>
@@ -122,7 +122,7 @@ public void setUp() {
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Spring Security Et Spring Boot]]></title>
+    <title type="html"><![CDATA[Spring Security et Spring Boot]]></title>
     <link href="http://nphumbert.github.io/blog/2015/06/21/spring-security-et-spring-boot/"/>
     <updated>2015-06-21T11:51:37+02:00</updated>
     <id>http://nphumbert.github.io/blog/2015/06/21/spring-security-et-spring-boot</id>
@@ -231,7 +231,7 @@ protected void configure(HttpSecurity http) throws Exception {
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Injections De Dépendances Avec Spring]]></title>
+    <title type="html"><![CDATA[Injections de dépendances avec Spring]]></title>
     <link href="http://nphumbert.github.io/blog/2015/06/14/injections-de-dependances-avec-spring/"/>
     <updated>2015-06-14T08:35:20+02:00</updated>
     <id>http://nphumbert.github.io/blog/2015/06/14/injections-de-dependances-avec-spring</id>

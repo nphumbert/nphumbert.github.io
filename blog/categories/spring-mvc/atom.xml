@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Spring Mvc | Nadia Humbert-Labeaumaz]]></title>
+  <title><![CDATA[Category: spring mvc | Nadia Humbert-Labeaumaz]]></title>
   <link href="http://nphumbert.github.io/blog/categories/spring-mvc/atom.xml" rel="self"/>
   <link href="http://nphumbert.github.io/"/>
-  <updated>2015-12-05T12:39:24+01:00</updated>
+  <updated>2015-12-05T12:47:40+01:00</updated>
   <id>http://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Testing Spring MVC Controllers]]></title>
+    <title type="html"><![CDATA[Testing Spring MVC controllers]]></title>
     <link href="http://nphumbert.github.io/blog/2015/10/31/testing-spring-mvc-controllers/"/>
     <updated>2015-10-31T12:54:08+01:00</updated>
     <id>http://nphumbert.github.io/blog/2015/10/31/testing-spring-mvc-controllers</id>
@@ -122,7 +122,7 @@ public void setUp() {
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Exposer Des Ressources Statiques Avec Spring MVC]]></title>
+    <title type="html"><![CDATA[Exposer des ressources statiques avec Spring MVC]]></title>
     <link href="http://nphumbert.github.io/blog/2015/09/18/exposer-des-ressources-statiques-avec-spring-mvc/"/>
     <updated>2015-09-18T13:59:06+02:00</updated>
     <id>http://nphumbert.github.io/blog/2015/09/18/exposer-des-ressources-statiques-avec-spring-mvc</id>
@@ -162,7 +162,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Transférer Des Paramètres à Travers Un Redirect Avec Spring MVC]]></title>
+    <title type="html"><![CDATA[Transférer des paramètres à travers un redirect avec Spring MVC]]></title>
     <link href="http://nphumbert.github.io/blog/2015/07/25/transferer-des-parametres-a-travers-un-redirect-avec-spring-mvc/"/>
     <updated>2015-07-25T12:06:04+02:00</updated>
     <id>http://nphumbert.github.io/blog/2015/07/25/transferer-des-parametres-a-travers-un-redirect-avec-spring-mvc</id>

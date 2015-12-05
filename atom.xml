@@ -4,7 +4,7 @@
   <title><![CDATA[Nadia Humbert-Labeaumaz]]></title>
   <link href="http://nphumbert.github.io/atom.xml" rel="self"/>
   <link href="http://nphumbert.github.io/"/>
-  <updated>2015-12-05T12:39:24+01:00</updated>
+  <updated>2015-12-05T12:47:40+01:00</updated>
   <id>http://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Testing Spring MVC Controllers]]></title>
+    <title type="html"><![CDATA[Testing Spring MVC controllers]]></title>
     <link href="http://nphumbert.github.io/blog/2015/10/31/testing-spring-mvc-controllers/"/>
     <updated>2015-10-31T12:54:08+01:00</updated>
     <id>http://nphumbert.github.io/blog/2015/10/31/testing-spring-mvc-controllers</id>
@@ -163,7 +163,7 @@ The goal of this article is to show how to test Spring MVC controllers using onl
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Exposer Des Ressources Statiques Avec Spring MVC]]></title>
+    <title type="html"><![CDATA[Exposer des ressources statiques avec Spring MVC]]></title>
     <link href="http://nphumbert.github.io/blog/2015/09/18/exposer-des-ressources-statiques-avec-spring-mvc/"/>
     <updated>2015-09-18T13:59:06+02:00</updated>
     <id>http://nphumbert.github.io/blog/2015/09/18/exposer-des-ressources-statiques-avec-spring-mvc</id>
@@ -215,7 +215,7 @@ Plus précisément, il est nécessaire de surcharger la méthode <code>addResour
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Transférer Des Paramètres à Travers Un Redirect Avec Spring MVC]]></title>
+    <title type="html"><![CDATA[Transférer des paramètres à travers un redirect avec Spring MVC]]></title>
     <link href="http://nphumbert.github.io/blog/2015/07/25/transferer-des-parametres-a-travers-un-redirect-avec-spring-mvc/"/>
     <updated>2015-07-25T12:06:04+02:00</updated>
     <id>http://nphumbert.github.io/blog/2015/07/25/transferer-des-parametres-a-travers-un-redirect-avec-spring-mvc</id>
@@ -305,7 +305,7 @@ Cette solution n'est pas toujours adpatée pour des raisons de confidentialité,
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Spring Security Et Spring Boot]]></title>
+    <title type="html"><![CDATA[Spring Security et Spring Boot]]></title>
     <link href="http://nphumbert.github.io/blog/2015/06/21/spring-security-et-spring-boot/"/>
     <updated>2015-06-21T11:51:37+02:00</updated>
     <id>http://nphumbert.github.io/blog/2015/06/21/spring-security-et-spring-boot</id>
@@ -459,7 +459,7 @@ Cette méthode est indiquée en surchargeant la méthode <code>configure(HTTPSec
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Injections De Dépendances Avec Spring]]></title>
+    <title type="html"><![CDATA[Injections de dépendances avec Spring]]></title>
     <link href="http://nphumbert.github.io/blog/2015/06/14/injections-de-dependances-avec-spring/"/>
     <updated>2015-06-14T08:35:20+02:00</updated>
     <id>http://nphumbert.github.io/blog/2015/06/14/injections-de-dependances-avec-spring</id>
