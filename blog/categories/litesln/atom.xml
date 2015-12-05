@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: litesln | Nadia Humbert-Labeaumaz]]></title>
+  <link href="http://nphumbert.github.io/blog/categories/litesln/atom.xml" rel="self"/>
+  <link href="http://nphumbert.github.io/"/>
+  <updated>2015-12-05T21:03:38+01:00</updated>
+  <id>http://nphumbert.github.io/</id>
+  <author>
+    <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[The invoice manager Nano is released]]></title>
+    <link href="http://nphumbert.github.io/blog/2015/12/05/the-invoice-manager-nano-is-released/"/>
+    <updated>2015-12-05T19:09:13+01:00</updated>
+    <id>http://nphumbert.github.io/blog/2015/12/05/the-invoice-manager-nano-is-released</id>
+    <content type="html"><![CDATA[<p>I am pleased to announce the first release of <a href="https://nano.litesln.com">Nano</a> by LiteSln. Nano is an application to manage invoices and enforce their consistency using a numeration strategy that can be adapted to the country&rsquo;s legislation. It also allows you to edit invoices with your own custom template and to monitor your performance through statistics.</p>
+
+<p>The goal of this article is to introduce the main features of Nano.</p>
+
+<!-- more -->
+
+
+<h2>Invoices</h2>
+
+<p>You can create and manage invoices as well as products and customers using Nano.</p>
+
+<h3>Invoice creation</h3>
+
+<p>An invoice is associated to a customer and contains articles that correspond to products in a certain quantity.<br/>
+It is also possible to add charges to an invoice. A charge may be fixed or a percentage of the invoice&rsquo;s total price (taxes for instance).</p>
+
+<p>All created invoices can be consulted and actions can be performed on them, depending on their current state.</p>
+
+<h3>Workflow</h3>
+
+<p>At first, a sales quote is created. It can be emitted and the invoice is then due. Once the customer pays it, the invoice is marked as paid and cannot be cancelled anymore.</p>
+
+<p>For security purpose, articles and charges can only be added to a sales quote.</p>
+
+<h2>Customization</h2>
+
+<p>It is possible to customize your experience with Nano by changing the default numeration strategy and template to print your invoices.</p>
+
+<h3>Numeration strategy</h3>
+
+<p>Invoices numeration may differ depending on the legistaion that applies to your company.
+For example, the invoice number format or the way they are incremented can be imposed.</p>
+
+<p>Nano addresses this issue by allowing you to use custom numeration strategies. In order to guarantee numeration&rsquo;s consistency, you can&rsquo;t modify it once your first invoice is created.</p>
+
+<p>You can easily migrate to Nano from your previous invoices management process. Indeed, it is possible to choose the number of your first invoice in Nano, provided that it respects the format required by your numeration strategy.</p>
+
+<h3>Template</h3>
+
+<p>A custom template permits you to print your invoices with the format and the information you wish. The template can be changed even after invoices are created.</p>
+
+<h2>Statistics</h2>
+
+<p>In order to monitor your performance, Nano provides a set of statistics and graphics.
+You can currently visualize your revenue per month, per customer and per product. More statistics will be added in future releases.</p>
+
+<h2>Conclusion</h2>
+
+<p>Nano aims to ensure a secured management of your invoices in terms of legislation and allows you to do so in a simple way.</p>
+
+<p>By subscribing to <a href="https://nano.litesln.com">Nano</a>, you can benefit from a one month trial period.</p>
+]]></content>
+  </entry>
+  
+</feed>
