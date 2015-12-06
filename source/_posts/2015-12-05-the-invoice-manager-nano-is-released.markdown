@@ -34,12 +34,12 @@ It is possible to customize your experience with Nano by changing the default nu
 
 ### Numeration strategy
 
-Invoices numeration may differ depending on the legistaion that applies to your company.
+Invoices numeration may differ depending on the legislation that applies to your company.
 For example, the invoice number format or the way they are incremented can be imposed.
 
-Nano addresses this issue by allowing you to use custom numeration strategies. In order to guarantee numeration's consistency, you can't modify it once your first invoice is created.
+Nano addresses this issue by allowing you to use a custom numeration strategy. In order to guarantee numeration's consistency, you can't modify it once your first invoice is created.
 
-You can easily migrate to Nano from your previous invoices management process. Indeed, it is possible to choose the number of your first invoice in Nano, provided that it respects the format required by your numeration strategy.
+You can easily migrate to Nano from your current invoices management process. Indeed, it is possible to choose the number of your first invoice in Nano, provided that it respects the format required by your numeration strategy.
 
 ### Template
 
@@ -52,6 +52,6 @@ You can currently visualize your revenue per month, per customer and per product
 
 ## Conclusion
 
-Nano aims to ensure a secured management of your invoices in terms of legislation and allows you to do so in a simple way.
+Nano aims to ensure a secured management of your invoices in terms of legislation and allows you to do so in a simple way. You can watch a demo of Nano [here](https://www.youtube.com/watch?v=6_XCBTwu7tE).
 
 By subscribing to [Nano](https://nano.litesln.com), you can benefit from a one month trial period.

@@ -52,6 +52,6 @@ Actuellement, vous pouvez visualiser vos revenus par mois, par client et par pro
 
 ## Conclusion
 
-Nano vise à assurer la gestion sécurisée de vos factures en termes de législation et vous permet de le faire de manière simple.
+Nano vise à assurer la gestion sécurisée de vos factures en termes de législation et vous permet de le faire de manière simple. Vous pouvez voir une démo de Nano [ici](https://www.youtube.com/watch?v=6_XCBTwu7tE).
 
 En vous inscrivant à [Nano](https://nano.litesln.com), vous pouvez bénéficier d'une période d'essai d'un mois.
