@@ -4,7 +4,7 @@
   <title><![CDATA[Category: nano | Nadia Humbert-Labeaumaz]]></title>
   <link href="http://nphumbert.github.io/blog/categories/nano/atom.xml" rel="self"/>
   <link href="http://nphumbert.github.io/"/>
-  <updated>2015-12-16T12:51:04+01:00</updated>
+  <updated>2015-12-16T13:01:35+01:00</updated>
   <id>http://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -18,9 +18,9 @@
     <link href="http://nphumbert.github.io/blog/2015/12/15/nano-una-ayuda-para-los-empresarios-de-honduras/"/>
     <updated>2015-12-15T22:46:46+01:00</updated>
     <id>http://nphumbert.github.io/blog/2015/12/15/nano-una-ayuda-para-los-empresarios-de-honduras</id>
-    <content type="html"><![CDATA[<p>Han habido diversos cambios en el reglamento de facturación de Honduras. Conforme a los artículos 41 y 42 del acuerdo 189 2014 y de la reforma 058 2014, las facturas en Honduras deben contener imperativamente un conjunto de informaciones bien definidas.</p>
+    <content type="html"><![CDATA[<p>Han habido diversos cambios en el reglamento de facturación de Honduras que han impactado el trabajo de los empresarios. En efecto, conforme a los artículos 41 y 42 del acuerdo 189 2014 y de la reforma 058 2014, las facturas en Honduras deben contener imperativamente un conjunto de informaciones bien definidas.</p>
 
-<p>El objetivo de este documento es indicar los datos que deben contener la facturas en Honduras y mostrar las funciones de <a href="https://nano.litesln.com">Nano</a> que facilitan la administración de las facturas en Honduras y que ayudan a los empresarios hondureños a diario.</p>
+<p>El objetivo de este documento es indicar los datos que deben contener las facturas en Honduras y mostrar las funciones de <a href="https://nano.litesln.com">Nano</a> que facilitan la administración de cuyas facturas y que ayudan a los empresarios de Honduras a diario.</p>
 
 <!-- more -->
 
@@ -83,7 +83,7 @@ Un recordatorio es dado dos meses y un mes antes de esa fecha límite para que e
 
 <p>Otro activo importante de Nano es que se adapta a los cambios fácilmente. Por ejemplo, si hay un cambio de ley, Nano se adapata para generar facturas con la información requerida por la nueva ley. Además, el empresario puede personalizar sus facturas si lo necesita.</p>
 
-<p>Finalmente, Nano provee un conjunto de estadísticas y de gráficos que le permiten monitorear su rendimiento. Puede actualemente visualizar sus ingresos por mes, por cliente y por producto. Otras estadísticas serán añadidas en futuras versiones de Nano.</p>
+<p>Finalmente, Nano provee un conjunto de estadísticas y de gráficos que le permiten monitorear su rendimiento. Puede actualmente visualizar sus ingresos por mes, por cliente y por producto. Otras estadísticas serán añadidas en futuras versiones de Nano.</p>
 
 <h2>Conclusion</h2>
 
