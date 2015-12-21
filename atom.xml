@@ -4,7 +4,7 @@
   <title><![CDATA[Nadia Humbert-Labeaumaz]]></title>
   <link href="http://nphumbert.github.io/atom.xml" rel="self"/>
   <link href="http://nphumbert.github.io/"/>
-  <updated>2015-12-21T11:56:29+01:00</updated>
+  <updated>2015-12-21T21:02:00+01:00</updated>
   <id>http://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -35,13 +35,13 @@
 <li>La Clave de Autorización de Impresión (CAI);</li>
 <li>La fecha límite de autorización de impresión vigente;</li>
 <li>El número correlativo de la factura compuesto de 16 dígitos: los 3 primeros son la identificación del establecimiento del contribuyente emisor asignada por la Dirección Ejecutiva de Ingresos (DEI) durante su suscripción, los 3 siguientes corresponden al punto de emisión y son igualmente asignados por la DEI durante su suscripción, los dos siguientes constituyen el código del documento fiscal (01 para las facturas), los últimos 8 dígitos corresponden al número correlativo de la factura;</li>
-<li>El destino de los ejemplares: el original para el comprador o adquiriente y la copia para el contribuyente emisor;</li>
+<li>El destino de los ejemplares: el original para el comprador o adquirente y la copia para el contribuyente emisor;</li>
 <li>El rango de documentos fiscales autorizado por la DEI;</li>
-<li>Los datos del comprador o adquiriente. Estos dependen del tipo de comprador o adquiriente: contribuyente que requiere sustentar gastos, costos o crédito o consumidor final;</li>
+<li>Los datos del comprador o adquirente. Estos dependen del tipo de comprador o adquirente: contribuyente que requiere sustentar gastos, costos o crédito o consumidor final;</li>
 </ul>
 
 
-<p>Si el comprador o adquiriente requiere sustentar gastos, costos o crédito, los datos relativos a cuyo comprador o adquiriente que deben aparecer en las facturas son los siguientes:</p>
+<p>Si el comprador o adquirente requiere sustentar gastos, costos o crédito, los datos relativos a cuyo comprador o adquirente que deben aparecer en las facturas son los siguientes:</p>
 
 <ul>
 <li>La identificación: apellidos y nombres / razón o denominación social (según corresponda);</li>
@@ -57,7 +57,7 @@
 </ul>
 
 
-<p>En cambio, si el comprador o adquiriente es un consumidor final, los datos a consignar son los siguientes:</p>
+<p>En cambio, si el comprador o adquirente es un consumidor final, los datos a consignar son los siguientes:</p>
 
 <ul>
 <li>La denominación &ldquo;CONSUMIDOR FINAL&rdquo;;</li>
