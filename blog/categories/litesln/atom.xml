@@ -4,7 +4,7 @@
   <title><![CDATA[Category: litesln | Nadia Humbert-Labeaumaz]]></title>
   <link href="http://nphumbert.github.io/blog/categories/litesln/atom.xml" rel="self"/>
   <link href="http://nphumbert.github.io/"/>
-  <updated>2015-12-21T21:02:00+01:00</updated>
+  <updated>2015-12-21T22:57:50+01:00</updated>
   <id>http://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -77,7 +77,7 @@
 <p><a href="https://nano.litesln.com">Nano</a> de LiteSln permite administrar de manera segura y simple sus facturas asegurándose que sean válidas (todos los datos necesarios a su constitución son indicados). A continuación vamos a describir algunas de las medidas tomadas por Nano para ayudar a los empresarios hondureños.</p>
 
 <p>Nano garantiza que el número de factura se situe en el rango de documentos fiscales autotizado y que no se sobrepasa la fecha límite de autorización de impresión.<br/>
-Un recordatorio es dado dos meses y un mes antes de esa fecha límite para que el empresario tenga tiempo de procurarse un nuevo rango asociado a una nueva fecha límite de autorización de impresión.
+Un recordatorio es dado dos meses antes de esa fecha límite para que el empresario tenga tiempo de procurarse un nuevo rango asociado a una nueva fecha límite de autorización de impresión.
 En la fecha límite o cuando el rango se acaba, Nano le invita a actualizar estos datos.</p>
 
 <p><a href="https://nano.litesln.com">Nano</a> de LiteSln permite también identificar las informaciones que faltan para completar sus facturas antes de cada impresión. Si todas las informaciones ya están indicadas, la impresión se lanza sin acción previa necesaria. Sino, Nano propone al usuario completar un formulario con las informaciones que faltan. Al llenar y validar el formulario, la factura impresa contendrá todas las informaciones requiridas por la ley.</p>
