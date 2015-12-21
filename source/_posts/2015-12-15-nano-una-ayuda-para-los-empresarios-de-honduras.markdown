@@ -21,11 +21,11 @@ Actualmente, los datos siguientes deben aparecer en todas las facturas emitidas 
 - La Clave de Autorización de Impresión (CAI);
 - La fecha límite de autorización de impresión vigente;
 - El número correlativo de la factura compuesto de 16 dígitos: los 3 primeros son la identificación del establecimiento del contribuyente emisor asignada por la Dirección Ejecutiva de Ingresos (DEI) durante su suscripción, los 3 siguientes corresponden al punto de emisión y son igualmente asignados por la DEI durante su suscripción, los dos siguientes constituyen el código del documento fiscal (01 para las facturas), los últimos 8 dígitos corresponden al número correlativo de la factura;
-- El destino de los ejemplares: el original para el comprador o adquiriente y la copia para el contribuyente emisor;
+- El destino de los ejemplares: el original para el comprador o adquirente y la copia para el contribuyente emisor;
 - El rango de documentos fiscales autorizado por la DEI;
-- Los datos del comprador o adquiriente. Estos dependen del tipo de comprador o adquiriente: contribuyente que requiere sustentar gastos, costos o crédito o consumidor final;
+- Los datos del comprador o adquirente. Estos dependen del tipo de comprador o adquirente: contribuyente que requiere sustentar gastos, costos o crédito o consumidor final;
 
-Si el comprador o adquiriente requiere sustentar gastos, costos o crédito, los datos relativos a cuyo comprador o adquiriente que deben aparecer en las facturas son los siguientes:
+Si el comprador o adquirente requiere sustentar gastos, costos o crédito, los datos relativos a cuyo comprador o adquirente que deben aparecer en las facturas son los siguientes:
 
 - La identificación: apellidos y nombres / razón o denominación social (según corresponda);
 - El RTN;
@@ -38,7 +38,7 @@ Si el comprador o adquiriente requiere sustentar gastos, costos o crédito, los 
 - El importe total literal y numeral de la operación realizada;
 - La fecha de emisión;
 
-En cambio, si el comprador o adquiriente es un consumidor final, los datos a consignar son los siguientes:
+En cambio, si el comprador o adquirente es un consumidor final, los datos a consignar son los siguientes:
 
 - La denominación "CONSUMIDOR FINAL";
 - La descripción detallada del bien vendido o del servicio adquirido;
