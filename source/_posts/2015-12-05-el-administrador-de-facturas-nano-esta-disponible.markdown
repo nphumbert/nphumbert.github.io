@@ -45,7 +45,7 @@ Un modelo personalizado de factura le permite imprimir las facturas con el forma
 
 ## Estadísticas
 
-Para monitorear su rendimiento, Nano provee un conjunto de estadísticas y de gráficos. Puede actualemente visualizar sus ingresos por mes, por cliente y por producto. Otras estadísticas serán añadidas en futuras versiones de Nano.
+Para monitorear su rendimiento, Nano provee un conjunto de estadísticas y de gráficos. Puede actualmente visualizar sus ingresos por mes, por cliente y por producto. Otras estadísticas serán añadidas en futuras versiones de Nano.
 
 ## Conclusion
 
