@@ -55,7 +55,7 @@ Nano facilita la gestión de las informaciones descritas previamente así como d
 [Nano](https://nano.litesln.com) de LiteSln permite administrar de manera segura y simple sus facturas asegurándose que sean válidas (todos los datos necesarios a su constitución son indicados). A continuación vamos a describir algunas de las medidas tomadas por Nano para ayudar a los empresarios hondureños.
 
 Nano garantiza que el número de factura se situe en el rango de documentos fiscales autotizado y que no se sobrepasa la fecha límite de autorización de impresión.  
-Un recordatorio es dado dos meses y un mes antes de esa fecha límite para que el empresario tenga tiempo de procurarse un nuevo rango asociado a una nueva fecha límite de autorización de impresión.
+Un recordatorio es dado dos meses antes de esa fecha límite para que el empresario tenga tiempo de procurarse un nuevo rango asociado a una nueva fecha límite de autorización de impresión.
 En la fecha límite o cuando el rango se acaba, Nano le invita a actualizar estos datos.
 
 [Nano](https://nano.litesln.com) de LiteSln permite también identificar las informaciones que faltan para completar sus facturas antes de cada impresión. Si todas las informaciones ya están indicadas, la impresión se lanza sin acción previa necesaria. Sino, Nano propone al usuario completar un formulario con las informaciones que faltan. Al llenar y validar el formulario, la factura impresa contendrá todas las informaciones requiridas por la ley.
