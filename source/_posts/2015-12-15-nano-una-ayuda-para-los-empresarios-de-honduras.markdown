@@ -68,7 +68,7 @@ Finalmente, Nano provee un conjunto de estadísticas y de gráficos que le permi
 
 ## Conclusion
 
-Nano asegura una gestión simple y segura de sus facturas. Puede mirar una demostración de Nano adaptada a los empresarios de Honduras [aquí](https://www.youtube.com/watch?v=6_XCBTwu7tE).
+Nano asegura una gestión simple y segura de sus facturas. Puede mirar demostraciones de Nano para [configurar su cuenta](https://www.youtube.com/watch?v=Ozo9xQw6vKU) y para [crear e imprimir una factura hondureña](https://www.youtube.com/watch?v=EsVpSXKLXgA).
 
 Al registrarse a [Nano](https://nano.litesln.com) antes del 20/01/2016, puede beneficiar de un mes de prueba. Si tiene preguntas u observaciones, puede ponerse en contacto con nosotros por [mail](mailto:contact@litesln.com) o a través la sección de [contacto](https://nano.litesln.com/contact) de Nano.
 
