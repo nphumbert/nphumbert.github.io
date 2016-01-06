@@ -49,6 +49,6 @@ Para monitorear su rendimiento, Nano provee un conjunto de estadísticas y de gr
 
 ## Conclusion
 
-Nano asegura una gestión simple y segura de sus facturas. Puede mirar una demostración de Nano [aquí](https://www.youtube.com/watch?v=6_XCBTwu7tE).
+Nano asegura una gestión simple y segura de sus facturas. Puede mirar una demostración de Nano [aquí](https://www.youtube.com/watch?v=jWs6Qh3xLKY).
 
 Al registrarse a [Nano](https://nano.litesln.com), puede beneficiar de un mes de prueba.
