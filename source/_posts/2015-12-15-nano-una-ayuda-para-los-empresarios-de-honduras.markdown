@@ -25,7 +25,7 @@ Actualmente, los datos siguientes deben aparecer en todas las facturas emitidas 
 - El rango de documentos fiscales autorizado por la DEI;
 - Los datos del comprador o adquirente. Estos dependen del tipo de comprador o adquirente: contribuyente que requiere sustentar gastos, costos o crédito o consumidor final;
 
-Nano facilita la gestión de las informaciones descritas previamente así como de otras necesarias en ciertos casos excepcionales descritos por la ley.
+Nano facilita la gestión del detalle de las informaciones descritas previamente así como de otras necesarias en ciertos casos excepcionales descritos por la ley.
 
 ## ¿ Cómo Nano le ayuda todos los días a administrar sus facturas en Honduras ?
 
