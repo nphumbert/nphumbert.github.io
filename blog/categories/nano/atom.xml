@@ -4,7 +4,7 @@
   <title><![CDATA[Category: nano | Nadia Humbert-Labeaumaz]]></title>
   <link href="http://nphumbert.github.io/blog/categories/nano/atom.xml" rel="self"/>
   <link href="http://nphumbert.github.io/"/>
-  <updated>2016-01-08T19:16:15+01:00</updated>
+  <updated>2016-01-09T02:45:39+01:00</updated>
   <id>http://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -20,7 +20,7 @@
     <id>http://nphumbert.github.io/blog/2015/12/15/nano-una-ayuda-para-los-empresarios-de-honduras</id>
     <content type="html"><![CDATA[<p>Han habido diversos cambios en el reglamento de facturación de Honduras que han impactado el trabajo de los empresarios. En efecto, conforme a los artículos 41 y 42 del acuerdo 189-2014 y de la reforma 058-2014, las facturas en Honduras deben contener imperativamente un conjunto de informaciones bien definidas.</p>
 
-<p>El objetivo de este documento es indicar los datos que deben contener las facturas en Honduras y mostrar las funciones de <a href="https://nano.litesln.com">Nano</a> que facilitan la administración de cuyas facturas y que ayudan a los empresarios de Honduras a diario.</p>
+<p>El objetivo de este documento es indicar el tipo de datos que deben contener las facturas en Honduras y mostrar las funciones de <a href="https://nano.litesln.com">Nano</a> que facilitan la administración de cuyas facturas y que ayudan a los empresarios de Honduras a diario.</p>
 
 <!-- more -->
 
@@ -30,43 +30,14 @@
 <p>Actualmente, los datos siguientes deben aparecer en todas las facturas emitidas en Honduras:</p>
 
 <ul>
-<li>La identificación y ubicación del contribuyente: apellidos y nombres / razón o denominación social (según corresponda), nombre comercial (si existente), Registro Tributario Nacional (RTN), dirección de la casa matriz y del establecimiento del punto de emisión, número de teléfono y correo electrónico del representante legal del contribuyente;</li>
+<li>La identificación y ubicación del contribuyente;</li>
 <li>La denominación del documento: &ldquo;Factura&rdquo; en este caso;</li>
 <li>La Clave de Autorización de Impresión (CAI);</li>
 <li>La fecha límite de autorización de impresión vigente;</li>
-<li>El número correlativo de la factura compuesto de 16 dígitos: los 3 primeros son la identificación del establecimiento del contribuyente emisor asignada por la Dirección Ejecutiva de Ingresos (DEI) durante su suscripción, los 3 siguientes corresponden al punto de emisión y son igualmente asignados por la DEI durante su suscripción, los dos siguientes constituyen el código del documento fiscal (01 para las facturas), los últimos 8 dígitos corresponden al número correlativo de la factura;</li>
-<li>El destino de los ejemplares: el original para el comprador o adquirente y la copia para el contribuyente emisor;</li>
+<li>El número correlativo de la factura;</li>
+<li>El destino de los ejemplares;</li>
 <li>El rango de documentos fiscales autorizado por la DEI;</li>
 <li>Los datos del comprador o adquirente. Estos dependen del tipo de comprador o adquirente: contribuyente que requiere sustentar gastos, costos o crédito o consumidor final;</li>
-</ul>
-
-
-<p>Si el comprador o adquirente requiere sustentar gastos, costos o crédito, los datos relativos a cuyo comprador o adquirente que deben aparecer en las facturas son los siguientes:</p>
-
-<ul>
-<li>La identificación: apellidos y nombres / razón o denominación social (según corresponda);</li>
-<li>El RTN;</li>
-<li>La descripción detallada del bien vendido o del servicio adquirido;</li>
-<li>La cantidad de unidades vendidas;</li>
-<li>El valor unitario del bien vendido o del servicio prestado;</li>
-<li>La discriminación de los valores extremos y sujetos a tasa cero, cuando corresponda;</li>
-<li>Los subtotales sujetos a los impuestos por tarifa, tasa o porcentaje;</li>
-<li>El signo o denominación literal de la moneda nacional (Lempira);</li>
-<li>El importe total literal y numeral de la operación realizada;</li>
-<li>La fecha de emisión;</li>
-</ul>
-
-
-<p>En cambio, si el comprador o adquirente es un consumidor final, los datos a consignar son los siguientes:</p>
-
-<ul>
-<li>La denominación &ldquo;CONSUMIDOR FINAL&rdquo;;</li>
-<li>La descripción detallada del bien vendido o del servicio adquirido;</li>
-<li>La cantidad de unidades vendidas;</li>
-<li>El valor unitario del bien vendido o del servicio prestado;</li>
-<li>El signo o denominación literal de la moneda nacional (Lempira);</li>
-<li>El importe total de la operación realizada;</li>
-<li>La fecha de emisión;</li>
 </ul>
 
 
