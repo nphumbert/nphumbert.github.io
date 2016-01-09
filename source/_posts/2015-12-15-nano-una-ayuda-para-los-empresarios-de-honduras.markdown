@@ -8,7 +8,7 @@ categories: [LiteSln, Nano, Honduras, Facturas]
 
 Han habido diversos cambios en el reglamento de facturación de Honduras que han impactado el trabajo de los empresarios. En efecto, conforme a los artículos 41 y 42 del acuerdo 189-2014 y de la reforma 058-2014, las facturas en Honduras deben contener imperativamente un conjunto de informaciones bien definidas.
 
-El objetivo de este documento es indicar los datos que deben contener las facturas en Honduras y mostrar las funciones de [Nano](https://nano.litesln.com) que facilitan la administración de cuyas facturas y que ayudan a los empresarios de Honduras a diario.
+El objetivo de este documento es indicar el tipo de datos que deben contener las facturas en Honduras y mostrar las funciones de [Nano](https://nano.litesln.com) que facilitan la administración de cuyas facturas y que ayudan a los empresarios de Honduras a diario.
 
 <!-- more -->
 
@@ -16,37 +16,14 @@ El objetivo de este documento es indicar los datos que deben contener las factur
 
 Actualmente, los datos siguientes deben aparecer en todas las facturas emitidas en Honduras:
 
-- La identificación y ubicación del contribuyente: apellidos y nombres / razón o denominación social (según corresponda), nombre comercial (si existente), Registro Tributario Nacional (RTN), dirección de la casa matriz y del establecimiento del punto de emisión, número de teléfono y correo electrónico del representante legal del contribuyente;
+- La identificación y ubicación del contribuyente;
 - La denominación del documento: "Factura" en este caso;
 - La Clave de Autorización de Impresión (CAI);
 - La fecha límite de autorización de impresión vigente;
-- El número correlativo de la factura compuesto de 16 dígitos: los 3 primeros son la identificación del establecimiento del contribuyente emisor asignada por la Dirección Ejecutiva de Ingresos (DEI) durante su suscripción, los 3 siguientes corresponden al punto de emisión y son igualmente asignados por la DEI durante su suscripción, los dos siguientes constituyen el código del documento fiscal (01 para las facturas), los últimos 8 dígitos corresponden al número correlativo de la factura;
-- El destino de los ejemplares: el original para el comprador o adquirente y la copia para el contribuyente emisor;
+- El número correlativo de la factura;
+- El destino de los ejemplares;
 - El rango de documentos fiscales autorizado por la DEI;
 - Los datos del comprador o adquirente. Estos dependen del tipo de comprador o adquirente: contribuyente que requiere sustentar gastos, costos o crédito o consumidor final;
-
-Si el comprador o adquirente requiere sustentar gastos, costos o crédito, los datos relativos a cuyo comprador o adquirente que deben aparecer en las facturas son los siguientes:
-
-- La identificación: apellidos y nombres / razón o denominación social (según corresponda);
-- El RTN;
-- La descripción detallada del bien vendido o del servicio adquirido;
-- La cantidad de unidades vendidas;
-- El valor unitario del bien vendido o del servicio prestado;
-- La discriminación de los valores extremos y sujetos a tasa cero, cuando corresponda;
-- Los subtotales sujetos a los impuestos por tarifa, tasa o porcentaje;
-- El signo o denominación literal de la moneda nacional (Lempira);
-- El importe total literal y numeral de la operación realizada;
-- La fecha de emisión;
-
-En cambio, si el comprador o adquirente es un consumidor final, los datos a consignar son los siguientes:
-
-- La denominación "CONSUMIDOR FINAL";
-- La descripción detallada del bien vendido o del servicio adquirido;
-- La cantidad de unidades vendidas;
-- El valor unitario del bien vendido o del servicio prestado;
-- El signo o denominación literal de la moneda nacional (Lempira);
-- El importe total de la operación realizada;
-- La fecha de emisión;
 
 Nano facilita la gestión de las informaciones descritas previamente así como de otras necesarias en ciertos casos excepcionales descritos por la ley.
 
