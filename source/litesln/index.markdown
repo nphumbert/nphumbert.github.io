@@ -14,4 +14,4 @@ It is ideal for freelances, entrepreneurs and all the people that need to edit a
 
 If you're interested in [Nano](https://nano.litesln.com), you can try it for free during one month until January 20, 2016. I'd love to have your feedback and to know better your personal needs on it.
 
-You can contact me [here](mailto:contact@litesln.com) and follow LiteSln news on [google+](https://plus.google.com/115367093201467260566) and [facebook](https://www.facebook.com/LiteSln-438977382967030).
+You can contact me [here](mailto:contact@litesln.com) and follow LiteSln news on [google+](https://plus.google.com/115367093201467260566) (in English) and [facebook](https://www.facebook.com/LiteSln-438977382967030) (in Spanish).
