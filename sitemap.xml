@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://nphumbert.github.io/blog/2016/01/24/heritage-duplication-code/</loc>
+    <lastmod>2016-01-24T11:38:41+01:00</lastmod>
+  </url>
+  <url>
     <loc>http://nphumbert.github.io/blog/2015/12/15/nano-una-ayuda-para-los-empresarios-de-honduras/</loc>
     <lastmod>2015-12-15T22:46:46+01:00</lastmod>
   </url>
@@ -80,5 +84,14 @@
   </url>
   <url>
     <loc>http://nphumbert.github.io/blog/categories/facturas/</loc>
+  </url>
+  <url>
+    <loc>http://nphumbert.github.io/blog/categories/oop/</loc>
+  </url>
+  <url>
+    <loc>http://nphumbert.github.io/blog/categories/inheritance/</loc>
+  </url>
+  <url>
+    <loc>http://nphumbert.github.io/blog/categories/craftsmanship/</loc>
   </url>
 </urlset>
