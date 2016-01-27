@@ -103,7 +103,7 @@ Finalement, si une autre classe avait besoin de la méthode `hash`, elle devrait
 
 ### Difficulté à maintenir
 
-Le couplage fort décrit précédemment rend le code difficile à maintenir. Un changement du besoin entraînerait une modfication du code à un endroit où on ne s'y attend pas. Par ailleurs, il pourrait y avoir des effets de bord inattendus sur le reste du code.
+Le couplage fort décrit précédemment rend le code difficile à maintenir. Un changement du besoin entraînerait une modification du code à un endroit où on ne s'y attend pas. Par ailleurs, il pourrait y avoir des effets de bord inattendus sur le reste du code.
 
 ## Comment peut-on corriger ce code ?
 
