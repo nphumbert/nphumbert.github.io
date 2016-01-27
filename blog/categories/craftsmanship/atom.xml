@@ -4,7 +4,7 @@
   <title><![CDATA[Category: craftsmanship | Nadia Humbert-Labeaumaz]]></title>
   <link href="http://nphumbert.github.io/blog/categories/craftsmanship/atom.xml" rel="self"/>
   <link href="http://nphumbert.github.io/"/>
-  <updated>2016-01-27T00:43:41+01:00</updated>
+  <updated>2016-01-27T08:45:56+01:00</updated>
   <id>http://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -20,7 +20,7 @@
     <id>http://nphumbert.github.io/blog/2016/01/24/heritage-duplication-code</id>
     <content type="html"><![CDATA[<p>L'héritage est une composante très importante des langages orientés objet tels que Java. Cependant, il doit être utilisé à bon escient afin de respecter les bonnes pratiques de programmation.</p>
 
-<p>Il m'est arrivé de recontrer des cas où l'héritage était utilisé afin de ne pas dupliquer du code. Le but de cet article est d'illustrer une telle utilisation, d'analyser ses inconvénients et de montrer une manière possible de la corriger.</p>
+<p>Il m'est arrivé de rencontrer des cas où l'héritage était utilisé afin de ne pas dupliquer du code. Le but de cet article est d'illustrer une telle utilisation, d'analyser ses inconvénients et de montrer une manière possible de la corriger.</p>
 
 <!-- more -->
 
