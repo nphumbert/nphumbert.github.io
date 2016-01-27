@@ -8,7 +8,7 @@ categories: [OOP, Java, Inheritance, Craftsmanship]
 
 L'héritage est une composante très importante des langages orientés objet tels que Java. Cependant, il doit être utilisé à bon escient afin de respecter les bonnes pratiques de programmation.
 
-Il m'est arrivé de recontrer des cas où l'héritage était utilisé afin de ne pas dupliquer du code. Le but de cet article est d'illustrer une telle utilisation, d'analyser ses inconvénients et de montrer une manière possible de la corriger.
+Il m'est arrivé de rencontrer des cas où l'héritage était utilisé afin de ne pas dupliquer du code. Le but de cet article est d'illustrer une telle utilisation, d'analyser ses inconvénients et de montrer une manière possible de la corriger.
 
 <!-- more -->
 
