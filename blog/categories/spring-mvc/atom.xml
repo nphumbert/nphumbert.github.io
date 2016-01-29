@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: spring mvc | Nadia Humbert-Labeaumaz]]></title>
-  <link href="http://nphumbert.github.io/blog/categories/spring-mvc/atom.xml" rel="self"/>
-  <link href="http://nphumbert.github.io/"/>
-  <updated>2016-01-29T11:19:22+01:00</updated>
-  <id>http://nphumbert.github.io/</id>
+  <link href="https://nphumbert.github.io/blog/categories/spring-mvc/atom.xml" rel="self"/>
+  <link href="https://nphumbert.github.io/"/>
+  <updated>2016-01-29T11:24:28+01:00</updated>
+  <id>https://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Testing Spring MVC controllers]]></title>
-    <link href="http://nphumbert.github.io/blog/2015/10/31/testing-spring-mvc-controllers/"/>
+    <link href="https://nphumbert.github.io/blog/2015/10/31/testing-spring-mvc-controllers/"/>
     <updated>2015-10-31T12:54:08+01:00</updated>
-    <id>http://nphumbert.github.io/blog/2015/10/31/testing-spring-mvc-controllers</id>
+    <id>https://nphumbert.github.io/blog/2015/10/31/testing-spring-mvc-controllers</id>
     <content type="html"><![CDATA[<p>Since Spring 3.2 (January, 2013), it is possible to test Spring MVC controllers without an external framework.
 The goal of this article is to show how to test Spring MVC controllers using only Spring testing capabilities.</p>
 
@@ -123,9 +123,9 @@ public void setUp() {
   
   <entry>
     <title type="html"><![CDATA[Exposer des ressources statiques avec Spring MVC]]></title>
-    <link href="http://nphumbert.github.io/blog/2015/09/18/exposer-des-ressources-statiques-avec-spring-mvc/"/>
+    <link href="https://nphumbert.github.io/blog/2015/09/18/exposer-des-ressources-statiques-avec-spring-mvc/"/>
     <updated>2015-09-18T13:59:06+02:00</updated>
-    <id>http://nphumbert.github.io/blog/2015/09/18/exposer-des-ressources-statiques-avec-spring-mvc</id>
+    <id>https://nphumbert.github.io/blog/2015/09/18/exposer-des-ressources-statiques-avec-spring-mvc</id>
     <content type="html"><![CDATA[<p>Il est souvent nécessaire d'exposer des ressources statiques telles que des images, des fichiers pdf, des vidéos, etc. dans une application web.
 Ces fichiers sont stockés sur le serveur et ne sont donc pas accessibles à l'utilisateur via une URL.</p>
 
@@ -163,9 +163,9 @@ public class WebConfig extends WebMvcConfigurerAdapter {
   
   <entry>
     <title type="html"><![CDATA[Transférer des paramètres à travers un redirect avec Spring MVC]]></title>
-    <link href="http://nphumbert.github.io/blog/2015/07/25/transferer-des-parametres-a-travers-un-redirect-avec-spring-mvc/"/>
+    <link href="https://nphumbert.github.io/blog/2015/07/25/transferer-des-parametres-a-travers-un-redirect-avec-spring-mvc/"/>
     <updated>2015-07-25T12:06:04+02:00</updated>
-    <id>http://nphumbert.github.io/blog/2015/07/25/transferer-des-parametres-a-travers-un-redirect-avec-spring-mvc</id>
+    <id>https://nphumbert.github.io/blog/2015/07/25/transferer-des-parametres-a-travers-un-redirect-avec-spring-mvc</id>
     <content type="html"><![CDATA[<p>Dans une application web, il est courant d'effectuer une redirection après la soumission d'un formulaire. Cette redirection permet notamment de rendre l'url <em>bookmarkable</em> et d'empêcher l'utilisateur de resoumettre le formulaire par erreur (suite à un <em>refresh</em>, par exemple).</p>
 
 <p>Il peut être intéressant de passer des paramètres à travers ce redirect. Par exemple, pour indiquer à l'utilisateur que son formulaire a bien été soumis. Pour ce faire, il est possible d'ajouter des paramètres directement dans l'url : <code>redirect:/path/to/endpoint?formSubmitted=true</code>.

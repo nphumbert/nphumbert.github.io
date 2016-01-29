@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: oop | Nadia Humbert-Labeaumaz]]></title>
-  <link href="http://nphumbert.github.io/blog/categories/oop/atom.xml" rel="self"/>
-  <link href="http://nphumbert.github.io/"/>
-  <updated>2016-01-29T11:19:22+01:00</updated>
-  <id>http://nphumbert.github.io/</id>
+  <link href="https://nphumbert.github.io/blog/categories/oop/atom.xml" rel="self"/>
+  <link href="https://nphumbert.github.io/"/>
+  <updated>2016-01-29T11:24:28+01:00</updated>
+  <id>https://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Pourquoi ne pas utiliser l'héritage pour éviter la duplication de code ?]]></title>
-    <link href="http://nphumbert.github.io/blog/2016/01/24/heritage-duplication-code/"/>
+    <link href="https://nphumbert.github.io/blog/2016/01/24/heritage-duplication-code/"/>
     <updated>2016-01-24T11:38:41+01:00</updated>
-    <id>http://nphumbert.github.io/blog/2016/01/24/heritage-duplication-code</id>
+    <id>https://nphumbert.github.io/blog/2016/01/24/heritage-duplication-code</id>
     <content type="html"><![CDATA[<p>L'héritage est une composante très importante des langages orientés objet tels que Java. Cependant, il doit être utilisé à bon escient afin de respecter les bonnes pratiques de programmation.</p>
 
 <p>Il m'est arrivé de rencontrer des cas où l'héritage était utilisé afin de ne pas dupliquer du code. Le but de cet article est d'illustrer une telle utilisation, d'analyser ses inconvénients et de montrer une manière possible de la corriger.</p>

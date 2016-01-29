@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: honduras | Nadia Humbert-Labeaumaz]]></title>
-  <link href="http://nphumbert.github.io/blog/categories/honduras/atom.xml" rel="self"/>
-  <link href="http://nphumbert.github.io/"/>
-  <updated>2016-01-29T11:19:22+01:00</updated>
-  <id>http://nphumbert.github.io/</id>
+  <link href="https://nphumbert.github.io/blog/categories/honduras/atom.xml" rel="self"/>
+  <link href="https://nphumbert.github.io/"/>
+  <updated>2016-01-29T11:24:28+01:00</updated>
+  <id>https://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Nano, una ayuda para los empresarios de Honduras]]></title>
-    <link href="http://nphumbert.github.io/blog/2015/12/15/nano-una-ayuda-para-los-empresarios-de-honduras/"/>
+    <link href="https://nphumbert.github.io/blog/2015/12/15/nano-una-ayuda-para-los-empresarios-de-honduras/"/>
     <updated>2015-12-15T22:46:46+01:00</updated>
-    <id>http://nphumbert.github.io/blog/2015/12/15/nano-una-ayuda-para-los-empresarios-de-honduras</id>
+    <id>https://nphumbert.github.io/blog/2015/12/15/nano-una-ayuda-para-los-empresarios-de-honduras</id>
     <content type="html"><![CDATA[<p>Han habido diversos cambios en el reglamento de facturación de Honduras que han impactado el trabajo de los empresarios. En efecto, conforme a los artículos 41 y 42 del acuerdo 189-2014 y de la reforma 058-2014, las facturas en Honduras deben contener imperativamente un conjunto de informaciones bien definidas.</p>
 
 <p>El objetivo de este documento es indicar el tipo de datos que deben contener las facturas en Honduras y mostrar las funciones de <a href="https://nano.litesln.com">Nano</a> que facilitan la administración de cuyas facturas y que ayudan a los empresarios de Honduras a diario.</p>

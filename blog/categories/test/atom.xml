@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: test | Nadia Humbert-Labeaumaz]]></title>
-  <link href="http://nphumbert.github.io/blog/categories/test/atom.xml" rel="self"/>
-  <link href="http://nphumbert.github.io/"/>
-  <updated>2016-01-29T11:19:22+01:00</updated>
-  <id>http://nphumbert.github.io/</id>
+  <link href="https://nphumbert.github.io/blog/categories/test/atom.xml" rel="self"/>
+  <link href="https://nphumbert.github.io/"/>
+  <updated>2016-01-29T11:24:28+01:00</updated>
+  <id>https://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Testing Spring MVC controllers]]></title>
-    <link href="http://nphumbert.github.io/blog/2015/10/31/testing-spring-mvc-controllers/"/>
+    <link href="https://nphumbert.github.io/blog/2015/10/31/testing-spring-mvc-controllers/"/>
     <updated>2015-10-31T12:54:08+01:00</updated>
-    <id>http://nphumbert.github.io/blog/2015/10/31/testing-spring-mvc-controllers</id>
+    <id>https://nphumbert.github.io/blog/2015/10/31/testing-spring-mvc-controllers</id>
     <content type="html"><![CDATA[<p>Since Spring 3.2 (January, 2013), it is possible to test Spring MVC controllers without an external framework.
 The goal of this article is to show how to test Spring MVC controllers using only Spring testing capabilities.</p>
 

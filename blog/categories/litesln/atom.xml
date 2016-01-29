@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: litesln | Nadia Humbert-Labeaumaz]]></title>
-  <link href="http://nphumbert.github.io/blog/categories/litesln/atom.xml" rel="self"/>
-  <link href="http://nphumbert.github.io/"/>
-  <updated>2016-01-29T11:19:22+01:00</updated>
-  <id>http://nphumbert.github.io/</id>
+  <link href="https://nphumbert.github.io/blog/categories/litesln/atom.xml" rel="self"/>
+  <link href="https://nphumbert.github.io/"/>
+  <updated>2016-01-29T11:24:28+01:00</updated>
+  <id>https://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Nano, una ayuda para los empresarios de Honduras]]></title>
-    <link href="http://nphumbert.github.io/blog/2015/12/15/nano-una-ayuda-para-los-empresarios-de-honduras/"/>
+    <link href="https://nphumbert.github.io/blog/2015/12/15/nano-una-ayuda-para-los-empresarios-de-honduras/"/>
     <updated>2015-12-15T22:46:46+01:00</updated>
-    <id>http://nphumbert.github.io/blog/2015/12/15/nano-una-ayuda-para-los-empresarios-de-honduras</id>
+    <id>https://nphumbert.github.io/blog/2015/12/15/nano-una-ayuda-para-los-empresarios-de-honduras</id>
     <content type="html"><![CDATA[<p>Han habido diversos cambios en el reglamento de facturación de Honduras que han impactado el trabajo de los empresarios. En efecto, conforme a los artículos 41 y 42 del acuerdo 189-2014 y de la reforma 058-2014, las facturas en Honduras deben contener imperativamente un conjunto de informaciones bien definidas.</p>
 
 <p>El objetivo de este documento es indicar el tipo de datos que deben contener las facturas en Honduras y mostrar las funciones de <a href="https://nano.litesln.com">Nano</a> que facilitan la administración de cuyas facturas y que ayudan a los empresarios de Honduras a diario.</p>
@@ -69,9 +69,9 @@ En la fecha límite o cuando el rango se acaba, Nano le invita a actualizar esto
   
   <entry>
     <title type="html"><![CDATA[El administrador de facturas Nano disponible]]></title>
-    <link href="http://nphumbert.github.io/blog/2015/12/05/el-administrador-de-facturas-nano-esta-disponible/"/>
+    <link href="https://nphumbert.github.io/blog/2015/12/05/el-administrador-de-facturas-nano-esta-disponible/"/>
     <updated>2015-12-05T21:25:20+01:00</updated>
-    <id>http://nphumbert.github.io/blog/2015/12/05/el-administrador-de-facturas-nano-esta-disponible</id>
+    <id>https://nphumbert.github.io/blog/2015/12/05/el-administrador-de-facturas-nano-esta-disponible</id>
     <content type="html"><![CDATA[<p>Tengo el placer de anunciar la primera versión de <a href="https://nano.litesln.com">Nano</a> de LiteSln. Nano es un sitio web  para administrar facturas de manera segura utilizando una estrategia de numeración que puede ser adaptada a la legislación del país. Nano también permite la edición de facturas según un modelo personalizado y el monitoreo de su rendimiento mediante varias estadísticas.</p>
 
 <p>El objetivo de este artículo es presentar las funciones principales de Nano.</p>
@@ -125,9 +125,9 @@ En la fecha límite o cuando el rango se acaba, Nano le invita a actualizar esto
   
   <entry>
     <title type="html"><![CDATA[The invoice manager Nano is released]]></title>
-    <link href="http://nphumbert.github.io/blog/2015/12/05/the-invoice-manager-nano-is-released/"/>
+    <link href="https://nphumbert.github.io/blog/2015/12/05/the-invoice-manager-nano-is-released/"/>
     <updated>2015-12-05T19:09:13+01:00</updated>
-    <id>http://nphumbert.github.io/blog/2015/12/05/the-invoice-manager-nano-is-released</id>
+    <id>https://nphumbert.github.io/blog/2015/12/05/the-invoice-manager-nano-is-released</id>
     <content type="html"><![CDATA[<p>I am pleased to announce the first release of <a href="https://nano.litesln.com">Nano</a> by LiteSln. Nano is a web site that manages invoices and enforce their consistency using a numeration strategy that can be adapted to the country&rsquo;s legislation. It also allows you to edit invoices with your own custom template and to monitor your performance through statistics.</p>
 
 <p>The goal of this article is to introduce the main features of Nano.</p>
@@ -184,9 +184,9 @@ You can currently visualize your revenue per month, per customer and per product
   
   <entry>
     <title type="html"><![CDATA[Le gestionnaire de factures Nano est disponible]]></title>
-    <link href="http://nphumbert.github.io/blog/2015/12/05/le-gestionnaire-de-factures-nano-est-disponible/"/>
+    <link href="https://nphumbert.github.io/blog/2015/12/05/le-gestionnaire-de-factures-nano-est-disponible/"/>
     <updated>2015-12-05T19:09:13+01:00</updated>
-    <id>http://nphumbert.github.io/blog/2015/12/05/le-gestionnaire-de-factures-nano-est-disponible</id>
+    <id>https://nphumbert.github.io/blog/2015/12/05/le-gestionnaire-de-factures-nano-est-disponible</id>
     <content type="html"><![CDATA[<p>Je suis heureuse de vous annoncer la première version de <a href="https://nano.litesln.com">Nano</a> de LiteSln. Nano est un site web de gestion des factures qui assure leur cohérence à l'aide d'une stratégie de numération qui peut être adaptée à la législation du pays. Elle permet également d'imprimer des factures avec votre propre modèle personnalisé et de suivre vos performances grâce à des statistiques.</p>
 
 <p>L'objectif de cet article est d'introduire les principales fonctionnalités de Nano.</p>

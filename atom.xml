@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Nadia Humbert-Labeaumaz]]></title>
-  <link href="http://nphumbert.github.io/atom.xml" rel="self"/>
-  <link href="http://nphumbert.github.io/"/>
-  <updated>2016-01-29T11:19:22+01:00</updated>
-  <id>http://nphumbert.github.io/</id>
+  <link href="https://nphumbert.github.io/atom.xml" rel="self"/>
+  <link href="https://nphumbert.github.io/"/>
+  <updated>2016-01-29T11:24:28+01:00</updated>
+  <id>https://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Pourquoi ne pas utiliser l'héritage pour éviter la duplication de code ?]]></title>
-    <link href="http://nphumbert.github.io/blog/2016/01/24/heritage-duplication-code/"/>
+    <link href="https://nphumbert.github.io/blog/2016/01/24/heritage-duplication-code/"/>
     <updated>2016-01-24T11:38:41+01:00</updated>
-    <id>http://nphumbert.github.io/blog/2016/01/24/heritage-duplication-code</id>
+    <id>https://nphumbert.github.io/blog/2016/01/24/heritage-duplication-code</id>
     <content type="html"><![CDATA[<p>L'héritage est une composante très importante des langages orientés objet tels que Java. Cependant, il doit être utilisé à bon escient afin de respecter les bonnes pratiques de programmation.</p>
 
 <p>Il m'est arrivé de rencontrer des cas où l'héritage était utilisé afin de ne pas dupliquer du code. Le but de cet article est d'illustrer une telle utilisation, d'analyser ses inconvénients et de montrer une manière possible de la corriger.</p>
@@ -312,9 +312,9 @@
   
   <entry>
     <title type="html"><![CDATA[Nano, una ayuda para los empresarios de Honduras]]></title>
-    <link href="http://nphumbert.github.io/blog/2015/12/15/nano-una-ayuda-para-los-empresarios-de-honduras/"/>
+    <link href="https://nphumbert.github.io/blog/2015/12/15/nano-una-ayuda-para-los-empresarios-de-honduras/"/>
     <updated>2015-12-15T22:46:46+01:00</updated>
-    <id>http://nphumbert.github.io/blog/2015/12/15/nano-una-ayuda-para-los-empresarios-de-honduras</id>
+    <id>https://nphumbert.github.io/blog/2015/12/15/nano-una-ayuda-para-los-empresarios-de-honduras</id>
     <content type="html"><![CDATA[<p>Han habido diversos cambios en el reglamento de facturación de Honduras que han impactado el trabajo de los empresarios. En efecto, conforme a los artículos 41 y 42 del acuerdo 189-2014 y de la reforma 058-2014, las facturas en Honduras deben contener imperativamente un conjunto de informaciones bien definidas.</p>
 
 <p>El objetivo de este documento es indicar el tipo de datos que deben contener las facturas en Honduras y mostrar las funciones de <a href="https://nano.litesln.com">Nano</a> que facilitan la administración de cuyas facturas y que ayudan a los empresarios de Honduras a diario.</p>
@@ -366,9 +366,9 @@ En la fecha límite o cuando el rango se acaba, Nano le invita a actualizar esto
   
   <entry>
     <title type="html"><![CDATA[El administrador de facturas Nano disponible]]></title>
-    <link href="http://nphumbert.github.io/blog/2015/12/05/el-administrador-de-facturas-nano-esta-disponible/"/>
+    <link href="https://nphumbert.github.io/blog/2015/12/05/el-administrador-de-facturas-nano-esta-disponible/"/>
     <updated>2015-12-05T21:25:20+01:00</updated>
-    <id>http://nphumbert.github.io/blog/2015/12/05/el-administrador-de-facturas-nano-esta-disponible</id>
+    <id>https://nphumbert.github.io/blog/2015/12/05/el-administrador-de-facturas-nano-esta-disponible</id>
     <content type="html"><![CDATA[<p>Tengo el placer de anunciar la primera versión de <a href="https://nano.litesln.com">Nano</a> de LiteSln. Nano es un sitio web  para administrar facturas de manera segura utilizando una estrategia de numeración que puede ser adaptada a la legislación del país. Nano también permite la edición de facturas según un modelo personalizado y el monitoreo de su rendimiento mediante varias estadísticas.</p>
 
 <p>El objetivo de este artículo es presentar las funciones principales de Nano.</p>
@@ -422,9 +422,9 @@ En la fecha límite o cuando el rango se acaba, Nano le invita a actualizar esto
   
   <entry>
     <title type="html"><![CDATA[The invoice manager Nano is released]]></title>
-    <link href="http://nphumbert.github.io/blog/2015/12/05/the-invoice-manager-nano-is-released/"/>
+    <link href="https://nphumbert.github.io/blog/2015/12/05/the-invoice-manager-nano-is-released/"/>
     <updated>2015-12-05T19:09:13+01:00</updated>
-    <id>http://nphumbert.github.io/blog/2015/12/05/the-invoice-manager-nano-is-released</id>
+    <id>https://nphumbert.github.io/blog/2015/12/05/the-invoice-manager-nano-is-released</id>
     <content type="html"><![CDATA[<p>I am pleased to announce the first release of <a href="https://nano.litesln.com">Nano</a> by LiteSln. Nano is a web site that manages invoices and enforce their consistency using a numeration strategy that can be adapted to the country&rsquo;s legislation. It also allows you to edit invoices with your own custom template and to monitor your performance through statistics.</p>
 
 <p>The goal of this article is to introduce the main features of Nano.</p>
@@ -481,9 +481,9 @@ You can currently visualize your revenue per month, per customer and per product
   
   <entry>
     <title type="html"><![CDATA[Le gestionnaire de factures Nano est disponible]]></title>
-    <link href="http://nphumbert.github.io/blog/2015/12/05/le-gestionnaire-de-factures-nano-est-disponible/"/>
+    <link href="https://nphumbert.github.io/blog/2015/12/05/le-gestionnaire-de-factures-nano-est-disponible/"/>
     <updated>2015-12-05T19:09:13+01:00</updated>
-    <id>http://nphumbert.github.io/blog/2015/12/05/le-gestionnaire-de-factures-nano-est-disponible</id>
+    <id>https://nphumbert.github.io/blog/2015/12/05/le-gestionnaire-de-factures-nano-est-disponible</id>
     <content type="html"><![CDATA[<p>Je suis heureuse de vous annoncer la première version de <a href="https://nano.litesln.com">Nano</a> de LiteSln. Nano est un site web de gestion des factures qui assure leur cohérence à l'aide d'une stratégie de numération qui peut être adaptée à la législation du pays. Elle permet également d'imprimer des factures avec votre propre modèle personnalisé et de suivre vos performances grâce à des statistiques.</p>
 
 <p>L'objectif de cet article est d'introduire les principales fonctionnalités de Nano.</p>
@@ -540,9 +540,9 @@ Actuellement, vous pouvez visualiser vos revenus par mois, par client et par pro
   
   <entry>
     <title type="html"><![CDATA[Testing Spring MVC controllers]]></title>
-    <link href="http://nphumbert.github.io/blog/2015/10/31/testing-spring-mvc-controllers/"/>
+    <link href="https://nphumbert.github.io/blog/2015/10/31/testing-spring-mvc-controllers/"/>
     <updated>2015-10-31T12:54:08+01:00</updated>
-    <id>http://nphumbert.github.io/blog/2015/10/31/testing-spring-mvc-controllers</id>
+    <id>https://nphumbert.github.io/blog/2015/10/31/testing-spring-mvc-controllers</id>
     <content type="html"><![CDATA[<p>Since Spring 3.2 (January, 2013), it is possible to test Spring MVC controllers without an external framework.
 The goal of this article is to show how to test Spring MVC controllers using only Spring testing capabilities.</p>
 
@@ -689,9 +689,9 @@ The goal of this article is to show how to test Spring MVC controllers using onl
   
   <entry>
     <title type="html"><![CDATA[Exposer des ressources statiques avec Spring MVC]]></title>
-    <link href="http://nphumbert.github.io/blog/2015/09/18/exposer-des-ressources-statiques-avec-spring-mvc/"/>
+    <link href="https://nphumbert.github.io/blog/2015/09/18/exposer-des-ressources-statiques-avec-spring-mvc/"/>
     <updated>2015-09-18T13:59:06+02:00</updated>
-    <id>http://nphumbert.github.io/blog/2015/09/18/exposer-des-ressources-statiques-avec-spring-mvc</id>
+    <id>https://nphumbert.github.io/blog/2015/09/18/exposer-des-ressources-statiques-avec-spring-mvc</id>
     <content type="html"><![CDATA[<p>Il est souvent nécessaire d'exposer des ressources statiques telles que des images, des fichiers pdf, des vidéos, etc. dans une application web.
 Ces fichiers sont stockés sur le serveur et ne sont donc pas accessibles à l'utilisateur via une URL.</p>
 
@@ -741,9 +741,9 @@ Plus précisément, il est nécessaire de surcharger la méthode <code>addResour
   
   <entry>
     <title type="html"><![CDATA[Transférer des paramètres à travers un redirect avec Spring MVC]]></title>
-    <link href="http://nphumbert.github.io/blog/2015/07/25/transferer-des-parametres-a-travers-un-redirect-avec-spring-mvc/"/>
+    <link href="https://nphumbert.github.io/blog/2015/07/25/transferer-des-parametres-a-travers-un-redirect-avec-spring-mvc/"/>
     <updated>2015-07-25T12:06:04+02:00</updated>
-    <id>http://nphumbert.github.io/blog/2015/07/25/transferer-des-parametres-a-travers-un-redirect-avec-spring-mvc</id>
+    <id>https://nphumbert.github.io/blog/2015/07/25/transferer-des-parametres-a-travers-un-redirect-avec-spring-mvc</id>
     <content type="html"><![CDATA[<p>Dans une application web, il est courant d'effectuer une redirection après la soumission d'un formulaire. Cette redirection permet notamment de rendre l'url <em>bookmarkable</em> et d'empêcher l'utilisateur de resoumettre le formulaire par erreur (suite à un <em>refresh</em>, par exemple).</p>
 
 <p>Il peut être intéressant de passer des paramètres à travers ce redirect. Par exemple, pour indiquer à l'utilisateur que son formulaire a bien été soumis. Pour ce faire, il est possible d'ajouter des paramètres directement dans l'url : <code>redirect:/path/to/endpoint?formSubmitted=true</code>.
@@ -831,9 +831,9 @@ Cette solution n'est pas toujours adpatée pour des raisons de confidentialité,
   
   <entry>
     <title type="html"><![CDATA[Spring Security et Spring Boot]]></title>
-    <link href="http://nphumbert.github.io/blog/2015/06/21/spring-security-et-spring-boot/"/>
+    <link href="https://nphumbert.github.io/blog/2015/06/21/spring-security-et-spring-boot/"/>
     <updated>2015-06-21T11:51:37+02:00</updated>
-    <id>http://nphumbert.github.io/blog/2015/06/21/spring-security-et-spring-boot</id>
+    <id>https://nphumbert.github.io/blog/2015/06/21/spring-security-et-spring-boot</id>
     <content type="html"><![CDATA[<p>Depuis Spring 3.1, il est possible de configurer Spring en Java.
 La configuration Java de Spring Security est supportée depuis sa version 3.2 (<a href="http://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#jc">source</a>).</p>
 
@@ -985,9 +985,9 @@ Cette méthode est indiquée en surchargeant la méthode <code>configure(HTTPSec
   
   <entry>
     <title type="html"><![CDATA[Injections de dépendances avec Spring]]></title>
-    <link href="http://nphumbert.github.io/blog/2015/06/14/injections-de-dependances-avec-spring/"/>
+    <link href="https://nphumbert.github.io/blog/2015/06/14/injections-de-dependances-avec-spring/"/>
     <updated>2015-06-14T08:35:20+02:00</updated>
-    <id>http://nphumbert.github.io/blog/2015/06/14/injections-de-dependances-avec-spring</id>
+    <id>https://nphumbert.github.io/blog/2015/06/14/injections-de-dependances-avec-spring</id>
     <content type="html"><![CDATA[<p>Il existe plusieurs méthodes pour injecter une dépendance dans un objet Java :</p>
 
 <ul>
