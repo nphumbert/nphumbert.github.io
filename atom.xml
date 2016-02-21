@@ -4,7 +4,7 @@
   <title><![CDATA[Nadia Humbert-Labeaumaz]]></title>
   <link href="https://nphumbert.github.io/atom.xml" rel="self"/>
   <link href="https://nphumbert.github.io/"/>
-  <updated>2016-02-15T09:40:33+01:00</updated>
+  <updated>2016-02-21T18:54:30+01:00</updated>
   <id>https://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -12,6 +12,242 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Que faire lorsqu'une méthode privée veut être testée ?]]></title>
+    <link href="https://nphumbert.github.io/blog/2016/02/21/que-faire-lorsqu-une-methode-privee-veut-etre-testee/"/>
+    <updated>2016-02-21T11:09:38+01:00</updated>
+    <id>https://nphumbert.github.io/blog/2016/02/21/que-faire-lorsqu-une-methode-privee-veut-etre-testee</id>
+    <content type="html"><![CDATA[<p>Les tests automatisés servent à vérifier le bon comportement d'un objet (ou d'un ensemble d'objets), indépendamment de la manière dont ce comportement est implémenté. Le comportement d'un objet est décrit par son API publique (constructeurs, constantes et méthodes publiques). Les tests ne devraient donc utiliser que cette API.</p>
+
+<p>Les méthodes privées (et <em>protected</em>) ne faisant pas partie de l'API publique d'un objet, elles ne devraient pas être appelées directement par le code de test.</p>
+
+<p>Cet article a pour objectif de montrer comment réagir lorsqu'il paraît nécessaire de tester une méthode privée.</p>
+
+<!-- more -->
+
+
+<h2>Contexte</h2>
+
+<p>Un projet d'illustration a été créé afin de servir de support pour cet article. Il est disponible sur <a href="https://github.com/nphumbert/demo-private-method-test/">GitHub</a>.</p>
+
+<p>Il s'agit de hasher le mot de passe lors de la création d'un utilisateur. Il faut imaginer que la méthode de hash est plus complexe (utilisation de librairies externes, de nombreuses conditions, etc.) pour donner tout son sens à la suite de l'article.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">User</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">login</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">email</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">password</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="nf">User</span><span class="o">(</span><span class="n">String</span> <span class="n">login</span><span class="o">,</span> <span class="n">String</span> <span class="n">email</span><span class="o">,</span> <span class="n">String</span> <span class="n">password</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">login</span> <span class="o">=</span> <span class="n">login</span><span class="o">;</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">email</span> <span class="o">=</span> <span class="n">email</span><span class="o">;</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">password</span> <span class="o">=</span> <span class="n">hash</span><span class="o">(</span><span class="n">password</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// ...</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">String</span> <span class="nf">hash</span><span class="o">(</span><span class="n">String</span> <span class="n">password</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">try</span> <span class="o">{</span>
+</span><span class='line'>            <span class="n">MessageDigest</span> <span class="n">md</span> <span class="o">=</span> <span class="n">MessageDigest</span><span class="o">.</span><span class="na">getInstance</span><span class="o">(</span><span class="s">&quot;SHA-256&quot;</span><span class="o">);</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">md</span><span class="o">.</span><span class="na">digest</span><span class="o">(</span><span class="n">password</span><span class="o">.</span><span class="na">getBytes</span><span class="o">(</span><span class="s">&quot;UTF-8&quot;</span><span class="o">)));</span>
+</span><span class='line'>        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">NoSuchAlgorithmException</span> <span class="o">|</span> <span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>La méthode de hash étant considérée comme complexe, le besoin se fait sentir de tester son code en isolation. En effet, en partant de cette hypothèse, il n'est pas facilement possible de le tester complètement en utilisant uniquement des appels à l'API publique.</p>
+
+<h2>Eviter la réflexion</h2>
+
+<p>Parfois, la réflexion est utilisée pour augmenter la visibilité de la méthode privée durant la durée d'un test. Cette méthode peut alors être appelée directement.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Test</span>
+</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">should_hash_password</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">NoSuchMethodException</span><span class="o">,</span> <span class="n">InvocationTargetException</span><span class="o">,</span> <span class="n">IllegalAccessException</span> <span class="o">{</span>
+</span><span class='line'>    <span class="c1">// given</span>
+</span><span class='line'>    <span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">User</span><span class="o">(</span><span class="s">&quot;jdoe&quot;</span><span class="o">,</span> <span class="s">&quot;john.doe@gmail.com&quot;</span><span class="o">,</span> <span class="s">&quot;secret&quot;</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">Method</span> <span class="n">method</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getDeclaredMethod</span><span class="o">(</span><span class="s">&quot;hash&quot;</span><span class="o">,</span> <span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">method</span><span class="o">.</span><span class="na">setAccessible</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// when</span>
+</span><span class='line'>    <span class="n">String</span> <span class="n">hashedPassword</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">method</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="n">user</span><span class="o">,</span> <span class="s">&quot;secret&quot;</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// then</span>
+</span><span class='line'>    <span class="n">assertThat</span><span class="o">(</span><span class="n">hashedPassword</span><span class="o">,</span> <span class="n">is</span><span class="o">(</span><span class="s">&quot;[43, -72, 13, 83, 123, 29, -93, -29, -117, -45, 3, 97, -86, -123, 86, -122, -67, -32, -22, -51, 113, 98, -2, -10, -94, 95, -23, 123, -11, 39, -94, 91]&quot;</span><span class="o">));</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Utiliser la réflexion dans ce cadre est dangereux !</p>
+
+<p>En effet, toutes les actions ci-dessous auront pour effet de faire échouer le test, sans empêcher celui-ci de compiler :</p>
+
+<ul>
+<li>Renommer la méthode <code>hash</code>.</li>
+<li>Changer l'ordre ou le type des attributs de la méthode <code>hash</code>.</li>
+<li>Changer le type de retour de la méthode <code>hash</code>.</li>
+<li>Supprimer la méthode <code>hash</code> en intégrant son code dans une autre méthode (ou dans le constructeur).</li>
+</ul>
+
+
+<p>Toutes ces actions sont des décisions d'implémentation qui n'ont aucun lien avec le comportement de la classe. Il n'est donc pas normal qu'un test échoue lorsque l'une de ces actions est effectuée.</p>
+
+<p>Par ailleurs, l'API de réflexion Java manipulant des <code>String</code> et des <code>Object</code>, l'IDE n'est pas capable d'aider à corriger automatiquement le code de test correspondant.</p>
+
+<h2>Déplacer le code dans une dépendance externe</h2>
+
+<p>Selon moi, la meilleure manière de réagir est d'extraire le code, qui doit être testé, dans sa propre classe.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">HashProvider</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">String</span> <span class="nf">hash</span><span class="o">(</span><span class="n">String</span> <span class="n">value</span><span class="o">);</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Sha256HashProvider</span> <span class="kd">implements</span> <span class="n">HashProvider</span> <span class="o">{</span>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="n">String</span> <span class="nf">hash</span><span class="o">(</span><span class="n">String</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">try</span> <span class="o">{</span>
+</span><span class='line'>            <span class="n">MessageDigest</span> <span class="n">md</span> <span class="o">=</span> <span class="n">MessageDigest</span><span class="o">.</span><span class="na">getInstance</span><span class="o">(</span><span class="s">&quot;SHA-256&quot;</span><span class="o">);</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">md</span><span class="o">.</span><span class="na">digest</span><span class="o">(</span><span class="n">value</span><span class="o">.</span><span class="na">getBytes</span><span class="o">(</span><span class="s">&quot;UTF-8&quot;</span><span class="o">)));</span>
+</span><span class='line'>        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">NoSuchAlgorithmException</span> <span class="o">|</span> <span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>La classe <code>User</code> de l'exemple est alors transformée comme ci-dessous.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">User</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">login</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">email</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">password</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="nf">User</span><span class="o">(</span><span class="n">String</span> <span class="n">login</span><span class="o">,</span> <span class="n">String</span> <span class="n">email</span><span class="o">,</span> <span class="n">String</span> <span class="n">password</span><span class="o">,</span> <span class="n">HashProvider</span> <span class="n">hashProvider</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">login</span> <span class="o">=</span> <span class="n">login</span><span class="o">;</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">email</span> <span class="o">=</span> <span class="n">email</span><span class="o">;</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">password</span> <span class="o">=</span> <span class="n">hashProvider</span><span class="o">.</span><span class="na">hash</span><span class="o">(</span><span class="n">password</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>  <span class="c1">// ...</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Par ailleurs, le test se trouve également modifié.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Test</span>
+</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">should_hash_password_when_create_user</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="c1">// given</span>
+</span><span class='line'>    <span class="n">HashProvider</span> <span class="n">hashProvider</span> <span class="o">=</span> <span class="n">mock</span><span class="o">(</span><span class="n">HashProvider</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">when</span><span class="o">(</span><span class="n">hashProvider</span><span class="o">.</span><span class="na">hash</span><span class="o">(</span><span class="s">&quot;secret&quot;</span><span class="o">)).</span><span class="na">thenReturn</span><span class="o">(</span><span class="s">&quot;hash&quot;</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// when</span>
+</span><span class='line'>    <span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">User</span><span class="o">(</span><span class="s">&quot;jdoe&quot;</span><span class="o">,</span> <span class="s">&quot;john.doe@gmail.com&quot;</span><span class="o">,</span> <span class="s">&quot;secret&quot;</span><span class="o">,</span> <span class="n">hashProvider</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// then</span>
+</span><span class='line'>    <span class="n">assertThat</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">password</span><span class="o">(),</span> <span class="n">is</span><span class="o">(</span><span class="s">&quot;hash&quot;</span><span class="o">));</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Le code respecte désormais le <a href="https://en.wikipedia.org/wiki/Single_responsibility_principle"><em>Single Responsibility Principle</em> (SRP)</a>. En effet, chaque classe ne fait qu'une seule chose. Il n'est donc, par exemple, plus nécessaire de modifier la classe <code>User</code> pour changer la logique de hashage.</p>
+
+<p>Le <a href="https://en.wikipedia.org/wiki/Open/closed_principle"><em>Open/Closed Principle</em> (OCP)</a> est aussi mis en application car la classe <code>User</code> ne se préoccupe pas de l'implémentation de <code>HashProvider</code> qu'elle utilise. Il est donc possible de la changer sans que le code de <code>User</code> en soit affecté.</p>
+
+<p>Tout le code est complètement testé en utilisant seulement les API publiques. Cela signifie que seul le comportement est testé, et non plus l'implémentation.</p>
+
+<p>Finalement, le code de production ainsi que celui de test est simplifié.</p>
+
+<h2>Conclusion</h2>
+
+<p>Lorsqu'une méthode privée devient si complexe que le besoin de la tester en isolation se faire sentir, cela signifie que la classe fait trop de choses et que le SRP n'est sûrement pas respecté. Extraire cette méthode dans une classe externe permet de tester complètement ce code tout en améliorant le design en rendant le code plus SOLID.</p>
+
+<p>Dès qu'une méthode privée est créée afin d'effectuer un traitement, il peut être utile de se demander si elle ne devrait pas être extraite, tout en restant pragmatique.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Refactorer, c'est comme dormir]]></title>
