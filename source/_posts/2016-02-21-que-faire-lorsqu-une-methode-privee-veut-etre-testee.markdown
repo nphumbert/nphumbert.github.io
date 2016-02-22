@@ -150,6 +150,6 @@ Finalement, le code de production ainsi que celui de test est simplifié.
 
 ## Conclusion
 
-Lorsqu'une méthode privée devient si complexe que le besoin de la tester en isolation se faire sentir, cela signifie que la classe fait trop de choses et que le SRP n'est sûrement pas respecté. Extraire cette méthode dans une classe externe permet de tester complètement ce code tout en améliorant le design en rendant le code plus SOLID.
+Lorsqu'une méthode privée devient si complexe que le besoin de la tester en isolation se fait sentir, cela signifie que la classe fait trop de choses et que le SRP n'est sûrement pas respecté. Extraire cette méthode dans une classe externe permet de tester complètement ce code tout en améliorant le design en rendant le code plus SOLID.
 
 Dès qu'une méthode privée est créée afin d'effectuer un traitement, il peut être utile de se demander si elle ne devrait pas être extraite, tout en restant pragmatique.
