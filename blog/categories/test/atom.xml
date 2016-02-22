@@ -4,7 +4,7 @@
   <title><![CDATA[Category: test | Nadia Humbert-Labeaumaz]]></title>
   <link href="https://nphumbert.github.io/blog/categories/test/atom.xml" rel="self"/>
   <link href="https://nphumbert.github.io/"/>
-  <updated>2016-02-21T18:56:41+01:00</updated>
+  <updated>2016-02-22T08:56:18+01:00</updated>
   <id>https://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -160,7 +160,7 @@ public void should_hash_password_when_create_user() {
 
 <h2>Conclusion</h2>
 
-<p>Lorsqu'une méthode privée devient si complexe que le besoin de la tester en isolation se faire sentir, cela signifie que la classe fait trop de choses et que le SRP n'est sûrement pas respecté. Extraire cette méthode dans une classe externe permet de tester complètement ce code tout en améliorant le design en rendant le code plus SOLID.</p>
+<p>Lorsqu'une méthode privée devient si complexe que le besoin de la tester en isolation se fait sentir, cela signifie que la classe fait trop de choses et que le SRP n'est sûrement pas respecté. Extraire cette méthode dans une classe externe permet de tester complètement ce code tout en améliorant le design en rendant le code plus SOLID.</p>
 
 <p>Dès qu'une méthode privée est créée afin d'effectuer un traitement, il peut être utile de se demander si elle ne devrait pas être extraite, tout en restant pragmatique.</p>
 ]]></content>
