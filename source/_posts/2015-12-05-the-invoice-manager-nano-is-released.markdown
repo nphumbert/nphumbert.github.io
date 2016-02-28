@@ -52,6 +52,4 @@ You can currently visualize your revenue per month, per customer and per product
 
 ## Conclusion
 
-Nano aims to ensure a secured management of your invoices in terms of legislation and allows you to do so in a simple way. You can watch a demo of Nano [here](https://www.youtube.com/watch?v=jWs6Qh3xLKY).
-
-By subscribing to [Nano](https://nano.litesln.com), you can benefit from a one month trial period.
+[Nano](https://nano.litesln.com) aims to ensure a secured management of your invoices in terms of legislation and allows you to do so in a simple way. You can watch a demo of Nano [here](https://www.youtube.com/watch?v=jWs6Qh3xLKY).

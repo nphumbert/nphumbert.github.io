@@ -37,7 +37,7 @@ En la fecha límite o cuando el rango se acaba, Nano le invita a actualizar esto
 
 [Nano](https://nano.litesln.com) de LiteSln permite también identificar las informaciones que faltan para completar sus facturas antes de cada impresión. Si todas las informaciones ya están indicadas, la impresión se lanza sin acción previa necesaria. Sino, Nano propone al usuario completar un formulario con las informaciones que faltan. Al llenar y validar el formulario, la factura impresa contendrá todas las informaciones requiridas por la ley.
 
-Otra ventaja de Nano es que otorga, al mismo precio, la generación de un número ilimitado de facturas para un número ilimitado de clientes. En efecto, el objetivo de LiteSln es brindar un servicio que sea accesible a la mayoría de empresarios hondureños. De esta forma, el empresario genera y utiliza la cantidad de facturas que necesita.
+Otra ventaja de Nano es que otorga la generación de un número ilimitado de facturas para un número ilimitado de clientes. En efecto, el objetivo de LiteSln es brindar un servicio que sea accesible a todos los empresarios hondureños. De esta forma, el empresario genera y utiliza la cantidad de facturas que necesita.
 
 Otro activo importante de Nano es que se adapta a los cambios fácilmente. Por ejemplo, si hay un cambio de ley, Nano se adapata para generar facturas con la información requerida por la nueva ley. Además, el empresario puede personalizar sus facturas si lo necesita.
 
@@ -45,8 +45,8 @@ Finalmente, Nano provee un conjunto de estadísticas y de gráficos que le permi
 
 ## Conclusion
 
-Nano asegura una gestión simple y segura de sus facturas. Puede mirar demostraciones de Nano para [configurar su cuenta](https://www.youtube.com/watch?v=Ozo9xQw6vKU) y para [crear e imprimir una factura hondureña](https://www.youtube.com/watch?v=EsVpSXKLXgA).
+[Nano](https://nano.litesln.com) asegura una gestión simple y segura de sus facturas. Puede mirar demostraciones de Nano para [configurar su cuenta](https://www.youtube.com/watch?v=Ozo9xQw6vKU) y para [crear e imprimir una factura hondureña](https://www.youtube.com/watch?v=EsVpSXKLXgA).
 
-Al registrarse a [Nano](https://nano.litesln.com) antes del 20/01/2016, puede beneficiar de un mes de prueba. Si tiene preguntas u observaciones, puede ponerse en contacto con nosotros por [mail](mailto:contact@litesln.com) o a través la sección de [contacto](https://nano.litesln.com/contact) de Nano.
+Si tiene preguntas u observaciones, puede ponerse en contacto con nosotros por [mail](mailto:contact@litesln.com) o a través la sección de [contacto](https://nano.litesln.com/contact) de Nano.
 
 
