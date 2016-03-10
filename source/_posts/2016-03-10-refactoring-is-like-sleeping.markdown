@@ -19,7 +19,7 @@ In general, regular refactoring is necessary to the good health of a project, ju
 
 ## What does refactoring mean?
 
-According Michael Feathers, refactoring is "the act of improving design without changing its behavior".
+According to Michael Feathers, refactoring is "the act of improving design without changing its behavior".
 
 It is not necessarily about changing a whole class hierarchy or about implementing a complex design pattern but it could be as simple as renaming a variable, method or class, extracting a private method in an external class, gathering the attributes of a method into an object, etc.
 
