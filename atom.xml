@@ -4,7 +4,7 @@
   <title><![CDATA[Nadia Humbert-Labeaumaz]]></title>
   <link href="https://nphumbert.github.io/atom.xml" rel="self"/>
   <link href="https://nphumbert.github.io/"/>
-  <updated>2016-03-10T15:46:59+01:00</updated>
+  <updated>2016-03-10T18:08:06+01:00</updated>
   <id>https://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -33,7 +33,7 @@
 
 <h2>What does refactoring mean?</h2>
 
-<p>According Michael Feathers, refactoring is &ldquo;the act of improving design without changing its behavior&rdquo;.</p>
+<p>According to Michael Feathers, refactoring is &ldquo;the act of improving design without changing its behavior&rdquo;.</p>
 
 <p>It is not necessarily about changing a whole class hierarchy or about implementing a complex design pattern but it could be as simple as renaming a variable, method or class, extracting a private method in an external class, gathering the attributes of a method into an object, etc.</p>
 
