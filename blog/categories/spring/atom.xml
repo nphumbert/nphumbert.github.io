@@ -4,7 +4,7 @@
   <title><![CDATA[Category: spring | Nadia Humbert-Labeaumaz]]></title>
   <link href="https://nphumbert.github.io/blog/categories/spring/atom.xml" rel="self"/>
   <link href="https://nphumbert.github.io/"/>
-  <updated>2016-03-10T15:19:29+01:00</updated>
+  <updated>2016-03-10T15:44:49+01:00</updated>
   <id>https://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Testing Spring MVC controllers]]></title>
+    <title type="html"><![CDATA[Testing Spring MVC Controllers]]></title>
     <link href="https://nphumbert.github.io/blog/2015/10/31/testing-spring-mvc-controllers/"/>
     <updated>2015-10-31T12:54:08+01:00</updated>
     <id>https://nphumbert.github.io/blog/2015/10/31/testing-spring-mvc-controllers</id>
