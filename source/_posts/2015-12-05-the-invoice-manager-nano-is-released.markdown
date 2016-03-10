@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "The invoice manager Nano is released"
+title: "The Invoice Manager Nano Is Released"
 date: 2015-12-05 19:09:13 +0100
 comments: true
 categories: [LiteSln, Nano]

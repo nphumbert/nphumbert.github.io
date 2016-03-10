@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Refactoring is like sleeping"
+title: "Refactoring Is Like Sleeping"
 date: 2016-03-10 15:12:42 +0100
 comments: true
 categories: [refactoring, craftsmanship]

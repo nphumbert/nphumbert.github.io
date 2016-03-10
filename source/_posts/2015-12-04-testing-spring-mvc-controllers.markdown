@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Testing Spring MVC controllers"
+title: "Testing Spring MVC Controllers"
 date: 2015-10-31 12:54:08 +0100
 comments: true
 categories: [Spring, Spring MVC, Java, Test]
