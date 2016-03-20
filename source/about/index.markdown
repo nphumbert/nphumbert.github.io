@@ -7,7 +7,7 @@ sharing: true
 footer: true
 ---
 
-I'm an entrepreneur and I currently work as a software engineer and manager of my company. I create my own applications ([LiteSln](http://nphumbert.github.io/litesln)) and speak about software development on my youtube channel called [Crafties (in French)](https://www.youtube.com/channel/UCZjAiQD5Wl_vLQPvzT6dl1g).
+I'm an entrepreneur and I currently work as a software engineer and manager of my company. I create my own applications ([LiteSln](http://nphumbert.github.io/litesln)) and speak about software development on my YouTube channel called [Crafties (in French)](https://www.youtube.com/channel/UCZjAiQD5Wl_vLQPvzT6dl1g).
 
 I am a very accesible person and enjoy to talk to people from all over the world. I speak French, Spanish, English, Portuguese and a bit of Italian.  
 I love my husband, family, sports, music and programming.

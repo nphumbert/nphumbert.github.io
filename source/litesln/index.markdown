@@ -13,4 +13,4 @@ The first software I created is [Nano](https://nano.litesln.com). It is a free a
 
 It is ideal for people that need to edit and print nominative invoices ensuring their consistency. It has been already adapted to the Honduran legislation in order to guide entrepreneurs through the significant changes that have been made recently.
 
-You can contact me [here](mailto:contact@litesln.com) and follow LiteSln news on [google+](https://plus.google.com/115367093201467260566) (in English and Spanish), [facebook](https://www.facebook.com/LiteSln-438977382967030) (in Spanish) and [youtube](https://www.youtube.com/channel/UCKEMdz8YKL0-XlyDkLngKIQ).
+You can contact me [here](mailto:contact@litesln.com) and follow LiteSln news on [Google+](https://plus.google.com/115367093201467260566) (in English and Spanish), [Facebook](https://www.facebook.com/LiteSln-438977382967030) (in Spanish) and [YouTube](https://www.youtube.com/channel/UCKEMdz8YKL0-XlyDkLngKIQ).
