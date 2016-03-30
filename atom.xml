@@ -4,7 +4,7 @@
   <title><![CDATA[Nadia Humbert-Labeaumaz]]></title>
   <link href="https://nphumbert.github.io/atom.xml" rel="self"/>
   <link href="https://nphumbert.github.io/"/>
-  <updated>2016-03-30T19:21:25+02:00</updated>
+  <updated>2016-03-30T19:28:59+02:00</updated>
   <id>https://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -12,6 +12,54 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[The Story of Nano]]></title>
+    <link href="https://nphumbert.github.io/blog/2016/03/30/the-story-of-nano/"/>
+    <updated>2016-03-30T19:22:26+02:00</updated>
+    <id>https://nphumbert.github.io/blog/2016/03/30/the-story-of-nano</id>
+    <content type="html"><![CDATA[<p><a href="https://nano.litesln.com">Nano by LiteSln</a> is a free application that allows you to manage your invoices. It also permits you to have a list of your customers and products and to monitor your performance through statistics.</p>
+
+<!-- more -->
+
+
+<h2>Who can use it?</h2>
+
+<p>Nano can be used by anyone who needs to manage invoices.</p>
+
+<h2>Why Nano was created?</h2>
+
+<p><a href="https://nano.litesln.com">Nano</a> was created in order to help Honduran entrepreneurs to adapt to the significant changes that have been made recently to the Honduran legislation.
+Indeed, the Honduran law has been quite complexified over the past few years.
+As a result, Honduran entrepreneurs are lost and do not know exactly all the changes that have been made to the legislation.
+Therefore, many entrepreneurs don&rsquo;t have valid invoices and some of them saw their entreprises closed as a consequence.
+Nano was then created to help them.</p>
+
+<h2>How does it work?</h2>
+
+<p>Through a mechanism of strategies, Nano has the ability to adapt to different contexts (legislation, type of company, etc.).
+The main goal being to help Honduran entrepreneurs, a specific strategy has been created for Honduras.
+There is also a standard strategy giving access to Nano&rsquo;s services to entrepreneurs all over the world.</p>
+
+<h2>What are the main features of Nano?</h2>
+
+<p>The main features of <a href="https://nano.litesln.com">Nano</a> are:</p>
+
+<ul>
+<li>Invoice creation and workflow</li>
+<li>Customers and products repository management</li>
+<li>Standard invoice template and numeration strategy</li>
+<li>Honduran specific invoice template and numeration strategy</li>
+<li>Unlimited number of customers, products and invoices</li>
+<li>Statistics</li>
+</ul>
+
+
+<h2>How much does it cost?</h2>
+
+<p>It is totally <strong>free</strong>!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Refactoring Is Like Sleeping]]></title>
