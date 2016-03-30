@@ -6,7 +6,7 @@ comments: true
 categories: Nano
 ---
 
-[Nano by LiteSln](https://nano.litesln.com) is a free application that allows you to manage your invoices. It also permits you to manage a repository of of your customers and products and to monitor your performance through statistics.
+[Nano by LiteSln](https://nano.litesln.com) is a free application that allows you to manage your invoices. It also permits you to manage a repository of your customers and products and to monitor your performance through statistics.
 
 <!-- more -->
 
