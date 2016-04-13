@@ -12,7 +12,7 @@ Parmi ses rêves de gosse se trouvaient d'apprendre plein de choses sur les scie
 
 <!-- more -->
 
-N'ayant pas beaucoup de connaissances ni d'expériences en informatique, elle était (et elle est toujours) à la recherche de méthodes, d'outils et de bonnes pratiques qui lui permettraient de progresser et de produire du code propre. Parmi ces outils se trouvent le TDD.
+N'ayant pas beaucoup de connaissances ni d'expériences en informatique, elle était (et elle est toujours) à la recherche de méthodes, d'outils et de bonnes pratiques qui lui permettraient de progresser et de produire du code propre. Parmi ces outils se trouve le TDD.
 
 Le TDD est un outil de développement qui préconise l'écriture des tests avant le code de production. Il a été inventé par Kent Beck. Et vous savez quoi ? C'est un truc de dingue ;-)
 Dans cet article, je vais vous parler de mon expérience personnelle concernant le TDD : les débuts, les avantages et inconvénients et quelques idées pour le mettre en place.
