@@ -4,7 +4,7 @@
   <title><![CDATA[Category: craftsmanship | Nadia Humbert-Labeaumaz]]></title>
   <link href="https://nphumbert.github.io/blog/categories/craftsmanship/atom.xml" rel="self"/>
   <link href="https://nphumbert.github.io/"/>
-  <updated>2016-04-13T22:10:13+02:00</updated>
+  <updated>2016-04-13T22:51:57+02:00</updated>
   <id>https://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -85,7 +85,7 @@ Mais comment mettre en place cet outil dans une structure ? Je pense que, comme 
 
 <h3>Ne pas le considérer comme quelque chose en dehors des développements</h3>
 
-<p>Tout comme le refactoring, le TDD doit, selon moi, faire partie de nos développements. Il ne doit donc pas s'agir de quelque chose dont on doit demander la permission mais plus d'une étape intégrante de nos développements. Par conséquent, il faut prendre en compte le temps d'adaptation dans nos éventuels chiffrages, d'où l'importance d'avoir de petits objectifs au début. Une fois le temps d'adaptation passé, il est bien possible que les chiffrages baissent : je pense que le TDD permet d'aller plus vite, pour les raisons évoquées précédémment, et en plus on aura le temps d'apatation en moins.</p>
+<p>Tout comme le refactoring, le TDD doit, selon moi, faire partie de nos développements. Il ne doit donc pas s'agir de quelque chose dont on doit demander la permission mais plus d'une étape intégrante de nos développements. Par conséquent, il faut prendre en compte le temps d'adaptation dans nos éventuels chiffrages, d'où l'importance d'avoir de petits objectifs au début. Une fois le temps d'adaptation passé, il est bien possible que les chiffrages baissent : je pense que le TDD permet d'aller plus vite, pour les raisons évoquées précédémment, et en plus on aura le temps d'adaptation en moins.</p>
 
 <h3>En faire une affaire d'équipe</h3>
 
