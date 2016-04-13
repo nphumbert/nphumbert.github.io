@@ -1,26 +1,26 @@
 ---
 layout: post
-title: "Il était une fois le TDD et moi"
+title: "Il était une fois le TDD... et moi"
 date: 2016-04-13 17:27:36 +0200
 comments: true
-categories: tdd
+categories: [tdd, craftsmanship]
 ---
 
-Il était une fois une jeune fille pleine de projets, de passions et un chouilla hyperactive.
+Il était une fois une jeune fille pleine de projets, de passions et un chouilla hyperactive.  
 Elle n'aime pas particulièrement raconter sa vie et se demande donc fortement comment elle va réussir à faire cet article.
-Parmi ses rêves de gosse se trouvaient d'apprendre plein de choses sur les sciences, notamment les biosciences, et sur l'informatique.
+Parmi ses rêves de gosse se trouvaient d'apprendre plein de choses sur les sciences, notamment les biosciences, et sur l'informatique.  
 Elle a donc démarré avec les biosciences (d'ailleurs c'est méga passionant, rien de plus complexe et de mieux architecturé que le corps humain) puis a décidé d'enchaîner avec l'informatique. Cependant, le cursus suivi en informatique n'a duré qu'un an (moitié cours, moitié stage). Evidemment, il ne s'agissait que d'une porte d'accès au monde qu'elle souhaitait tant découvrir.
 
 <!-- more -->
 
-N'ayant pas beaucoup de connaissances ni d'expériences en informatique, elle était (et je suis toujours) à la recherche de méthodes, d'outils et de bonnes pratiques qui lui permettaient de progresser et de produire du code propre. Parmi ces outils se trouvent le TDD.
+N'ayant pas beaucoup de connaissances ni d'expériences en informatique, elle était (et elle est toujours) à la recherche de méthodes, d'outils et de bonnes pratiques qui lui permettraient de progresser et de produire du code propre. Parmi ces outils se trouvent le TDD.
 
 Le TDD est un outil de développement qui préconise l'écriture des tests avant le code de production. Il a été inventé par Kent Beck. Et vous savez quoi ? C'est un truc de dingue ;-)
 Dans cet article, je vais vous parler de mon expérience personnelle concernant le TDD : les débuts, les avantages et inconvénients et quelques idées pour le mettre en place.
 
 ## Les débuts
 
-Au départ, je voyais l'intérêt théorique de cet outil et le concept me passionnait particulièrement (je trouve ça malin). Par contre, en pratique, je trouvais que ça me ralentissait et que c'était un peu compliqué.
+Au départ, je voyais l'intérêt théorique de cet outil et le concept me passionnait particulièrement (je trouve ça malin). Par contre, en pratique, je trouvais que ça me ralentissait et que c'était un peu compliqué.  
 Je l'ai expérimenté pour la première fois vers la fin de ma première année de développement et au sein d'un projet assez complexe en termes de métier, de technologies et d'enjeux. Autant dire que je n'avais pas que le TDD à intégrer dans ma petite tête ! Du coup, j'essayais de le faire quand je n'étais pas débordée et le plus souvent possible. Par ailleurs, la grande majorité des développeurs de ce gros projet n'utilisaient pas cet outil. Il était donc parfois un peu dur de faire du TDD dans ce contexte mais il était hors de question d'abandonner, je voyais le potentiel de cet outil et je savais qu'il fallait persévéver.
 
 Après cette première année d'expérience dans le développement, où j'ai énormément appris, et une petite expérience en TDD, j'ai décidé de dédier du temps à des projets personnels. Et là, tout a changé. Partant d'un projet de zéro, avec toutes les libertés possibles, je pouvais expérimenter encore plus facilement le TDD.
@@ -34,17 +34,17 @@ On se concentre sur le besoin plutôt que sur une implémentation.
 
 ### Travailler unitairement et être plus efficace
 On ne fait qu'une chose à la fois donc on est plus efficace.
-Contrairement, à ce que je pensais au tout début, j'ai rapidement compris que le TDD permettait d'aller plus vite. En effet, on ne se pose pas vingt questions à la fois, voire des questions existentielles pour savoir comment construire le meilleur design. Je ne dis pas qu'il ne faut plus se poser de question. D'ailleurs, je pense qu'il le faut et que cela doit faire partie de notre métier de développeur. Par contre, le TDD permet de se poser des questions encore plus pertinentes et ciblées, sur une fonctionnalité à la fois.
+Contrairement à ce que je pensais au tout début, j'ai rapidement compris que le TDD permettait d'aller plus vite. En effet, on ne se pose pas vingt questions à la fois, voire des questions existentielles pour savoir comment construire le meilleur design. Je ne dis pas qu'il ne faut plus se poser de question. D'ailleurs, je pense qu'il le faut et que cela doit faire partie de notre métier de développeur. Par contre, le TDD permet de se poser des questions encore plus pertinentes et ciblées, sur une fonctionnalité à la fois.
 
 ### Disposer d'un harnais de test
-En commençant par les tests, non seulement on est certain d'en avoir mais on est sûr d'avoir des tests pertinents. En effet, ils couvrent de vrais besoins métiers.
+En commençant par les tests, non seulement on est certain d'en avoir mais on est sûr d'avoir des tests pertinents. En effet, ils couvrent de vrais besoins métiers.  
 Ce harnais de test permet d'assurer que notre code est protégé et que, lors de refactorings ou ajout de nouvelles fonctionnalités, on pourra facilement et rapidement détecter des régressions, les tests unitaires étant les moins coûteux en terme de réalisation et permettant d'avoir un feedback extrêmement rapide.
 
 ### Gagner en confiance
 En faisant du TDD, je sais que je développe ce qu'il faut exactement développer, ce qui n'est pas négligeable ! Ceci m'a permis de gagner en confiance dans mes développements.
 
 ### Faire émerger un design propre
-Le TDD permet de se rendre compte quand le design n'est pas correct. En effet, si on n'arrive pas à tester notre nouvelle fonctionnalité, cela veut dire que notre design n'est plus adapté ou ne l'a jamais été. Il s'agit ainsi d'une alerte pour nous encourager à le rendre plus simple et adapté à notre besoin à un instant T. Par exemple, si on a besoin de mocker et de fixer un comportement pour en tester un autre qui en dépend et qu'on n'y arrive pas, cela veut peut-être dire que nos classes sont trop couplées. Ceci peut arriver quand on fait un appel statique dans une classe. Dans ce cas, les classes sont fortement liées car on ne peut pas changer l'implémentation de ce qui est utilisé. Or, les classes doivent être fortement découplées pour que le système soit plus maintenable (évolutif et extensible en changeant les implémentations facilement).
+Le TDD permet de se rendre compte quand le design n'est pas correct. En effet, si on n'arrive pas à tester notre code, cela veut dire que notre design n'est plus adapté ou ne l'a jamais été. Il s'agit ainsi d'une alerte pour nous encourager à le rendre plus simple et adapté à notre besoin à un instant T. Par exemple, si on a besoin de mocker et de fixer un comportement pour en tester un autre qui en dépend et qu'on n'y arrive pas, cela veut peut-être dire que nos classes sont trop couplées. Ceci peut arriver quand on fait un appel statique dans une classe. Dans ce cas, les classes sont fortement liées car on ne peut pas changer l'implémentation de ce qui est utilisé. Or, les classes doivent être fortement découplées pour que le système soit plus maintenable (évolutif et extensible en changeant les implémentations facilement).
 
 De plus, j'ai pu constater que le design qui émerge en utilisant du TDD est plutôt simple. Je pense qu'il s'agit du résultat obtenu par l'ensemble des avantages du TDD : se concentrer sur le besoin, réaliser une seule chose à la fois et avoir plus confiance en soi résulte en la construction d'un design propre.
 
@@ -55,8 +55,8 @@ D'ailleurs, je suis surprise de voir que le TDD est parfois mal perçu dans le m
 
 ## Mise en place
 
-Ce n'est jamais facile d'essayer quelque chose de nouveau, mais si on ne se remettait jamais en question et si on ne repoussait jamais nos limites, on passerait à côté de choses extraordinaires et on s'embêterait beaucoup aussi.
-Mais, comment mettre en place cet outil dans une structure ? Je pense que, comme tout, cela dépend du contexte et il faut toujours s'adapter au mieux à celui-ci. Je vais néanmoins essayer de partager quelques idées à ce sujet.
+Ce n'est jamais facile d'essayer quelque chose de nouveau, mais si on ne se remettait jamais en question et si on ne repoussait jamais nos limites, on passerait à côté de choses extraordinaires et on s'ennuierait beaucoup aussi.  
+Mais comment mettre en place cet outil dans une structure ? Je pense que, comme tout, cela dépend du contexte et il faut toujours s'adapter au mieux à celui-ci. Je vais néanmoins essayer de partager quelques idées à ce sujet.
 
 ### Commencer avec des petits objectifs
 Etre ambitieux c'est génial mais il est difficile d'arriver au sommet du Mont Blanc, dès la première fois, d'une traite. De la même manière, il faut que nos objectifs, lors de la mise en place du TDD, soient mesurés et bien définis dès le départ. Il pourrait s'agir, par exemple, d'encourager simplement tous les membres de l'équipe à faire du TDD quelques fois dans la semaine. Ainsi, ils peuvent se familiariser petit à petit avec l'outil.
@@ -74,4 +74,4 @@ Je ne pense pas qu'allouer seulement quelques membres d'une équipe pour tester 
 Il ne faut pas hésiter à en parler entre vous. Les différents points de vue vont enrichir l'expérience. Néanmoins, n'oubliez pas le conseil n°2 : ne vous découragez pas !
 
 # Conclusion
-Le TDD est un outil de développement qui comporte énormément d'avantages. Il n'est pas forcément évident de les voir du premier coup mais il ne faut pas abandonner le navire car la destination est vraiment superbe ! J'espère que vous avez apprécié cette histoire et qu'elle vous sera utile. A bientôt !
+Le TDD est un outil de développement qui comporte énormément d'avantages. Il n'est pas forcément évident de les voir du premier coup mais il ne faut pas abandonner le navire car le voyage est vraiment superbe ! J'espère que vous avez apprécié cette histoire et qu'elle vous sera utile. A bientôt !
