@@ -45,7 +45,7 @@ En faisant du TDD, je sais que je développe ce qu'il faut exactement développe
 ### Faire émerger un design propre
 Le TDD permet de se rendre compte quand le design n'est pas correct. En effet, si on n'arrive pas à tester notre code, cela veut dire que notre design n'est plus adapté ou ne l'a jamais été. Il s'agit ainsi d'une alerte pour nous encourager à le rendre plus simple et adapté à notre besoin à un instant T. Par exemple, si on a besoin de mocker et de fixer un comportement pour en tester un autre qui en dépend et qu'on n'y arrive pas, cela veut peut-être dire que nos classes sont trop couplées. Ceci peut arriver quand on fait un appel statique dans une classe. Dans ce cas, les classes sont fortement liées car on ne peut pas changer l'implémentation de ce qui est utilisé. Or, les classes doivent être fortement découplées pour que le système soit plus maintenable (évolutif et extensible en changeant les implémentations facilement).
 
-De plus, j'ai pu constater que le design qui émerge en utilisant du TDD est plutôt simple. Je pense qu'il s'agit du résultat obtenu par l'ensemble des avantages du TDD : se concentrer sur le besoin, réaliser une seule chose à la fois et avoir plus confiance en soi résulte en la construction d'un design propre.
+De plus, j'ai pu constater que le design qui émerge en utilisant du TDD est plutôt simple. Je pense qu'il s'agit du résultat obtenu par l'ensemble des avantages du TDD : se concentrer sur le besoin, réaliser une seule chose à la fois et avoir plus confiance en soi résultent en la construction d'un design propre.
 
 ## Les inconvénients
 
