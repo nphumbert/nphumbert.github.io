@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>https://nphumbert.github.io/blog/2016/04/13/once-upon-a-time-tdd-and-me/</loc>
+<lastmod>2016-04-13T23:56:11+02:00</lastmod>
+</url>
+<url>
 <loc>https://nphumbert.github.io/blog/2016/04/13/il-etait-une-fois-le-tdd-et-moi/</loc>
 <lastmod>2016-04-13T17:27:36+02:00</lastmod>
 </url>

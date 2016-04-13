@@ -4,7 +4,7 @@
   <title><![CDATA[Category: craftsmanship | Nadia Humbert-Labeaumaz]]></title>
   <link href="https://nphumbert.github.io/blog/categories/craftsmanship/atom.xml" rel="self"/>
   <link href="https://nphumbert.github.io/"/>
-  <updated>2016-04-13T22:51:57+02:00</updated>
+  <updated>2016-04-14T00:27:46+02:00</updated>
   <id>https://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -12,6 +12,89 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Once upon a time TDD... and me]]></title>
+    <link href="https://nphumbert.github.io/blog/2016/04/13/once-upon-a-time-tdd-and-me/"/>
+    <updated>2016-04-13T23:56:11+02:00</updated>
+    <id>https://nphumbert.github.io/blog/2016/04/13/once-upon-a-time-tdd-and-me</id>
+    <content type="html"><![CDATA[<p>Once upon a time there was a young woman that had plenty of projects and passions and was a bit hyperactive. She doesn&rsquo;t really enjoy talking about her life and asks herself very seriously how is she going to write this post.
+Among her early age dreams were learning many things about science, especially biosciences, and about software engineering. She started with biosciences (by the way, they are extremely fascinating, nothing is more complex and well crafted than the human body) and then she decided to continue with software engineering. However, the program that she completed only lasted one year (6 months of classes and 6 months of internship). Of course, this was only a door to access the world that she wanted to discover so much.</p>
+
+<!-- more -->
+
+
+<p>Not having much knowledge nor experience in IT, she was (and she still is) looking for methods, tools and good practices that would allow her to progress and produce clean code. Among these tools there is TDD.</p>
+
+<p>TDD is a development tool that preconizes to write the tests before the production code. It was invented by Kent Beck. And you know what ? It is truly deeply deligthful ;-) (this sentence was a lot better in French, by the way). In this article, I am going to talk about my personal experience with TDD : the beginnings, the pros and cons and some ideas to set it up.</p>
+
+<h2>The beginnings</h2>
+
+<p>At the beginning, I saw the theoretical interest of this tool and I was fascinated by the concept (I find it very clever). On the other hand, I thought that it made me work slower and that it was a bit complicated.
+I tried it for the first time towards the end of my first year as a software developer and within a fairly complex project in terms of business, technologies and challenges. Needless to say that TDD was not the only thing that my small head had to process! As a consequence, I tried to use it when I was not overworked and as often as possible. Moreover, the large majority of developers of this big project did not use this tool. Thus, it was sometimes complicated to use TDD in this context but it was definitely out of the question to quit, I saw the potential of this tool and I knew that I had to persevere.</p>
+
+<p>After this first year of experience in software development, during wich I learned a lot, and a little experience in TDD, I decided to take time for some of my personal projects. And then, everything changed. Working on a project from scratch, with full latitude, I could use TDD more easily.</p>
+
+<p>After a good night of sleep, I therefore started my own project with a test. It was so beautiful. At this very point, I understood a number of benefits that TDD can provide.</p>
+
+<h2>Pros</h2>
+
+<h3>Express the business rather than doing an implementation</h3>
+
+<p>We focus on the business rather than on an implementation.</p>
+
+<h3>Work unitarily and be more efficient</h3>
+
+<p>We only do one thing at a time and thus are more efficient. Contrary to what I thought at the beginning, I quickly realized that TDD allows to go faster. Indeed, we don&rsquo;t ask ourselves twenty questions at a time, even existential ones to create the best design. I am not saying that we shouldn&rsquo;t think anymore. By the way, I think we should and that it has to always be part of our job as software developers. On the other hand, TDD allows to ask ourselves even more relevant and targeted questions, a feature at a time.</p>
+
+<h3>Have a test harness</h3>
+
+<p>By starting with tests, not only we are sure that we are going to have tests but also we know that they are going to be more relevant. Indeed, they cover real business needs.
+This test harness permits to ensure that our code is protected and that, during refactoring or addition of new features, we are going to be able to detect regressions easily and quickly, unit testing being the least expensive in terms of implementation and allowing to have an extremely short feedback loop.</p>
+
+<h3>Gain of confidence</h3>
+
+<p>By using TDD, I know I develop exactly what I need to, which is not negligible! This allowed me to gain confidence in my developments.</p>
+
+<h3>Avoid bad design</h3>
+
+<p>TDD lets us know when our design is bad. Indeed, if we can&rsquo;t test our code base, it means that our design is no longer adapted or has never been. It is an alarm to encourage us to render it simpler and adapted to our needs of the current time. For example, if we have to mock and fix a behaviour to test another that depends on it but we can&rsquo;t, this probably means that our classes are strongly coupled. This can happen when we invoke a static method in a class, for instance. In this case, classes are strongly linked because we can&rsquo;t change easily the implementation of what is being used. However, classes should be strongly decoupled in order to make the system more maintainable (changeable and extensible by changing implementations easily).</p>
+
+<p>Moreover, I could notice that the design that emerges by using TDD is rather simple. I think this is the result obtained by the overall benefits of TDD: focus on the business, perform one thing at a time and have more self-confidence result in the construction of a clean design.</p>
+
+<h2>Cons</h2>
+
+<p>Currently, I don&rsquo;t see any and I have trouble trying to imagine some. By the way, I am very surprised to see that TDD is regularly misunderstood. It is often seen as a waste of time but I confirmed that this is only a false impression. There is obviously an adjustment period and it may vary depending on the developer. Nevertheless, I think that TDD is a good investment and deserves to be implemented. But how can we set it up ?</p>
+
+<h2>Set up</h2>
+
+<p>It is never easy to try something new, but if we never challenged ourselves and if we never pushed our limits, we would miss many extraordinary things and we would get bored a lot too. I think that the way to set it up in a given project depends on its context, like for everything else in life, and we have to always adapt to it as good as possible. However, I will try to share some ideas on the subject here.</p>
+
+<h3>Start with small goals</h3>
+
+<p>To be ambitious is great but it is hard to climb to the top of the mount Everest, the first time, without stopping. In the same way, during the set up of TDD our goals should be measured and well defined from the beginning. It could be as simple as encouraging all the team members to use TDD sometimes in the week. This way, they can progressively get familiar with the tool.</p>
+
+<h3>Do not rush or be discouraged</h3>
+
+<p>From my personal experience, it is useless to want to assimilate the tool in two minutes and then judge whether it is suitable or not. Indeed, if everybody judged us in two minutes, they would have a perception of us not necessarily relevant nor complete. It is important to take the required time to know the tool, understand it and properly use it.</p>
+
+<h3>Do not consider it as something outside developements</h3>
+
+<p>Like refactoring, TDD should, in my opinion, be a part of our developments. So it should not be something that we should ask the permission for but an integral part of our developments. As a consequence, we must take into account the adjustment period in our potential estimations, hence the importance of having small goals at first. After the adaptation period, it is quite possible that the estimations lower : I think TDD makes you go faster, for the reasons mentioned above, and we will no longer have to take into account the adaptation time.</p>
+
+<h3>Make it a team effort</h3>
+
+<p>I do not think that designating some team members to test the tool is a good idea. The whole team should be equally involved in the process from the start. Otherwise, I think the chances to succeed diminish greatly. Indeed, if only a few members of the team are actually concerned by the tool, the others may lose interest on it. Furthermore, if the communication about the experience is not ideally done, the allocated time to it will be misused (the results may be null, some team members may be discouraged and those who had the &ldquo;official permission&rdquo; to test it may be disappointed). Finally, we risk to miss out on a good collaboration between coworkers and thus better results.</p>
+
+<h3>Have good communication within the team</h3>
+
+<p>Don&rsquo;t hesitate to often talk about it. Different perspectives will enrich the experience. Nevertheless, do not forget my advice n°2 : do not be discouraged!</p>
+
+<h2>Conclusion</h2>
+
+<p>TDD is a development tool that has a lot of advantages. It is not necessarily obvious to see them at first sight but you should not abandon the ship because the journey is really worth it! I hope you enjoyed this story and that it will be helpful to you. See you soon!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Il était une fois le TDD... et moi]]></title>
@@ -359,192 +442,6 @@ public void should_hash_password_when_create_user() {
 <hr />
 
 <p><em>Cet article a été écrit en collaboration avec Renaud Humbert-Labeaumaz (<a href="https://www.twitter.com/rnowif">@rnowif</a>)</em></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Pourquoi ne pas utiliser l'héritage pour éviter la duplication de code ?]]></title>
-    <link href="https://nphumbert.github.io/blog/2016/01/24/heritage-duplication-code/"/>
-    <updated>2016-01-24T11:38:41+01:00</updated>
-    <id>https://nphumbert.github.io/blog/2016/01/24/heritage-duplication-code</id>
-    <content type="html"><![CDATA[<p>L'héritage est une composante très importante des langages orientés objet tels que Java. Cependant, il doit être utilisé à bon escient afin de respecter les bonnes pratiques de programmation.</p>
-
-<p>Il m'est arrivé de rencontrer des cas où l'héritage était utilisé afin de ne pas dupliquer du code. Le but de cet article est d'illustrer une telle utilisation, d'analyser ses inconvénients et de montrer une manière possible de la corriger.</p>
-
-<!-- more -->
-
-
-<h2>Contexte</h2>
-
-<p>Un projet d'illustration a été créé afin de servir de support pour cet article. Il est disponible sur <a href="https://github.com/nphumbert/demo-inappropriate-inheritance">GitHub</a>. Ce projet contient deux branches :</p>
-
-<ul>
-<li><code>inappropriate-inheritance</code> : contient l'utilisation inappropriée de l'héritage.</li>
-<li><code>dependency</code> : contient une proposition de correction en utilisant une dépendance.</li>
-</ul>
-
-
-<p>Il s'agit de deux <em>controllers</em> Spring MVC qui doivent hasher un texte. Dans le cas de l'utilisation inappropriée de l'héritage, le code d'un des <em>controllers</em> est le suivant :</p>
-
-<pre><code class="java">@RestController
-public class ProfileController extends BaseController {
-
-    @RequestMapping(value = "/profile", method = RequestMethod.GET)
-    public String profile() {
-        return "profile: " + hash("profile");
-    }
-}
-</code></pre>
-
-<p>Ce <em>controller</em> hérite d'une classe commune qui contient la méthode <code>hash</code> :</p>
-
-<pre><code class="java">public abstract class BaseController {
-    protected String hash(String value) {
-        // ...
-    }
-}
-</code></pre>
-
-<h2>Pourquoi n'est-il pas correct d'utiliser l'héritage ici ?</h2>
-
-<h3>Non respect de la programmation orientée objet (POO)</h3>
-
-<p>Dans ce code, la mécanique de la POO est respectée mais pas sa sémantique. En effet, la classe <code>BaseController</code> n'a pas de raison d'être. Elle ne correspond à aucun concept et ne sert qu'à contenir du code partagé entre les <em>controllers</em>. Ce genre de classe possède souvent un nom flou et générique, ce qui est un signe que le concept associé est mal défini, voire inexistant.</p>
-
-<h3>Difficulté à tester</h3>
-
-<p>La capacité du code à être testé n'est pas une fin en soi. Cependant, un code difficile à tester est un <em>smell</em> qui indique le plus souvent un problème de conception.</p>
-
-<p>Ici, il est obligatoire de passer par un <em>set up</em> assez lourd pour tester en isolation le <em>controller</em>. Une classe privée héritant du <em>controller</em> est créée afin de surcharger la méthode <code>hash</code> et de fixer la valeur de retour. Les tests portent donc sur cette classe au lieu de porter sur le <em>controller</em> initial.</p>
-
-<pre><code class="java">@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = InappropriateInheritanceApplication.class)
-@WebAppConfiguration
-public class ProfileControllerTest {
-
-    public static final String HASH = "hash";
-
-    private class TestableProfileController extends ProfileController {
-
-        @Override
-        protected String hash(String value) {
-            return HASH;
-        }
-    }
-
-    private MockMvc mockMvc;
-
-    @Before
-    public void setUp() {
-        ProfileController controller = new TestableProfileController();
-        this.mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
-    }
-
-    @Test
-    public void should_get_hash_when_get_profile() throws Exception {
-        // when
-        String contentAsString = mockMvc.perform(get("/profile"))
-                .andExpect(status().isOk())
-                .andReturn().getResponse().getContentAsString();
-
-        // then
-        assertThat(contentAsString, is("profile: " + HASH));
-    }
-}
-</code></pre>
-
-<p>La complexité du <em>set up</em> est bien trop importante par rapport au code à tester qui est relativement simple.</p>
-
-<h3>Fort couplage</h3>
-
-<p>L'héritage introduit un fort couplage entre les classes. En effet, tous les <em>controllers</em> doivent hériter de <code>BaseController</code> pour bénéficier de la méthode <code>hash</code>. Ceci implique qu'ils doivent avoir accès à cette classe (soit être dans le même projet, soit avoir une dépendance vers sa librairie).</p>
-
-<p>De plus, l'héritage multiple étant interdit en Java, les <em>controllers</em> ne peuvent pas hériter d'une autre classe qui serait appropriée.</p>
-
-<p>Finalement, si une autre classe avait besoin de la méthode <code>hash</code>, elle devrait forcément hériter de <code>BaseController</code> (ce qui n'a pas de sens s'il ne s'agit pas d'un <em>controller</em>) ou alors dupliquer le code. Ce problème met en évidence le fait que la notion de hashage n'a aucun rapport avec la notion de <em>controller</em>.</p>
-
-<h3>Difficulté à maintenir</h3>
-
-<p>Le couplage fort décrit précédemment rend le code difficile à maintenir. Un changement du besoin entraînerait une modification du code à un endroit où on ne s'y attend pas. Par ailleurs, il pourrait y avoir des effets de bord inattendus sur le reste du code.</p>
-
-<h2>Comment peut-on corriger ce code ?</h2>
-
-<p>La solution proposée pour corriger ce code est d'extraire la méthode de <code>hash</code> dans une dépendance qui sera injectée dans les <em>controllers</em>.</p>
-
-<p>Tout d'abord, une interface <code>HashProvider</code> est créée et implémentée.</p>
-
-<pre><code class="java">public interface HashProvider {
-    String hash(String text);
-}
-</code></pre>
-
-<pre><code class="java">@Component
-public class Sha256HashProvider implements HashProvider {
-
-    @Override
-    public String hash(String value) {
-        // ...
-    }
-}
-</code></pre>
-
-<p>Cette implémentation peut alors être injectée dans le <em>controller</em> afin d'être utilisée.</p>
-
-<pre><code class="java">@RestController
-public class ProfileController {
-
-    private final HashProvider hashProvider;
-
-    @Autowired
-    public ProfileController(HashProvider hashProvider) {
-        this.hashProvider = hashProvider;
-    }
-
-    @RequestMapping(value = "/profile", method = RequestMethod.GET)
-    public String profile() {
-        return "profile: " + hashProvider.hash("profile");
-    }
-}
-</code></pre>
-
-<p>Le <em>set up</em> de test de ce <em>controller</em> s'en trouve simplifié car il n'y a plus qu'à <em>mocker</em> l'interface.</p>
-
-<pre><code class="java">@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = InappropriateInheritanceApplication.class)
-@WebAppConfiguration
-public class ProfileControllerTest {
-
-    private MockMvc mockMvc;
-    private HashProvider hashProvider;
-
-    @Before
-    public void setUp() {
-        hashProvider = mock(HashProvider.class);
-        ProfileController controller = new ProfileController(hashProvider);
-        this.mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
-    }
-
-    @Test
-    public void should_get_hash_when_get_profile() throws Exception {
-        // given
-        when(hashProvider.hash("profile")).thenReturn("hash");
-
-        // when
-        String contentAsString = mockMvc.perform(get("/profile"))
-                .andExpect(status().isOk())
-                .andReturn().getResponse().getContentAsString();
-
-        // then
-        assertThat(contentAsString, is("profile: hash"));
-    }
-}
-</code></pre>
-
-<p>Finalement, la logique de hashage est totalement découplée de celle du <em>controller</em>. Ceci rend le code plus simple à maintenir car si le besoin change, il suffit de modifier l'implémentation de <code>HashProvider</code> ou d'en ajouter une nouvelle. Ainsi, le comportement du <em>controller</em> est modifié sans que son code ne change.</p>
-
-<h2>Conclusion</h2>
-
-<p>Il est nécessaire de faire attention à ne pas abuser de l'héritage. Dans cet article, il a été montré qu'il n'est pas approprié pour éviter la duplication de code. Dans ce cas, il est préférable d'utiliser une interface dont une implémentation sera injectée. Ceci a pour principal avantage de rendre le code plus simple et facile à maintenir.</p>
 ]]></content>
   </entry>
   
