@@ -4,7 +4,7 @@
   <title><![CDATA[Category: tdd | Nadia Humbert-Labeaumaz]]></title>
   <link href="https://nphumbert.github.io/blog/categories/tdd/atom.xml" rel="self"/>
   <link href="https://nphumbert.github.io/"/>
-  <updated>2016-04-14T00:31:05+02:00</updated>
+  <updated>2016-04-14T00:39:20+02:00</updated>
   <id>https://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -26,7 +26,7 @@ Among her early age dreams were learning many things about science, especially b
 
 <p>Not having much knowledge nor experience in IT, she was (and she still is) looking for methods, tools and good practices that would allow her to progress and produce clean code. Among these tools there is TDD.</p>
 
-<p>TDD is a development tool that preconizes to write the tests before the production code. It was invented by Kent Beck. And you know what ? It is truly deeply deligthful ;-) (this sentence was a lot better in French, by the way). In this article, I am going to talk about my personal experience with TDD : the beginnings, the pros and cons and some ideas to set it up.</p>
+<p>TDD is a development tool that preconizes to write the tests before the production code. It was invented by Kent Beck. And you know what ? It is truly deeply deligthful ;-) (this sentence was a lot better in French, by the way). In this article, I am going to talk about my personal experience with TDD: the beginnings, the pros and cons and some ideas to set it up.</p>
 
 <h2>The beginnings</h2>
 
