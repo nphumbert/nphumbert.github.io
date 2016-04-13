@@ -13,7 +13,7 @@ Among her early age dreams were learning many things about science, especially b
 
 Not having much knowledge nor experience in IT, she was (and she still is) looking for methods, tools and good practices that would allow her to progress and produce clean code. Among these tools there is TDD.
 
-TDD is a development tool that preconizes to write the tests before the production code. It was invented by Kent Beck. And you know what ? It is truly deeply deligthful ;-) (this sentence was a lot better in French, by the way). In this article, I am going to talk about my personal experience with TDD : the beginnings, the pros and cons and some ideas to set it up.
+TDD is a development tool that preconizes to write the tests before the production code. It was invented by Kent Beck. And you know what ? It is truly deeply deligthful ;-) (this sentence was a lot better in French, by the way). In this article, I am going to talk about my personal experience with TDD: the beginnings, the pros and cons and some ideas to set it up.
 
 ## The beginnings
 
