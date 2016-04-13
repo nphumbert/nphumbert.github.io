@@ -7,9 +7,8 @@ categories: [tdd, craftsmanship]
 ---
 
 Il était une fois une jeune fille pleine de projets, de passions et un chouilla hyperactive.  
-Elle n'aime pas particulièrement raconter sa vie et se demande donc fortement comment elle va réussir à faire cet article.
-Parmi ses rêves de gosse se trouvaient d'apprendre plein de choses sur les sciences, notamment les biosciences, et sur l'informatique.  
-Elle a donc démarré avec les biosciences (d'ailleurs c'est méga passionant, rien de plus complexe et de mieux architecturé que le corps humain) puis a décidé d'enchaîner avec l'informatique. Cependant, le cursus suivi en informatique n'a duré qu'un an (moitié cours, moitié stage). Evidemment, il ne s'agissait que d'une porte d'accès au monde qu'elle souhaitait tant découvrir.
+Elle n'aime pas particulièrement raconter sa vie et se demande donc fortement comment elle va réussir à faire cet article.  
+Parmi ses rêves de gosse se trouvaient d'apprendre plein de choses sur les sciences, notamment les biosciences, et sur l'informatique. Elle a donc démarré avec les biosciences (d'ailleurs c'est méga passionant, rien de plus complexe et de mieux architecturé que le corps humain) puis a décidé d'enchaîner avec l'informatique. Cependant, le cursus suivi en informatique n'a duré qu'un an (moitié cours, moitié stage). Evidemment, il ne s'agissait que d'une porte d'accès au monde qu'elle souhaitait tant découvrir.
 
 <!-- more -->
 
