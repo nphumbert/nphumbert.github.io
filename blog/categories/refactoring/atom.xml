@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: refactoring, | Nadia Humbert-Labeaumaz]]></title>
+  <title><![CDATA[Category: refactoring | Nadia Humbert-Labeaumaz]]></title>
   <link href="https://nphumbert.github.io/blog/categories/refactoring/atom.xml" rel="self"/>
   <link href="https://nphumbert.github.io/"/>
-  <updated>2016-04-20T16:41:50+02:00</updated>
+  <updated>2016-04-20T16:43:06+02:00</updated>
   <id>https://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -228,6 +228,114 @@ La classe <code>Parrot</code> devient :</p>
 
 <p>Ce kata permet de remplacer une structure conditionnelle par du polymorphisme. Chacune des classes n'a plus qu'une seule raison de changer. De plus, pour ajouter un nouveau type de perroquet, il suffit de créer une nouvelle classe qui hérite de la classe <code>Parrot</code>, sans avoir à modifier quoi que ce soit par ailleurs. Le code est donc plus SOLID.
 Un autre exemple de ce type de refactoring a été développé sur une des vidéos de ma chaîne YouTube <a href="https://www.youtube.com/watch?v=sxQAULX96P0">Crafties</a>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Refactoring Is Like Sleeping]]></title>
+    <link href="https://nphumbert.github.io/blog/2016/03/10/refactoring-is-like-sleeping/"/>
+    <updated>2016-03-10T15:12:42+01:00</updated>
+    <id>https://nphumbert.github.io/blog/2016/03/10/refactoring-is-like-sleeping</id>
+    <content type="html"><![CDATA[<p>Bob is a developer. Bob has been asked to add a brand new feature to the application. Bob would like to take this opportunity to refactor a little bit the code because it doesn&rsquo;t respect the good practices that he learnt from the last Software Craftsmanship meetup. Bob has been told that he couldn&rsquo;t refactor because there is currently not enough time to do it and because he needs to produce. Bob says to himself that there is never enough time anyways&hellip;</p>
+
+<p>Sounds familiar? Indeed, refactoring is often seen as an activity without any value. Other things in life can also seem worthless. There is one that takes almost a third of our lives during which we do literally nothing: <em>sleeping</em>!</p>
+
+<!-- more -->
+
+
+<p>The number of things that we could do if we didn&rsquo;t sleep! However, after a few days, even hours, unpleasant events would eventually occur. Without sleep, the most trivial tasks can become very difficult to accomplish and weird mistakes can take place (like pouring orange juice into your bowl of cereal). After a while, sleep takes suddenly over, which can lead to accidents (because of drowsy driving, for example).</p>
+
+<p>In the same way, postponing refactoring harms the project. Developments may take much longer than necessary and bugs may occur in features very apart from those that have been modified. Moreover, there is a moment where refactoring imposes itself unexpectedly: code can no longer be modified without risking important regressions. This can happen at a critical time of the project and thus jeopardize it. At this point, the feared verdict may be rendered: &ldquo;everything must be rewritten&rdquo;.</p>
+
+<p>In general, regular refactoring is necessary to the good health of a project, just like sleeping every night is for ours. Thereafter, we are going to define refactoring in this context, when is it good to do it, how to prepare it properly and what to do if time is missing.</p>
+
+<h2>What does refactoring mean?</h2>
+
+<p>According to Michael Feathers, refactoring is &ldquo;the act of improving design without changing its behavior&rdquo;.</p>
+
+<p>It is not necessarily about changing a whole class hierarchy or about implementing a complex design pattern but it could be as simple as renaming a variable, method or class, extracting a private method in an external class, gathering the attributes of a method into an object, etc.</p>
+
+<p>Furthermore, we also consider that adding tests to an existing code base is refactoring. Indeed, a testable code is a first step towards a better design.</p>
+
+<h2>When to refactor?</h2>
+
+<p>The idea is not to try to fix the entire system every time. This would be unproductive and impossible to carry out. Also, it would be difficult to justify causing regressions in a portion of code too unrelated to the one that was supposed to be changed.</p>
+
+<p>Refactoring is very efficient when it is targeted at the code that is related to the development of a feature. Moreover, it is preferable to refactor before adding new code in order to start on good bases.</p>
+
+<h2>How to prepare it?</h2>
+
+<p>The first thing to do before refactoring is to ensure that there are tests that cover the code that is going to be modified. Tests permit to verify that refactoring doesn&rsquo;t generate regression. If tests are missing, they need to be added before starting.</p>
+
+<p>Sometimes it might be impossible to test a portion of code. In this case, you can perform the minimal refactoring required for implementing the tests.</p>
+
+<h2>What to do if time is missing?</h2>
+
+<p>If, like Bob, you lack the time, you must be pragmatic. It can be interesting to do small refactoring for each development. This allows to improve the design without consuming too much time and to prepare the ground for a larger refactoring.</p>
+
+<h2>Conclusion</h2>
+
+<p>Refactoring is essential in a project and should be done regularly. It allows to ensure that new features could be developed within a reasonable time and to limit regressions by improving the design. Furthermore, it allows developers to (re)take pleasure to make the product evolve.</p>
+
+<p>We would like to conclude with the boy scout rule that tells us we should always leave the code in a better condition than when we found it. The application of this rule leads to improving the overall quality of the code and to the reversal of the technical debt.</p>
+
+<hr />
+
+<p><em>This article has been written in collaboration with Renaud Humbert-Labeaumaz (<a href="https://www.twitter.com/rnowif">@rnowif</a>)</em></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Refactorer, c'est comme dormir]]></title>
+    <link href="https://nphumbert.github.io/blog/2016/01/31/refactorer-c-est-comme-dormir/"/>
+    <updated>2016-01-31T19:16:09+01:00</updated>
+    <id>https://nphumbert.github.io/blog/2016/01/31/refactorer-c-est-comme-dormir</id>
+    <content type="html"><![CDATA[<p>Robert est un développeur. On a demandé à Robert d'ajouter une nouvelle fonctionnalité à l'application. Robert aimerait bien en profiter pour refactorer un peu le code car il ne respecte pas les bonnes pratiques qu'il a pu voir lors du dernier meetup Software Craftsmanship. On dit alors à Robert qu'il ne peut pas refactorer car, en ce moment, il n'y a pas le temps pour ça et qu'il doit produire. Robert se dit qu'il n'y a de toutes façons jamais le temps&hellip;</p>
+
+<p>Cette histoire vous semble familière ? En effet, le refactoring est souvent perçu comme n'apportant aucune valeur. D'autres choses dans la vie peuvent sembler n'apporter aucune valeur. Il y en a notamment une qui prend près du tiers de la vie d'une personne pendant laquelle cette personne ne fait littéralement rien : <em>dormir</em> !</p>
+
+<!-- more -->
+
+
+<p>Le nombre de choses que l'on pourrait faire si l'on ne dormait pas ! Cependant, au bout de quelques jours, voire quelques heures, des événements désagréables finiraient par survenir. Sans sommeil, la moindre des tâches peut devenir très longue à effectuer et des erreurs étranges peuvent arriver (comme verser du jus d'orange dans son bol de céréales). Après un certain temps, le sommeil prend le dessus de manière incontrôlée, ce qui peut conduire à des accidents (à cause d'une somnolence au volant par exemple).</p>
+
+<p>De manière similaire, repousser le refactoring nuit au projet. Les développements peuvent prendre beaucoup plus de temps que nécessaire et des bugs peuvent survenir sur des fonctionnalités très éloignées de celles qui sont modifiées. De plus, il arrive un moment où le refactoring s'impose : le code ne peut plus être modifié sans risquer d'importantes régressions. Ceci peut se produire à un moment critique du projet et donc le mettre en péril. A ce moment là, la sentence tant redoutée peut tomber : « il faut tout réécrire ».</p>
+
+<p>De manière globale, refactorer régulièrement est nécessaire à la bonne santé du projet, tout comme dormir chaque nuit l'est pour la notre. Dans la suite de cet article, nous allons définir ce que signifie refactorer dans ce contexte, quand est-il bon de le faire, comment bien le préparer et que faire si le temps manque.</p>
+
+<h2>Que signifie refactorer ?</h2>
+
+<p>Selon Michael Feathers, le refactoring est l'acte d'améliorer le <em>design</em> du code sans changer son comportement.</p>
+
+<p>Il ne s'agit pas forcément de changer toute une hiérarchie de classes ou de mettre en place un <em>design pattern</em> très complexe mais cela peut être aussi simple que de renommer une variable, une méthode, une classe, d'extraire une méthode privée dans une classe externe, de regrouper les attributs d'une méthode dans un objet, etc.</p>
+
+<p>De plus, nous considérons aussi qu'ajouter des tests à du code existant est du refactoring. En effet, un code testable est un premier pas vers un meilleur <em>design</em>.</p>
+
+<h2>Quand faut-il refactorer ?</h2>
+
+<p>L'idée n'est pas d'essayer de corriger l'intégralité du système à chaque fois. Ceci serait contre productif et impossible à mettre en place. De plus, il serait très difficilement justifiable de provoquer des régressions dans une partie du code très éloignée de celle qui est censée être modifiée.</p>
+
+<p>Le refactoring est très efficace lorsqu'il est ciblé sur le code qui est concerné par le développement d'une fonctionnalité. De plus, il nous semble préférable de refactorer avant d'ajouter du nouveau code afin de démarrer sur des bases saines.</p>
+
+<h2>Comment le préparer ?</h2>
+
+<p>La première chose à faire avant de refactorer est de s'assurer qu'il y a des tests en place. Ces tests permettent de vérifier que le refactoring ne génère pas de régression. Si ces tests ne sont pas déjà en place, il faut les ajouter avant de commencer.</p>
+
+<p>Il peut arriver qu'il soit impossible de tester une portion de code. Dans ce cas, il faut effectuer le refactoring minimum nécessaire à la mise en place des tests.</p>
+
+<h2>Que faire si le temps manque ?</h2>
+
+<p>Si, comme Robert, le temps vous manque, il faut faire preuve de pragmatisme. Il peut être intéressant d'effectuer de petits refactoing à chaque développement. Cela permet d'améliorer le <em>design</em> sans consommer trop de temps et de préparer le terrain pour de plus gros refactoring.</p>
+
+<h2>Conclusion</h2>
+
+<p>Le refactoring est essentiel dans un projet et doit être effectué régulièrement. Il permet d'assurer que les nouvelles fonctionnalités pourront être développées dans un temps raisonnable et de limiter les régressions en améliorant le <em>design</em>. Par ailleurs, il permet aussi aux développeurs de (re)prendre du plaisir à faire évoluer le produit.</p>
+
+<p>Nous aimerions conclure avec la règle du boy scout qui indique que l'on doit toujours laisser le code dans un meilleur état que lorsqu'on l'a trouvé. L'application de cette règle conduit à l'amélioration de la qualité globale du code et à l'inversion de la dette technique.</p>
+
+<hr />
+
+<p><em>Cet article a été écrit en collaboration avec Renaud Humbert-Labeaumaz (<a href="https://www.twitter.com/rnowif">@rnowif</a>)</em></p>
 ]]></content>
   </entry>
   
