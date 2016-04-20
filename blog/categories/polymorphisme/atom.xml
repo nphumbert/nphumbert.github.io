@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: refactoring, | Nadia Humbert-Labeaumaz]]></title>
-  <link href="https://nphumbert.github.io/blog/categories/refactoring/atom.xml" rel="self"/>
+  <title><![CDATA[Category: polymorphisme | Nadia Humbert-Labeaumaz]]></title>
+  <link href="https://nphumbert.github.io/blog/categories/polymorphisme/atom.xml" rel="self"/>
   <link href="https://nphumbert.github.io/"/>
   <updated>2016-04-20T16:41:50+02:00</updated>
   <id>https://nphumbert.github.io/</id>
