@@ -10,6 +10,8 @@ Ce kata est tiré d'un exemple du livre "Refactoring, Improving the Design of Ex
 L'exemple contient des signes de mauvais design et permet notamment de pratiquer le polymorphisme.  
 Dans cet article, une solution à ce kata sera développée. Le projet qui a servi de support se trouve sur [GitHub](https://github.com/nphumbert/kata-parrot-refactoring) avec la solution respective.
 
+<!-- more -->
+
 ## Contexte
 
 Il s'agit d'un projet où l'on calcule la vitesse d'un perroquet en fonction de son origine. La classe `Parrot` initiale est la suivante :
@@ -21,7 +23,6 @@ public class Parrot {
     private int numberOfCoconuts = 0;
     private double voltage;
     private boolean isNailed;
-
 
     public Parrot(ParrotTypeEnum _type, int numberOfCoconuts, double voltage, boolean isNailed) {
         this.type = _type;
