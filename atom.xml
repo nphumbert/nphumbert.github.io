@@ -4,7 +4,7 @@
   <title><![CDATA[Nadia Humbert-Labeaumaz]]></title>
   <link href="https://nphumbert.github.io/atom.xml" rel="self"/>
   <link href="https://nphumbert.github.io/"/>
-  <updated>2016-04-20T16:43:06+02:00</updated>
+  <updated>2016-04-23T09:34:39+02:00</updated>
   <id>https://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -21,6 +21,9 @@
     <content type="html"><![CDATA[<p>Ce kata est tiré d'un exemple du livre &ldquo;Refactoring, Improving the Design of Existing Code&rdquo; de Martin Fowler, et a été créé par Emilie Bache.
 L'exemple contient des signes de mauvais design et permet notamment de pratiquer le polymorphisme.<br/>
 Dans cet article, une solution à ce kata sera développée. Le projet qui a servi de support se trouve sur <a href="https://github.com/nphumbert/kata-parrot-refactoring">GitHub</a> avec la solution respective.</p>
+
+<!-- more -->
+
 
 <h2>Contexte</h2>
 
@@ -64,14 +67,12 @@ Dans cet article, une solution à ce kata sera développée. Le projet qui a ser
 <span class='line-number'>36</span>
 <span class='line-number'>37</span>
 <span class='line-number'>38</span>
-<span class='line-number'>39</span>
 </pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Parrot</span> <span class="o">{</span>
 </span><span class='line'>
 </span><span class='line'>    <span class="kd">private</span> <span class="n">ParrotTypeEnum</span> <span class="n">type</span><span class="o">;</span>
 </span><span class='line'>    <span class="kd">private</span> <span class="kt">int</span> <span class="n">numberOfCoconuts</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
 </span><span class='line'>    <span class="kd">private</span> <span class="kt">double</span> <span class="n">voltage</span><span class="o">;</span>
 </span><span class='line'>    <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">isNailed</span><span class="o">;</span>
-</span><span class='line'>
 </span><span class='line'>
 </span><span class='line'>    <span class="kd">public</span> <span class="nf">Parrot</span><span class="o">(</span><span class="n">ParrotTypeEnum</span> <span class="n">_type</span><span class="o">,</span> <span class="kt">int</span> <span class="n">numberOfCoconuts</span><span class="o">,</span> <span class="kt">double</span> <span class="n">voltage</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">isNailed</span><span class="o">)</span> <span class="o">{</span>
 </span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">type</span> <span class="o">=</span> <span class="n">_type</span><span class="o">;</span>

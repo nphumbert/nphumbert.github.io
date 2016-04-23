@@ -4,7 +4,7 @@
   <title><![CDATA[Category: kata | Nadia Humbert-Labeaumaz]]></title>
   <link href="https://nphumbert.github.io/blog/categories/kata/atom.xml" rel="self"/>
   <link href="https://nphumbert.github.io/"/>
-  <updated>2016-04-20T16:43:06+02:00</updated>
+  <updated>2016-04-23T09:34:39+02:00</updated>
   <id>https://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -22,6 +22,9 @@
 L'exemple contient des signes de mauvais design et permet notamment de pratiquer le polymorphisme.<br/>
 Dans cet article, une solution à ce kata sera développée. Le projet qui a servi de support se trouve sur <a href="https://github.com/nphumbert/kata-parrot-refactoring">GitHub</a> avec la solution respective.</p>
 
+<!-- more -->
+
+
 <h2>Contexte</h2>
 
 <p>Il s'agit d'un projet où l'on calcule la vitesse d'un perroquet en fonction de son origine. La classe <code>Parrot</code> initiale est la suivante :</p>
@@ -32,7 +35,6 @@ Dans cet article, une solution à ce kata sera développée. Le projet qui a ser
     private int numberOfCoconuts = 0;
     private double voltage;
     private boolean isNailed;
-
 
     public Parrot(ParrotTypeEnum _type, int numberOfCoconuts, double voltage, boolean isNailed) {
         this.type = _type;
