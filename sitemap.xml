@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>https://nphumbert.github.io/blog/2016/05/08/decouverte-de-kotlin-par-la-pratique/</loc>
+<lastmod>2016-05-08T14:58:45+02:00</lastmod>
+</url>
+<url>
 <loc>https://nphumbert.github.io/blog/2016/04/20/polymorphisme-avec-le-kata-parrot-refactoring/</loc>
 <lastmod>2016-04-20T16:26:03+02:00</lastmod>
 </url>
@@ -133,5 +137,8 @@
 </url>
 <url>
 <loc>https://nphumbert.github.io/blog/categories/polymorphisme/</loc>
+</url>
+<url>
+<loc>https://nphumbert.github.io/blog/categories/kotlin/</loc>
 </url>
 </urlset>

@@ -4,7 +4,7 @@
   <title><![CDATA[Nadia Humbert-Labeaumaz]]></title>
   <link href="https://nphumbert.github.io/atom.xml" rel="self"/>
   <link href="https://nphumbert.github.io/"/>
-  <updated>2016-05-07T15:43:23+02:00</updated>
+  <updated>2016-05-08T20:26:43+02:00</updated>
   <id>https://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -12,6 +12,201 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Découverte de Kotlin par la pratique]]></title>
+    <link href="https://nphumbert.github.io/blog/2016/05/08/decouverte-de-kotlin-par-la-pratique/"/>
+    <updated>2016-05-08T14:58:45+02:00</updated>
+    <id>https://nphumbert.github.io/blog/2016/05/08/decouverte-de-kotlin-par-la-pratique</id>
+    <content type="html"><![CDATA[<p>Kotlin est un langage de programmation créé par JetBrains. Il est exécuté sur la JVM et est 100% interopérable avec Java 1.6+.
+J'ai découvert récemment ce langage et j'ai réalisé un ensemble de katas pour le pratiquer.
+Le code source de ces katas est disponible sur GitHub :</p>
+
+<ul>
+<li><a href="https://github.com/nphumbert/kata-prime-factors">Prime factors</a></li>
+<li><a href="https://github.com/nphumbert/kata-string-calculator">String calculator</a></li>
+<li><a href="https://github.com/nphumbert/kata-game-of-life">Game of life</a></li>
+<li><a href="https://github.com/nphumbert/kata-mars-rover">Mars rover</a></li>
+</ul>
+
+
+<p>Dans cet article, je vais présenter des particularités de Kotlin que j'ai pu rencontrer.</p>
+
+<!-- more -->
+
+
+<h2>Généralités</h2>
+
+<p>En Kotlin, un fichier peut contenir plusieurs classes et des fonctions. Ces fonctions peuvent exister en dehors d'une classe.
+Un exemple de classe est donné ci-dessous :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='kotlin'><span class='line'><span class="n">data</span> <span class="k">class</span> <span class="nc">Dimension</span><span class="p">(</span><span class="k">val</span> <span class="py">width</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="k">val</span> <span class="py">height</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Le constructeur est défini dans la déclaration de la classe. Le mot clé <code>val</code> signifie que le champ est en lecture seule. Il faudrait utiliser <code>var</code> pour indiquer qu'il est modifiable. De plus, des getters sont implicitement générés pour tous les champs qui ne sont pas <code>private</code> ainsi que des setters pour les champs qui ne sont pas en lecture seule. Par ailleurs, le mot clé <code>data</code> permet de créer automatiquement les méthodes <code>toString</code>, <code>equals</code>, <code>hashCode</code> et <code>clone</code>.</p>
+
+<h2>Gestion des null</h2>
+
+<p>Par défaut, les variables ne peuvent pas être nulles. Pour indiquer qu'une variable peut être nulle, il faut ajouter un <code>?</code> à la fin du type. Par exemple, <code>val position: Position?</code>. Le fait d'appeler une méthode sur une variable qui peut être nulle génère une erreur de compilation si ce n'est pas géré explicitement.</p>
+
+<p>Dans le code suivant, <code>moves</code> est une <code>Map</code> dont une valeur est récupérée à partir d'une clé. Ceci peut retourner une valeur nulle si elle ne contient pas cette clé. S'il est certain que la clé existe dans la <code>Map</code>, il faut forcer l'appel avec <code>!!</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='kotlin'><span class='line'><span class="k">override</span> <span class="k">fun</span> <span class="nf">apply</span><span class="p">(</span><span class="n">position</span><span class="p">:</span> <span class="n">Position</span><span class="p">):</span> <span class="n">Position</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">moves</span><span class="p">[</span><span class="n">position</span><span class="p">.</span><span class="n">orientation</span><span class="p">]</span><span class="o">!!</span><span class="p">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>S'il n'est pas certain que la clé existe dans la <code>Map</code>, il est possible d'utiliser <code>?</code> pour appeler la méthode <code>invoke</code> sans risque d'exception. En effet, si la valeur est nulle, la méthode ne sera pas appelée et le résultat sera <code>null</code>. Le code deviendrait donc le suivant :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='kotlin'><span class='line'><span class="k">override</span> <span class="k">fun</span> <span class="nf">apply</span><span class="p">(</span><span class="n">position</span><span class="p">:</span> <span class="n">Position</span><span class="p">):</span> <span class="n">Position</span><span class="p">?</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">moves</span><span class="p">[</span><span class="n">position</span><span class="p">.</span><span class="n">orientation</span><span class="p">]</span><span class="o">?.</span><span class="n">invoke</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Cette gestion des <code>null</code> permet d'éviter les contrôles de nullité dispersés dans tout le code. De plus, elle permet de rendre très explicite les endroits où une variable peut être nulle. Finalement, tout ceci est vérifié par le compilateur, ce qui permet d'éviter les oublis.</p>
+
+<h2>Valeurs par défaut</h2>
+
+<p>Kotlin permet de donner aux paramètres des fonctions une valeur par défaut. Cette valeur est celle utilisée si le paramètre n'est pas fourni lors de l'appel de la fonction. La syntaxe pour mettre une valeur par défaut est décrite ci-après :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='kotlin'><span class='line'><span class="k">fun</span> <span class="nf">add</span><span class="p">(</span><span class="n">numbers</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="n">separator</span><span class="p">:</span> <span class="n">Char</span> <span class="p">=</span> <span class="sc">&#39;,&#39;</span><span class="p">):</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">numbers</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="n">separator</span><span class="p">).</span><span class="n">map</span> <span class="p">{</span> <span class="n">it</span><span class="p">.</span><span class="n">toInt</span><span class="p">()</span> <span class="p">}.</span><span class="n">sum</span><span class="p">()</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Cette fonction peut donc être appelée de deux manières différentes :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='kotlin'><span class='line'><span class="n">add</span><span class="p">(</span><span class="n">numbers</span><span class="p">.</span><span class="n">joinToString</span><span class="p">(</span><span class="s">&quot;,&quot;</span><span class="p">))</span>
+</span><span class='line'><span class="n">add</span><span class="p">(</span><span class="n">numbers</span><span class="p">.</span><span class="n">joinToString</span><span class="p">(</span><span class="s">&quot;,&quot;</span><span class="p">),</span> <span class="sc">&#39;,&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Ce mécanisme permet de modifier du code existant, pour le rendre paramétrable par exemple, sans devoir changer le code client déjà existant ni devoir créer une nouvelle fonction qui se fera déléguer son traitement.</p>
+
+<h2>Streams</h2>
+
+<p>L'équivalent des <code>Streams</code> Java 8 sont gérés nativement par les classes Kotlin (même avec un JDK 1.6 !). Il est donc directement possible d'appeler des méthodes comme <code>filter</code>, <code>map</code> ou <code>reduce</code> sur des collections. Par exemple, dans le jeu de la vie, pour compter toutes les cellules vivantes parmi les cellules voisines, il est possible de faire ceci :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='kotlin'><span class='line'><span class="k">fun</span> <span class="nf">numberOfLiveNeighbours</span><span class="p">(</span><span class="n">position</span><span class="p">:</span> <span class="n">Position</span><span class="p">):</span> <span class="n">Int</span> <span class="p">=</span>
+</span><span class='line'>                      <span class="n">position</span><span class="p">.</span><span class="n">neighbours</span><span class="p">().</span><span class="n">filter</span> <span class="p">{</span> <span class="k">get</span><span class="p">(</span><span class="n">it</span><span class="p">).</span><span class="n">alive</span> <span class="p">}.</span><span class="n">count</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Par ailleurs, d'autres méthodes plus spécifiques sont disponibles selon le type de collection. Par exemple, sur une
+<code>Map</code>, il est possible d'appliquer des filtres seulement sur les valeurs grâce à la méthode <code>filterValues</code> :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='kotlin'><span class='line'><span class="k">fun</span> <span class="nf">toString</span><span class="p">(</span><span class="n">orientation</span><span class="p">:</span> <span class="n">Orientation</span><span class="p">):</span> <span class="n">String</span> <span class="p">=</span>
+</span><span class='line'>                      <span class="n">orientations</span><span class="p">.</span><span class="n">filterValues</span> <span class="p">{</span> <span class="n">it</span><span class="p">.</span><span class="n">equals</span><span class="p">(</span><span class="n">orientation</span><span class="p">)</span> <span class="p">}.</span><span class="n">keys</span><span class="p">.</span><span class="n">first</span><span class="p">().</span><span class="n">toString</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Le grand nombre de méthodes de ce genre facilite la programmation fonctionnelle et rend le code plus clair et expressif. De plus, le fait que Kotlin soit intéropérable avec Java permet d'introduire des morceaux de code fonctionnel dans une base de code Java 6 ou 7.</p>
+
+<h2>Fonctions d'extension</h2>
+
+<p>Soit le code Kotlin suivant extrait du kata des facteurs premiers :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='kotlin'><span class='line'><span class="n">primes</span><span class="p">.</span><span class="n">forEach</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">while</span> <span class="p">(</span><span class="n">remains</span> <span class="p">%</span> <span class="n">it</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">factors</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">remains</span> <span class="p">/=</span> <span class="n">it</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>La boucle ci-dessus continue tant que <code>remains</code> est un multiple du nombre premier courant. Il serait possible de rendre le code plus expressif de la manière suivante :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='kotlin'><span class='line'><span class="n">primes</span><span class="p">.</span><span class="n">forEach</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">while</span> <span class="p">(</span><span class="n">remains</span><span class="p">.</span><span class="n">isMultipleOf</span><span class="p">(</span><span class="n">it</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">factors</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">remains</span> <span class="p">/=</span> <span class="n">it</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Le problème est que <code>remains</code> est un <code>Int</code> et que cette classe ne contient pas la méthode <code>isMultipleOf</code> par défaut. Cependant, il est possible de l'ajouter grâce à une fonction d'extension. il s'agit de créer une fonction et de l'ajouter à une classe de manière externe :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='kotlin'><span class='line'><span class="k">fun</span> <span class="nf">Int</span><span class="p">.</span><span class="n">isMultipleOf</span><span class="p">(</span><span class="n">number</span><span class="p">:</span> <span class="n">Int</span><span class="p">):</span> <span class="n">Boolean</span> <span class="p">=</span> <span class="k">this</span><span class="p">.</span><span class="n">mod</span><span class="p">(</span><span class="n">number</span><span class="p">)</span> <span class="p">==</span> <span class="m">0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Les fonctions d'extension sont très pratiques pour enrichir des objets, sans devoir modifier leur classe. De plus, ces extensions peuvent être restreintes à un certain contexte (une classe, un package, etc.).</p>
+
+<h2>La déstructuration</h2>
+
+<p>Lorsque l'on souhaite extraire des objets depuis un tableau ou une liste, il est possible de s'affranchir de l'utilisation explicite des index en utilisant la déstructuration :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='kotlin'><span class='line'><span class="k">val</span> <span class="err">(</span><span class="py">gridDimensionInput</span><span class="p">,</span> <span class="n">initialPositionInput</span><span class="p">,</span> <span class="n">pathInput</span><span class="p">)</span> <span class="p">=</span> <span class="n">input</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Dans l'exemple ci-dessus, l'input va être découpée par ligne. La première ligne sera stockée dans <code>gridDimensionInput</code>, la seconde dans <code>initialPositionInput</code> et la troisième dans <code>pathInput</code>.</p>
+
+<p>Ceci est également possible avec une <code>data class</code> de la façon suivante :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='kotlin'><span class='line'><span class="k">val</span> <span class="py">position</span> <span class="p">=</span> <span class="n">Position</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="n">Orientation</span><span class="p">.</span><span class="n">NORTH</span><span class="p">)</span>
+</span><span class='line'><span class="k">val</span> <span class="err">(</span><span class="py">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">orientation</span><span class="p">)</span> <span class="p">=</span> <span class="n">position</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>La déstructuration permet de simplifier l'extraction de données depuis un objet qui la supporte sans devoir créer des variables intermédiaires qui ne serviront plus ensuite.</p>
+
+<h2>Création de type implicite</h2>
+
+<p>Quand un champ, un paramètre ou une variable doit être une fonction, sa signature peut être spécifiée lors de sa déclaration. Dans le kata Mars rover, une <code>Map</code> est utilisée pour associer à une orientation particulière du rover, une fonction qui va le faire avancer. Cette fonction doit prendre en paramètre une position et doit retourner la nouvelle position :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='kotlin'><span class='line'><span class="k">val</span> <span class="py">moves</span> <span class="p">=</span> <span class="n">HashMap</span><span class="p">&lt;</span><span class="n">Orientation</span><span class="p">,</span> <span class="p">(</span><span class="n">Position</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="n">Position</span><span class="p">&gt;()</span>
+</span><span class='line'><span class="n">moves</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="n">Orientation</span><span class="p">.</span><span class="n">NORTH</span><span class="p">,</span> <span class="p">{</span> <span class="n">Position</span><span class="p">(</span><span class="n">it</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">it</span><span class="p">.</span><span class="n">y</span><span class="p">.</span><span class="n">plus</span><span class="p">(</span><span class="m">1</span><span class="p">),</span> <span class="n">it</span><span class="p">.</span><span class="n">orientation</span><span class="p">)</span> <span class="p">})</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Cette manière de déclarer les types donne une très grande liberté sur la forme souhaitée pour le type. En effet, il n'est pas nécessaire de créer un type explicitement pour l'utiliser.</p>
+
+<h2>Conclusion</h2>
+
+<p>Kotlin est un langage avec des opinions fortes. Je trouve que ceci le rend clair et très agréable à utiliser. Il force à se poser les bonnes questions au bon moment, pour la gestion des null par exemple. Ces questions étant résolues au moment approprié, il y a moins de soucis à se faire le reste du temps. De plus, ce langage est simple à écrire et à lire car il est peu verbeux et offre une grande expressivité. Par ailleurs, son intéropérabilité avec Java permet de l'introduire dans des bases de code existantes sans devoir les modifier.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Polymorphisme avec le kata parrot refactoring]]></title>
