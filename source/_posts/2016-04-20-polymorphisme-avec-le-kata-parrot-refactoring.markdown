@@ -8,7 +8,7 @@ categories: [refactoring, kata, polymorphisme]
 
 Ce kata est tiré d'un exemple du livre "Refactoring, Improving the Design of Existing Code" de Martin Fowler, et a été créé par Emilie Bache.
 L'exemple contient des signes de mauvais design et permet notamment de pratiquer le polymorphisme.  
-Dans cet article, une solution à ce kata sera développée. Le projet qui a servi de support se trouve sur [GitHub](https://github.com/nphumbert/parrot-refactoring-kata) avec la solution respective.
+Dans cet article, une solution à ce kata sera développée. Le projet qui a servi de support se trouve sur [GitHub](https://github.com/nphumbert/kata-parrot-refactoring) avec la solution respective.
 
 <!-- more -->
 
