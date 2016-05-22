@@ -4,7 +4,7 @@
   <title><![CDATA[Category: test | Nadia Humbert-Labeaumaz]]></title>
   <link href="https://nphumbert.github.io/blog/categories/test/atom.xml" rel="self"/>
   <link href="https://nphumbert.github.io/"/>
-  <updated>2016-05-08T20:26:43+02:00</updated>
+  <updated>2016-05-22T22:39:51+02:00</updated>
   <id>https://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -12,6 +12,95 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ATDD et TDD double boucle]]></title>
+    <link href="https://nphumbert.github.io/blog/2016/05/22/atdd-et-tdd-double-boucle/"/>
+    <updated>2016-05-22T22:27:01+02:00</updated>
+    <id>https://nphumbert.github.io/blog/2016/05/22/atdd-et-tdd-double-boucle</id>
+    <content type="html"><![CDATA[<p>L'<em>Acceptance Test Driven Development</em> est une pratique qui consiste à écrire un test d'acceptation dès la définition de la fonctionnalité à implémenter. Ce test permet ensuite de valider que l'implémentation de la fonctionnalité est terminée. En général, plusieurs composants unitaires sont nécessaires pour implémenter une fonctionnalité. Ces composants peuvent être développés en TDD dans une deuxième boucle de <em>feedback</em>.</p>
+
+<p>L'objectif de cet article est de présenter l'ATDD et comment le mettre en pratique grâce à du TDD double boucle.</p>
+
+<!-- more -->
+
+
+<h2>ATDD</h2>
+
+<p>L'ATDD encourage fortement la collaboration entre les développeurs et le métier afin d'écrire des tests d'acceptation précis et pertinents. Pour optimiser l'échange, ces tests peuvent être écrits avec un vocabulaire partagé et bien défini. Ils peuvent également suivre le pattern <em>Given</em> / <em>When</em> / <em>Then</em> comme dans l'exemple suivant :</p>
+
+<pre><code># Given
+Un client dépose 1000 euros sur son compte le 17/12/2015
+Et il dépose 500 euros sur son compte le 18/12/2015
+Et il retire 1500 euros de son compte le 19/12/2015
+
+# When
+Le client demande à imprimer son relevé de compte
+
+# Then
+Le relevé imprimé doit être égal à
+   date | credit | debit | balance
+   19/12/2015 | | 1500.00 | 0.00
+   18/12/2015 | 500.00 | | 1500.00
+   17/12/2015 | 1000.00 | | 1000.00
+</code></pre>
+
+<p>Pour implémenter la fonctionnalité, le développeur se sert de ce test d'acceptation et le traduit sous forme de code pour le rendre exécutable. Le test d'acceptation précédent peut être écrit en Java de la manière qui suit :</p>
+
+<pre><code class="java">@Test
+public void should_print_statement() {
+    // given
+    Account account = new Account();
+    account.deposit(new BigDecimal("1000"), LocalDate.of(2015, Month.DECEMBER, 17));
+    account.deposit(new BigDecimal("500"), LocalDate.of(2015, Month.DECEMBER, 18));
+    account.withdraw(new BigDecimal("1500"), LocalDate.of(2015, Month.DECEMBER, 19));
+
+    // when
+    String statement = account.printStatement();
+
+    // then
+    assertThat(statement).isEqualTo(
+            "date | credit | debit | balance\n" +
+            "19/12/2015 | | 1500.00 | 0.00\n" +
+            "18/12/2015 | 500.00 | | 1500.00\n" +
+            "17/12/2015 | 1000.00 | | 1000.00"
+    );
+}
+</code></pre>
+
+<p>Ce test sera rouge tant que la fonctionnalité ne sera pas implémentée entièrement. Il servira de fil conducteur lors des développements.</p>
+
+<h2>Double Boucle</h2>
+
+<p>La classe <code>Account</code> sert de point d'entrée à la fonctionnalité. Cependant, elle ne sera pas suffisante pour l'implémenter complètement. Le TDD double boucle consiste à développer la classe <code>Account</code> ainsi que ses dépendances en TDD, formant ainsi une boucle de feedback à l'intérieur de celle déjà formée par le test d'acceptation.</p>
+
+<p><img class="center" src="/images/double_loop_tdd.png"></p>
+
+<p>Dans l'exemple présenté ci-dessus, il est possible de déléguer l'impression d'un relevé à une classe <code>Statement</code> qui est une dépendance de <code>Account</code>. Lors de l'écriture du test de <code>Account</code>, cette classe sera mockée.</p>
+
+<pre><code class="java">@Test
+public void should_print_statement() {
+    // given
+    Statement statement = mock(Statement.class);
+    when(statement.print()).thenReturn("printed statement");
+    Account account = new Account(statement);
+
+    // when
+    String printedStatement = account.printStatement();
+
+    // then
+    assertThat(printedStatement).isEqualTo("printed statement");
+}
+</code></pre>
+
+<p>De la même manière, la classe <code>Statement</code> sera développée en TDD en mockant sa dépendance vers <code>Transaction</code>, qui sera chargée d'imprimer une ligne du relevé. Finalement, cette classe <code>Transaction</code> sera implémentée en TDD.
+Ainsi, le test d'acceptation passera au vert, ce qui indique que la fonctionnalité correspondante est terminée.</p>
+
+<h2>Conclusion</h2>
+
+<p>L'ATDD encourage la collaboration métier / développeur à travers la définition précise de tests d'acceptation qui permettent de valider les fonctionnalités. Ces dernières peuvent être implémentées en utilisant du TDD double boucle.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Que faire lorsqu'une méthode privée veut être testée ?]]></title>
