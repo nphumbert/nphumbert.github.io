@@ -4,7 +4,7 @@
   <title><![CDATA[Category: test | Nadia Humbert-Labeaumaz]]></title>
   <link href="https://nphumbert.github.io/blog/categories/test/atom.xml" rel="self"/>
   <link href="https://nphumbert.github.io/"/>
-  <updated>2016-05-22T22:44:43+02:00</updated>
+  <updated>2016-05-22T23:00:16+02:00</updated>
   <id>https://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -72,7 +72,7 @@ public void should_print_statement() {
 
 <h2>Double Boucle</h2>
 
-<p>La classe <code>Account</code> sert de point d'entrée à la fonctionnalité. Cependant, elle ne sera pas suffisante pour l'implémenter complètement. Le TDD double boucle consiste à développer la classe <code>Account</code> ainsi que ses dépendances en TDD, formant ainsi une boucle de feedback à l'intérieur de celle déjà formée par le test d'acceptation.</p>
+<p>La classe <code>Account</code> sert de point d'entrée à la fonctionnalité. Cependant, elle ne sera pas suffisante pour l'implémenter complètement. Le TDD double boucle consiste à développer la classe <code>Account</code> ainsi que ses dépendances en TDD, formant ainsi une boucle de <em>feedback</em> à l'intérieur de celle déjà formée par le test d'acceptation.</p>
 
 <p><img class="center" src="/images/double_loop_tdd.png"></p>
 
