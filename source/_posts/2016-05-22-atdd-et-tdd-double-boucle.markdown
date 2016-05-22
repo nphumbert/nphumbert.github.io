@@ -61,7 +61,7 @@ Ce test sera rouge tant que la fonctionnalité ne sera pas implémentée entièr
 
 ## Double Boucle
 
-La classe `Account` sert de point d'entrée à la fonctionnalité. Cependant, elle ne sera pas suffisante pour l'implémenter complètement. Le TDD double boucle consiste à développer la classe `Account` ainsi que ses dépendances en TDD, formant ainsi une boucle de feedback à l'intérieur de celle déjà formée par le test d'acceptation.
+La classe `Account` sert de point d'entrée à la fonctionnalité. Cependant, elle ne sera pas suffisante pour l'implémenter complètement. Le TDD double boucle consiste à développer la classe `Account` ainsi que ses dépendances en TDD, formant ainsi une boucle de _feedback_ à l'intérieur de celle déjà formée par le test d'acceptation.
 
 {% img center /images/double_loop_tdd.png %}
 
