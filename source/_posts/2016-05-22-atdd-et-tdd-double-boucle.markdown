@@ -59,7 +59,7 @@ public void should_print_statement() {
 
 Ce test sera rouge tant que la fonctionnalité ne sera pas implémentée entièrement. Il servira de fil conducteur lors des développements.
 
-## Double Boucle
+## TDD double boucle
 
 La classe `Account` sert de point d'entrée à la fonctionnalité. Cependant, elle ne sera pas suffisante pour l'implémenter complètement. Le TDD double boucle consiste à développer la classe `Account` ainsi que ses dépendances en TDD, formant ainsi une boucle de _feedback_ à l'intérieur de celle déjà formée par le test d'acceptation.
 
