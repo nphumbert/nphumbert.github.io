@@ -7,7 +7,7 @@ categories: [tdd, craftsmanship]
 ---
 
 Once upon a time, there was a young woman that had plenty of projects and passions and was a bit hyperactive. She doesn't really enjoy talking about her life and asks herself very seriously how is she going to write this post.
-Among her early age dreams were learning many things about science, especially biosciences, and about software engineering. She started with biosciences (by the way, they are extremely fascinating, nothing is more complex and well crafted than the human body) and then she decided to continue with software engineering. However, the program that she completed only lasted one year (6 months of classes and 6 months of internship). Of course, this was only a door to access the world that she wanted to discover so much.
+Among her early age dreams were learning many things about science, especially biosciences, and about software engineering. She started with biosciences (by the way, they are extremely fascinating, nothing is more complex and well crafted than the human body) and then she decided to continue with software engineering. However, the software engineering program that she completed only lasted one year (6 months of classes and 6 months of internship). Of course, this was only a door to access the world that she wanted to discover so much.
 
 <!-- more -->
 
@@ -17,7 +17,7 @@ TDD is a development tool that preconizes to write the tests before the producti
 
 ## The beginnings
 
-At the beginning, I saw the theoretical interest of this tool and I was fascinated by the concept (I find it very clever). On the other hand, I thought that it made me work slower and that it was a bit complicated.
+At the beginning, I saw the theoretical interest of this tool and I was fascinated by the concept (I find it very clever). On the other hand, I thought that it made me work a bit slower and that it was a little complicated.
 I tried it for the first time towards the end of my first year as a software developer and within a fairly complex project in terms of business, technologies and challenges. Needless to say that TDD was not the only thing that my small head had to process! As a consequence, I tried to use it when I was not overworked and as often as possible. Moreover, the large majority of developers of this big project did not use this tool. Thus, it was sometimes complicated to use TDD in this context but it was definitely out of the question to quit, I saw the potential of this tool and I knew that I had to persevere.
 
 After this first year of experience in software development, during which I learned a lot, and a little experience in TDD, I decided to take time for some of my personal projects. And then, everything changed. Working on a project from scratch, with full latitude, I could use TDD more easily.
