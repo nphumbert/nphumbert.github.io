@@ -4,7 +4,7 @@
   <title><![CDATA[Category: test | Nadia Humbert-Labeaumaz]]></title>
   <link href="https://nphumbert.github.io/blog/categories/test/atom.xml" rel="self"/>
   <link href="https://nphumbert.github.io/"/>
-  <updated>2016-05-22T23:15:54+02:00</updated>
+  <updated>2016-05-24T11:09:26+02:00</updated>
   <id>https://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -99,6 +99,8 @@ Ainsi, le test d'acceptation passera au vert, ce qui indique que la fonctionnali
 <h2>Conclusion</h2>
 
 <p>L'ATDD encourage la collaboration métier / développeur à travers la définition précise de tests d'acceptation qui permettent de valider les fonctionnalités. Ces dernières peuvent être implémentées en utilisant du TDD double boucle.</p>
+
+<p>Vous trouverez une mise en pratique du TDD double boucle dans la vidéo <a href="https://www.youtube.com/watch?v=Qe84jbwyZ3U">Crafties #7</a>.</p>
 ]]></content>
   </entry>
   

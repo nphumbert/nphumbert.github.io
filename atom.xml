@@ -4,7 +4,7 @@
   <title><![CDATA[Nadia Humbert-Labeaumaz]]></title>
   <link href="https://nphumbert.github.io/atom.xml" rel="self"/>
   <link href="https://nphumbert.github.io/"/>
-  <updated>2016-05-22T23:15:54+02:00</updated>
+  <updated>2016-05-24T11:09:26+02:00</updated>
   <id>https://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -147,6 +147,8 @@ Ainsi, le test d'acceptation passera au vert, ce qui indique que la fonctionnali
 <h2>Conclusion</h2>
 
 <p>L'ATDD encourage la collaboration métier / développeur à travers la définition précise de tests d'acceptation qui permettent de valider les fonctionnalités. Ces dernières peuvent être implémentées en utilisant du TDD double boucle.</p>
+
+<p>Vous trouverez une mise en pratique du TDD double boucle dans la vidéo <a href="https://www.youtube.com/watch?v=Qe84jbwyZ3U">Crafties #7</a>.</p>
 ]]></content>
   </entry>
   
@@ -717,7 +719,7 @@ Un autre exemple de ce type de refactoring a été développé sur une des vidé
     <updated>2016-04-13T23:56:11+02:00</updated>
     <id>https://nphumbert.github.io/blog/2016/04/13/once-upon-a-time-tdd-and-me</id>
     <content type="html"><![CDATA[<p>Once upon a time, there was a young woman that had plenty of projects and passions and was a bit hyperactive. She doesn&rsquo;t really enjoy talking about her life and asks herself very seriously how is she going to write this post.
-Among her early age dreams were learning many things about science, especially biosciences, and about software engineering. She started with biosciences (by the way, they are extremely fascinating, nothing is more complex and well crafted than the human body) and then she decided to continue with software engineering. However, the program that she completed only lasted one year (6 months of classes and 6 months of internship). Of course, this was only a door to access the world that she wanted to discover so much.</p>
+Among her early age dreams were learning many things about science, especially biosciences, and about software engineering. She started with biosciences (by the way, they are extremely fascinating, nothing is more complex and well crafted than the human body) and then she decided to continue with software engineering. However, the software engineering program that she completed only lasted one year (6 months of classes and 6 months of internship). Of course, this was only a door to access the world that she wanted to discover so much.</p>
 
 <!-- more -->
 
@@ -728,7 +730,7 @@ Among her early age dreams were learning many things about science, especially b
 
 <h2>The beginnings</h2>
 
-<p>At the beginning, I saw the theoretical interest of this tool and I was fascinated by the concept (I find it very clever). On the other hand, I thought that it made me work slower and that it was a bit complicated.
+<p>At the beginning, I saw the theoretical interest of this tool and I was fascinated by the concept (I find it very clever). On the other hand, I thought that it made me work a bit slower and that it was a little complicated.
 I tried it for the first time towards the end of my first year as a software developer and within a fairly complex project in terms of business, technologies and challenges. Needless to say that TDD was not the only thing that my small head had to process! As a consequence, I tried to use it when I was not overworked and as often as possible. Moreover, the large majority of developers of this big project did not use this tool. Thus, it was sometimes complicated to use TDD in this context but it was definitely out of the question to quit, I saw the potential of this tool and I knew that I had to persevere.</p>
 
 <p>After this first year of experience in software development, during which I learned a lot, and a little experience in TDD, I decided to take time for some of my personal projects. And then, everything changed. Working on a project from scratch, with full latitude, I could use TDD more easily.</p>
@@ -813,7 +815,7 @@ Dans cet article, je vais vous parler de mon expérience personnelle concernant 
 
 <h2>Les débuts</h2>
 
-<p>Au départ, je voyais l'intérêt théorique de cet outil et le concept me passionnait particulièrement (je trouve ça malin). Par contre, en pratique, je trouvais que ça me ralentissait et que c'était un peu compliqué.<br/>
+<p>Au départ, je voyais l'intérêt théorique de cet outil et le concept me passionnait particulièrement (je trouve ça malin). Par contre, en pratique, je trouvais que ça me ralentissait un peu et que c'était un peu compliqué.<br/>
 Je l'ai expérimenté pour la première fois vers la fin de ma première année de développement et au sein d'un projet assez complexe en termes de métier, de technologies et d'enjeux. Autant dire que je n'avais pas que le TDD à intégrer dans ma petite tête ! Du coup, j'essayais de le faire quand je n'étais pas débordée et le plus souvent possible. Par ailleurs, la grande majorité des développeurs de ce gros projet n'utilisaient pas cet outil. Il était donc parfois un peu dur de faire du TDD dans ce contexte mais il était hors de question d'abandonner, je voyais le potentiel de cet outil et je savais qu'il fallait persévéver.</p>
 
 <p>Après cette première année d'expérience dans le développement, où j'ai énormément appris, et une petite expérience en TDD, j'ai décidé de dédier du temps à des projets personnels. Et là, tout a changé. Partant d'un projet de zéro, avec toutes les libertés possibles, je pouvais expérimenter encore plus facilement le TDD.</p>
