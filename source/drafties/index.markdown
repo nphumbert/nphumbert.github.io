@@ -9,6 +9,8 @@ footer: true
 
 > Concepts and principles of software development in a single drawing!
 
+_License [CC BY 4.0](https://creativecommons.org/licenses/by/4.0). Please credit me using my [Twitter](https://twitter.com/nphumbert) account._
+
 ## #1. Interface Segregation Principle (ISP)
 
 {% img center /images/drafties/interface_segregation_principle.png %}
@@ -24,3 +26,4 @@ footer: true
 ## #4. Aspect Oriented Programming (AOP)
 
 {% img center /images/drafties/aop.png %}
+
