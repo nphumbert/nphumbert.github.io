@@ -89,3 +89,5 @@ Ainsi, le test d'acceptation passera au vert, ce qui indique que la fonctionnali
 ## Conclusion
 
 L'ATDD encourage la collaboration métier / développeur à travers la définition précise de tests d'acceptation qui permettent de valider les fonctionnalités. Ces dernières peuvent être implémentées en utilisant du TDD double boucle.
+
+Vous trouverez une mise en pratique du TDD double boucle dans la vidéo [Crafties #7](https://www.youtube.com/watch?v=Qe84jbwyZ3U).
