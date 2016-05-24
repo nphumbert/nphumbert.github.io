@@ -7,7 +7,7 @@ sharing: true
 footer: true
 ---
 
-> Concepts and principles of software development in a single draft!
+> Concepts and principles of software development in a single drawing!
 
 ## #1. Interface Segregation Principle (ISP)
 
