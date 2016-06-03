@@ -29,5 +29,5 @@ _License [CC BY 4.0](https://creativecommons.org/licenses/by/4.0). Please credit
 
 ## #5. Mutation Testing
 
-{% img center /images/drafties/mutation_testing.jpg %}
+{% img center /images/drafties/mutation_testing.png %}
 
