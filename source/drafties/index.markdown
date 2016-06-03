@@ -27,3 +27,7 @@ _License [CC BY 4.0](https://creativecommons.org/licenses/by/4.0). Please credit
 
 {% img center /images/drafties/aop.png %}
 
+## #5. Mutation Testing
+
+{% img center /images/drafties/mutation_testing.jpg %}
+
