@@ -4,7 +4,7 @@
   <title><![CDATA[Nadia Humbert-Labeaumaz]]></title>
   <link href="https://nphumbert.github.io/atom.xml" rel="self"/>
   <link href="https://nphumbert.github.io/"/>
-  <updated>2016-06-27T10:36:10+02:00</updated>
+  <updated>2016-06-27T11:36:48+02:00</updated>
   <id>https://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -45,7 +45,7 @@ Finalement, le modèle d'écriture peut être débarrassé de toutes ses méthod
 
 <p>L'application du CQRS simplifie grandement le modèle d'écriture. En effet, il arrive souvent que des propriétés <em>transient</em> soient calculées uniquement pour de l'affichage. Ces propriétés, ainsi que les méthodes associées, alourdissent le modèle et n'apportent pas de valeur pour les traitements métiers.</p>
 
-<p>Les services, parfois très lourds, sont remplacés par des classes spécialisées, concises et cohérentes. Ceci permet donc de mieux respecter le <em>Single Responsibility Principle (SRP)</em> ainsi que l'<em>Interface Segregation Principle (ISP)</em>. De plus, il n'y aura plus de méthode &ldquo;passe-plat&rdquo; dans les services car celles-ci seront directement implémentées dans les classes de lecture.</p>
+<p>Les services, parfois très lourds, sont remplacés par des classes spécialisées, concises et cohérentes. Ceci permet donc de mieux respecter le <em>Single Responsibility Principle (SRP)</em> ainsi que l'<em>Interface Segregation Principle (ISP)</em>. De plus, il n'y aura plus de méthodes &ldquo;passe-plat&rdquo; dans les services car celles-ci seront directement implémentées dans les classes de lecture.</p>
 
 <p>Finalement, l'ajout d'une nouvelle vue ne risque pas d'engendrer de régression car il s'agit simplement d'ajouter une nouvelle classe de lecture ainsi que le(s) DTO associé(s), sans modifier le reste.</p>
 
@@ -60,11 +60,11 @@ Finalement, le modèle d'écriture peut être débarrassé de toutes ses méthod
 <p>Selon moi, la principale difficulté du CQRS réside dans l'alimentation de la base de lecture à partir de la base d'écriture. Il est possible de la réaliser à l'aide d'un <em>batch</em> qui se lancera régulièrement. Cependant, l'application ne serait plus en temps réel.<br/>
 Une alternative pourrait alors être d'écrire dans la base de lecture en même temps que dans la base d'écriture. Cette solution n'est pas idéale pour moi car elle ne supprime pas le couplage entre la lecture et l'écriture. De plus, si cette solution est implémentée via un mécanisme synchrone, il est impossible de paralléliser les traitements lorsque le système est très chargé, ce qui peut affecter nettement les performances.</p>
 
-<p>La solution d'utiliser des événements asynchrones proposée par Tomasz me semble la plus adaptée pour résoudre ces problèmes. Comme il l'a indiqué, il faut néanmoins analyser le besoin et les ressources disponibles avant de se lancer dans la mise en place d'une telle architecture.</p>
+<p>La solution d'utiliser des événements asynchrones proposée par Tomasz me semble la plus adaptée pour résoudre ces problèmes. Comme il l'a indiqué, il faut néanmoins analyser le besoin et la stratégie d'entreprise ainsi que les ressources disponibles avant de se lancer dans la mise en place d'une telle architecture.</p>
 
 <h2>Conclusion</h2>
 
-<p>Le CQRS est une architecture simple à comprendre et à mettre en place. Elle permet d'augmenter la maintenabilité du code et d'améliorer les performances des vues. Je pense qu'elle peut être mise en place sur un projet (ou une de ses parties) dès que les vues se multiplient et que les services commencent à grossir</p>
+<p>Le CQRS est une architecture simple à comprendre et à mettre en place. Elle permet d'augmenter la maintenabilité du code et d'améliorer les performances des vues. Je pense qu'elle peut être mise en place sur un projet (ou une de ses parties) dès que les vues se multiplient et que les services commencent à grossir.</p>
 ]]></content>
   </entry>
   
