@@ -4,7 +4,7 @@
   <title><![CDATA[Nadia Humbert-Labeaumaz]]></title>
   <link href="https://nphumbert.github.io/atom.xml" rel="self"/>
   <link href="https://nphumbert.github.io/"/>
-  <updated>2016-06-27T10:30:38+02:00</updated>
+  <updated>2016-06-27T10:34:31+02:00</updated>
   <id>https://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -31,7 +31,7 @@
 
 <p>Le passage d'une architecture N-Tiers à une architecture CQRS est relativement simple, comme montré ci-dessous.</p>
 
-<p>&lt;% img Drafties %></p>
+<p><img class="center" src="https://nphumbert.github.io/images/cqrs.png"></p>
 
 <p>Concrètement, je pense que cela consiste tout d'abord à identifier les requêtes associées à chacune des vues et à les regrouper dans des classes dédiées. Ces classes formeront la partie lecture de l'architecture.<br/>
 Ensuite, les objets retournés par ces requêtes sont remplacés par des DTO qui ne contiennent plus que les informations nécessaires à la construction de la vue associée.<br/>
