@@ -7,7 +7,7 @@ sharing: true
 footer: true
 ---
 
-I'm an entrepreneur and I currently work as a software engineer and manager of my company. I create my own applications ([Nano](http://nphumbert.github.io/nano)) and speak about software development on my YouTube channel called [Crafties (in French)](https://www.youtube.com/Crafties).
+I'm an entrepreneur and a freelance developer. I also create my own applications ([Nano](http://nphumbert.github.io/nano)) and speak about software development, particularly on my YouTube channel called [Crafties](http://nphumbert.github.io/crafties/).
 
 I am a very accesible person and enjoy to talk to people from all over the world. I speak French, Spanish, English, Portuguese and a bit of Italian.  
 I love my husband, family, sports, music and programming.
