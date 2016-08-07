@@ -6,7 +6,7 @@ comments: true
 categories: Nano
 ---
 
-[Nano by LiteSln](https://nano.litesln.com) is a free application that allows you to manage your invoices. It also permits you to manage a repository of your customers and products and to monitor your performance through statistics.
+[Nano](https://nano.litesln.com) is a free application that allows you to manage your invoices. It also permits you to manage a repository of your customers and products and to monitor your performance through statistics.
 
 <!-- more -->
 
@@ -18,7 +18,7 @@ Nano can be used by anyone who needs to manage invoices.
 
 [Nano](https://nano.litesln.com) was created in order to help Honduran entrepreneurs to adapt to the significant changes that have been made recently to the Honduran legislation.
 Indeed, the Honduran law has been quite complexified over the past few years.
-As a result, Honduran entrepreneurs are lost and do not know exactly all the changes that have been made to the legislation.
+As a result, Honduran entrepreneurs do not know exactly all the changes that have been made to the legislation.
 Therefore, many entrepreneurs don't have valid invoices and some of them saw their entreprises closed as a consequence.
 Nano was then created to help them.
 
