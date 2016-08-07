@@ -31,3 +31,7 @@ _License [CC BY 4.0](https://creativecommons.org/licenses/by/4.0). Please credit
 
 {% img center /images/drafties/mutation_testing.png %}
 
+## #6. Command Query Responsibility Segregation (CQRS)
+
+{% img center /images/drafties/cqrs.png %}
+
