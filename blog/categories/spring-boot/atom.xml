@@ -4,7 +4,7 @@
   <title><![CDATA[Category: spring boot | Nadia Humbert-Labeaumaz]]></title>
   <link href="https://nphumbert.github.io/blog/categories/spring-boot/atom.xml" rel="self"/>
   <link href="https://nphumbert.github.io/"/>
-  <updated>2016-07-14T17:47:07+02:00</updated>
+  <updated>2016-08-08T07:52:11+02:00</updated>
   <id>https://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -12,6 +12,134 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ecrire des tests avec Spring Boot 1.4]]></title>
+    <link href="https://nphumbert.github.io/blog/2016/08/08/ecrire-des-tests-avec-spring-boot-1-dot-4/"/>
+    <updated>2016-08-08T07:11:29+02:00</updated>
+    <id>https://nphumbert.github.io/blog/2016/08/08/ecrire-des-tests-avec-spring-boot-1-dot-4</id>
+    <content type="html"><![CDATA[<p>La version 1.4 de Spring Boot est sortie le 28 juillet 2016. Elle contient notamment des évolutions importantes au niveau de l'écriture des tests.<br/>
+L'objectif de cet article est de voir comment migrer les tests d'un <em>controller</em> Spring MVC en utilisant les nouvelles fonctionnalités apportées par cette version.</p>
+
+<!-- more -->
+
+
+<h2>Modification du pom.xml</h2>
+
+<p>Le starter de test de Spring Boot 1.4 embarque désormais les dépendances vers <a href="http://joel-costigliola.github.io/assertj">AssertJ</a>, <a href="https://github.com/skyscreamer/JSONassert">JSONassert</a> et <a href="https://github.com/jayway/JsonPath">JsonPath</a>. Il est donc possible de supprimer l'appel explicite vers ces dépendances dans notre pom, il suffit d'importer le starter :</p>
+
+<pre><code class="xml">&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
+    &lt;scope&gt;test&lt;/scope&gt;
+&lt;/dependency&gt;
+</code></pre>
+
+<h2>Configuration du test</h2>
+
+<p>Dans Spring Boot 1.3, il est possible d'écrire un test d'intégration d'un <em>controller</em> avec Spring de la manière suivante :</p>
+
+<pre><code class="java">@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(classes = DemoApplication.class)
+@WebAppConfiguration
+public class DemoControllerTest {
+    // ...
+}
+</code></pre>
+
+<p>Le test ci-dessus va charger la classe de configuration Spring Boot <code>DemoApplication</code> à l'intérieur d'un contexte d'application de type <code>WebApplicationContext</code>. Il sera donc possible de <a href="https://nphumbert.github.io/blog/2015/10/31/testing-spring-mvc-controllers">tester le <em>controller</em> avec MockMvc</a>.</p>
+
+<p>Depuis Spring Boot 1.4, l'annotation <code>@SpringBootTest</code>remplace toutes les annotations existantes pour faire des tests d'intégration avec Spring. De plus, le runner JUnit peut être remplacé par <code>SpringRunner</code> qui a été introduit dans la version 4.3 de Spring. Finalement, il n'est plus nécessaire de fournir explicitement la classe de configuration Spring Boot. En effet, la classe annotée avec <code>@SpringBootApplication</code> sera automatiquement utilisée. Le test devient donc :</p>
+
+<pre><code class="java">@RunWith(SpringRunner.class)
+@SpringBootTest
+public class DemoControllerTest {
+    // ...
+}
+</code></pre>
+
+<h2>Gestion des mocks</h2>
+
+<p>Pour tester un <em>controller</em> en isolation, il faut l'instancier en mockant ses dépendances (avec <a href="http://mockito.org">Mockito</a> par exemple) et le fournir au builder de <code>MockMvc</code>.</p>
+
+<p>Avec Spring Boot 1.3, il est possible d'écrire ceci :</p>
+
+<pre><code class="java">@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(classes = DemoApplication.class)
+@WebAppConfiguration
+public class DemoControllerTest {
+
+    private MockMvc mockMvc;
+
+    @Mock
+    private DemoService demoService;
+
+    @InjectMocks
+    private DemoController demoController;
+
+    @Before
+    public void setUp() {
+        Mockito.initMocks(this);
+        this.mockMvc = MockMvcBuilders.standaloneSetup(demoController).build();
+        Mockito.when(demoService.call()).thenReturn(42);
+    }
+}
+</code></pre>
+
+<p>Spring Boot 1.4 permet de mocker les beans Spring avec Mockito grâce à une annotation spécifique. Ainsi, le bean de l'<code>ApplicationContext</code> est remplacé par un <em>mock</em> et Spring se charge donc de l'injecter dans le <em>controller</em>. Le test devient donc le suivant :</p>
+
+<pre><code class="java">@RunWith(SpringRunner.class)
+@SpringBootTest
+public class DemoControllerTest {
+
+    private MockMvc mockMvc;
+
+    @MockBean
+    private DemoService demoService;
+
+    @Autowired
+    private DemoController demoController;
+
+    @Before
+    public void setUp() {
+        this.mockMvc = MockMvcBuilders.standaloneSetup(demoController).build();
+        Mockito.when(demoService.call()).thenReturn(42);
+    }
+}
+</code></pre>
+
+<p>Dans ce test, le contexte d'application est chargé dans son intégralité avec le bean <code>DemoService</code> remplacé par un <em>mock</em>. Le <code>DemoController</code> injecté utilisera donc ce <em>mock</em>.</p>
+
+<h2>Limitation de la configuration chargée</h2>
+
+<p>Dans ce contexte, il n'est pas forcément nécessaire de charger tout le contexte d'application pour tester uniquement le <em>controller</em>.</p>
+
+<p>Spring Boot 1.4 introduit l'annotation <code>@WebMvcTest</code> qui permet de tester spécifiquement des <em>controllers</em> Spring MVC avec <code>MockMvc</code>. Ainsi, seule la configuration Spring MVC sera chargée. Le test précédent peut donc s'écrire de la manière suivante :</p>
+
+<pre><code class="java">@RunWith(SpringRunner.class)
+@WebMvcTest(DemoController.class)
+public class DemoControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private DemoService demoService;
+
+    @Before
+    public void setUp() {
+        Mockito.when(demoService.call()).thenReturn(42);
+    }
+}
+</code></pre>
+
+<p><code>MockMvc</code> n'a plus besoin d'être instancié explicitement dans le <em>setup</em>. Grâce à l'annotation <code>@WebMvcTest</code>, l'instance peut être directement injectée dans le test.</p>
+
+<h2>Conclusion</h2>
+
+<p>Les évolutions apportées par Spring Boot 1.4 au niveau des tests permettent de simplifier l'écriture des tests d'intégration. En effet, il n'y a plus qu'une seule annotation à utiliser (<code>@SpringBootTest</code>). De plus, l'intégration de Mockito dans Spring Boot permet de remplacer directement des beans du contexte d'application par des <em>mocks</em>. Finalement, dans le cadre du test d'un <em>controller</em> Spring MVC avec <code>MockMvc</code>, l'annotation <code>@WebMvcTest</code> permet de ne charger que les beans nécessaires à l'exécution des tests.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Spring Security et Spring Boot]]></title>

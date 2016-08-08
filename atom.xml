@@ -4,7 +4,7 @@
   <title><![CDATA[Nadia Humbert-Labeaumaz]]></title>
   <link href="https://nphumbert.github.io/atom.xml" rel="self"/>
   <link href="https://nphumbert.github.io/"/>
-  <updated>2016-07-14T17:47:07+02:00</updated>
+  <updated>2016-08-08T07:52:11+02:00</updated>
   <id>https://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -12,6 +12,209 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ecrire des tests avec Spring Boot 1.4]]></title>
+    <link href="https://nphumbert.github.io/blog/2016/08/08/ecrire-des-tests-avec-spring-boot-1-dot-4/"/>
+    <updated>2016-08-08T07:11:29+02:00</updated>
+    <id>https://nphumbert.github.io/blog/2016/08/08/ecrire-des-tests-avec-spring-boot-1-dot-4</id>
+    <content type="html"><![CDATA[<p>La version 1.4 de Spring Boot est sortie le 28 juillet 2016. Elle contient notamment des évolutions importantes au niveau de l'écriture des tests.<br/>
+L'objectif de cet article est de voir comment migrer les tests d'un <em>controller</em> Spring MVC en utilisant les nouvelles fonctionnalités apportées par cette version.</p>
+
+<!-- more -->
+
+
+<h2>Modification du pom.xml</h2>
+
+<p>Le starter de test de Spring Boot 1.4 embarque désormais les dépendances vers <a href="http://joel-costigliola.github.io/assertj">AssertJ</a>, <a href="https://github.com/skyscreamer/JSONassert">JSONassert</a> et <a href="https://github.com/jayway/JsonPath">JsonPath</a>. Il est donc possible de supprimer l'appel explicite vers ces dépendances dans notre pom, il suffit d'importer le starter :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;dependency&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-test<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+</span><span class='line'><span class="nt">&lt;/dependency&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Configuration du test</h2>
+
+<p>Dans Spring Boot 1.3, il est possible d'écrire un test d'intégration d'un <em>controller</em> avec Spring de la manière suivante :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@RunWith</span><span class="o">(</span><span class="n">SpringJUnit4ClassRunner</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span><span class='line'><span class="nd">@SpringApplicationConfiguration</span><span class="o">(</span><span class="n">classes</span> <span class="o">=</span> <span class="n">DemoApplication</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span><span class='line'><span class="nd">@WebAppConfiguration</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DemoControllerTest</span> <span class="o">{</span>
+</span><span class='line'>    <span class="c1">// ...</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Le test ci-dessus va charger la classe de configuration Spring Boot <code>DemoApplication</code> à l'intérieur d'un contexte d'application de type <code>WebApplicationContext</code>. Il sera donc possible de <a href="https://nphumbert.github.io/blog/2015/10/31/testing-spring-mvc-controllers">tester le <em>controller</em> avec MockMvc</a>.</p>
+
+<p>Depuis Spring Boot 1.4, l'annotation <code>@SpringBootTest</code>remplace toutes les annotations existantes pour faire des tests d'intégration avec Spring. De plus, le runner JUnit peut être remplacé par <code>SpringRunner</code> qui a été introduit dans la version 4.3 de Spring. Finalement, il n'est plus nécessaire de fournir explicitement la classe de configuration Spring Boot. En effet, la classe annotée avec <code>@SpringBootApplication</code> sera automatiquement utilisée. Le test devient donc :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@RunWith</span><span class="o">(</span><span class="n">SpringRunner</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span><span class='line'><span class="nd">@SpringBootTest</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DemoControllerTest</span> <span class="o">{</span>
+</span><span class='line'>    <span class="c1">// ...</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Gestion des mocks</h2>
+
+<p>Pour tester un <em>controller</em> en isolation, il faut l'instancier en mockant ses dépendances (avec <a href="http://mockito.org">Mockito</a> par exemple) et le fournir au builder de <code>MockMvc</code>.</p>
+
+<p>Avec Spring Boot 1.3, il est possible d'écrire ceci :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@RunWith</span><span class="o">(</span><span class="n">SpringJUnit4ClassRunner</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span><span class='line'><span class="nd">@SpringApplicationConfiguration</span><span class="o">(</span><span class="n">classes</span> <span class="o">=</span> <span class="n">DemoApplication</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span><span class='line'><span class="nd">@WebAppConfiguration</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DemoControllerTest</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">MockMvc</span> <span class="n">mockMvc</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Mock</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">DemoService</span> <span class="n">demoService</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@InjectMocks</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">DemoController</span> <span class="n">demoController</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Before</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setUp</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">Mockito</span><span class="o">.</span><span class="na">initMocks</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">mockMvc</span> <span class="o">=</span> <span class="n">MockMvcBuilders</span><span class="o">.</span><span class="na">standaloneSetup</span><span class="o">(</span><span class="n">demoController</span><span class="o">).</span><span class="na">build</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">Mockito</span><span class="o">.</span><span class="na">when</span><span class="o">(</span><span class="n">demoService</span><span class="o">.</span><span class="na">call</span><span class="o">()).</span><span class="na">thenReturn</span><span class="o">(</span><span class="mi">42</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Spring Boot 1.4 permet de mocker les beans Spring avec Mockito grâce à une annotation spécifique. Ainsi, le bean de l'<code>ApplicationContext</code> est remplacé par un <em>mock</em> et Spring se charge donc de l'injecter dans le <em>controller</em>. Le test devient donc le suivant :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@RunWith</span><span class="o">(</span><span class="n">SpringRunner</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span><span class='line'><span class="nd">@SpringBootTest</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DemoControllerTest</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">MockMvc</span> <span class="n">mockMvc</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@MockBean</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">DemoService</span> <span class="n">demoService</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Autowired</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">DemoController</span> <span class="n">demoController</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Before</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setUp</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">mockMvc</span> <span class="o">=</span> <span class="n">MockMvcBuilders</span><span class="o">.</span><span class="na">standaloneSetup</span><span class="o">(</span><span class="n">demoController</span><span class="o">).</span><span class="na">build</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">Mockito</span><span class="o">.</span><span class="na">when</span><span class="o">(</span><span class="n">demoService</span><span class="o">.</span><span class="na">call</span><span class="o">()).</span><span class="na">thenReturn</span><span class="o">(</span><span class="mi">42</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Dans ce test, le contexte d'application est chargé dans son intégralité avec le bean <code>DemoService</code> remplacé par un <em>mock</em>. Le <code>DemoController</code> injecté utilisera donc ce <em>mock</em>.</p>
+
+<h2>Limitation de la configuration chargée</h2>
+
+<p>Dans ce contexte, il n'est pas forcément nécessaire de charger tout le contexte d'application pour tester uniquement le <em>controller</em>.</p>
+
+<p>Spring Boot 1.4 introduit l'annotation <code>@WebMvcTest</code> qui permet de tester spécifiquement des <em>controllers</em> Spring MVC avec <code>MockMvc</code>. Ainsi, seule la configuration Spring MVC sera chargée. Le test précédent peut donc s'écrire de la manière suivante :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@RunWith</span><span class="o">(</span><span class="n">SpringRunner</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span><span class='line'><span class="nd">@WebMvcTest</span><span class="o">(</span><span class="n">DemoController</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DemoControllerTest</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Autowired</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">MockMvc</span> <span class="n">mockMvc</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@MockBean</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">DemoService</span> <span class="n">demoService</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Before</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setUp</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">Mockito</span><span class="o">.</span><span class="na">when</span><span class="o">(</span><span class="n">demoService</span><span class="o">.</span><span class="na">call</span><span class="o">()).</span><span class="na">thenReturn</span><span class="o">(</span><span class="mi">42</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>MockMvc</code> n'a plus besoin d'être instancié explicitement dans le <em>setup</em>. Grâce à l'annotation <code>@WebMvcTest</code>, l'instance peut être directement injectée dans le test.</p>
+
+<h2>Conclusion</h2>
+
+<p>Les évolutions apportées par Spring Boot 1.4 au niveau des tests permettent de simplifier l'écriture des tests d'intégration. En effet, il n'y a plus qu'une seule annotation à utiliser (<code>@SpringBootTest</code>). De plus, l'intégration de Mockito dans Spring Boot permet de remplacer directement des beans du contexte d'application par des <em>mocks</em>. Finalement, dans le cadre du test d'un <em>controller</em> Spring MVC avec <code>MockMvc</code>, l'annotation <code>@WebMvcTest</code> permet de ne charger que les beans nécessaires à l'exécution des tests.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Refactoring d'une application N-Tiers en utilisant le CQRS]]></title>
@@ -2292,379 +2495,6 @@ Cette méthode est indiquée en surchargeant la méthode <code>configure(HTTPSec
 <h2>Conclusion</h2>
 
 <p>La configuration de Spring Security en Java config est relativement simple et directe. Elle permet de contrôler et de centraliser les accès à toutes les URL de l'application. De plus, il est possible de définir très simplement les URL de login et de logout, Spring Security se chargeant des traitements des requêtes.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Injections de dépendances avec Spring]]></title>
-    <link href="https://nphumbert.github.io/blog/2015/06/14/injections-de-dependances-avec-spring/"/>
-    <updated>2015-06-14T08:35:20+02:00</updated>
-    <id>https://nphumbert.github.io/blog/2015/06/14/injections-de-dependances-avec-spring</id>
-    <content type="html"><![CDATA[<p>Il existe plusieurs méthodes pour injecter une dépendance dans un objet Java :</p>
-
-<ul>
-<li>Injection sur un setter</li>
-<li>Injection sur le constructeur</li>
-<li>Injection directe sur la déclaration de l'attribut</li>
-</ul>
-
-
-<p>Cet article a pour objectif de définir ces différentes méthodes, de décrire leurs avantages et inconvénients et indiquer leurs cas d'utilisation.</p>
-
-<!-- more -->
-
-
-<p>Dans la plupart des applications Java d'entreprise, il y a des services ayant besoin de DAO pour accéder à la base de données. Le code suivant est une illustration de ce cas :</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserServiceImpl</span> <span class="kd">implements</span> <span class="n">UserService</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="kd">private</span> <span class="n">UserDao</span> <span class="n">userDao</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="nd">@Override</span>
-</span><span class='line'>   <span class="kd">public</span> <span class="n">User</span> <span class="nf">save</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">User</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="c1">// NullPointerException car userDao n&#39;est pas injecté.</span>
-</span><span class='line'>      <span class="k">return</span> <span class="n">userDao</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
-</span><span class='line'>   <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Dans le cadre de cet article, l'annotation <code>@Autowired</code> de Spring sera utilisée pour injecter <code>userDao</code> dans le service.</p>
-
-<h2>Injection sur un setter</h2>
-
-<p>Il est possible de créer un setter et de l'annoter avec <code>@Autowired</code>. Spring va alors utiliser ce setter pour injecter <code>userDao</code> dans le service.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserServiceImpl</span> <span class="kd">implements</span> <span class="n">UserService</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="kd">private</span> <span class="n">UserDao</span> <span class="n">userDao</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="nd">@Autowired</span>
-</span><span class='line'>   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setUserDao</span><span class="o">(</span><span class="n">UserDao</span> <span class="n">userDao</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>      <span class="k">this</span><span class="o">.</span><span class="na">userDao</span> <span class="o">=</span> <span class="n">userDao</span><span class="o">;</span>
-</span><span class='line'>   <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="nd">@Override</span>
-</span><span class='line'>   <span class="kd">public</span> <span class="n">User</span> <span class="nf">save</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">User</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="c1">// userDao est injecté via le setter annoté.</span>
-</span><span class='line'>      <span class="k">return</span> <span class="n">userDao</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
-</span><span class='line'>   <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Cette méthode a pour avantage de rendre le <code>userDao</code> facilement injectable dans un test unitaire sans avoir à utiliser de framework particulier. Comme montré dans l'exemple ci-après :</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserServiceTest</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="nd">@Test</span>
-</span><span class='line'>   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">test_save</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="c1">// given</span>
-</span><span class='line'>      <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;Martin&quot;</span><span class="o">;</span>
-</span><span class='line'>      <span class="n">UserService</span> <span class="n">userService</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">UserServiceImpl</span><span class="o">();</span>
-</span><span class='line'>      <span class="n">userService</span><span class="o">.</span><span class="na">setUserDao</span><span class="o">(</span><span class="k">new</span> <span class="nf">FakeUserDaoImpl</span><span class="o">());</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="c1">// when</span>
-</span><span class='line'>      <span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="n">userService</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="c1">// then</span>
-</span><span class='line'>      <span class="n">assertThat</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getName</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="kd">private</span> <span class="kd">class</span> <span class="nc">FakeUserDaoImpl</span> <span class="kd">implements</span> <span class="n">UserDao</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="nd">@Override</span>
-</span><span class='line'>      <span class="kd">public</span> <span class="n">User</span> <span class="nf">save</span><span class="o">(</span><span class="n">User</span> <span class="n">user</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>         <span class="k">return</span> <span class="n">user</span><span class="o">;</span>
-</span><span class='line'>      <span class="o">}</span>
-</span><span class='line'>   <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Cependant, elle a pour inconvénient de rendre l'attribut <code>userDao</code> du service modifiable par tous les objets qui disposent d'une instance du service (ils peuvent donc même le rendre <code>null</code>).</p>
-
-<h2>Injection sur le constructeur</h2>
-
-<p>Dans cette méthode d'injection, le <code>userDao</code> est injecté dans le service via son constructeur annoté avec <code>@Autowired</code>.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserServiceImpl</span> <span class="kd">implements</span> <span class="n">UserService</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="kd">private</span> <span class="kd">final</span> <span class="n">UserDao</span> <span class="n">userDao</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="nd">@Autowired</span>
-</span><span class='line'>   <span class="kd">public</span> <span class="nf">UserServiceImpl</span><span class="o">(</span><span class="n">UserDao</span> <span class="n">userDao</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>      <span class="k">this</span><span class="o">.</span><span class="na">userDao</span> <span class="o">=</span> <span class="n">userDao</span><span class="o">;</span>
-</span><span class='line'>   <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="nd">@Override</span>
-</span><span class='line'>   <span class="kd">public</span> <span class="n">User</span> <span class="nf">save</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">User</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="c1">// userDao est injecté via le constructeur annoté.</span>
-</span><span class='line'>      <span class="k">return</span> <span class="n">userDao</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
-</span><span class='line'>   <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Comme la méthode d'injection à l'aide du setter, celle-ci permet de rendre le <code>userDao</code> facilement injectable dans un test unitaire.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserServiceTest</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="nd">@Test</span>
-</span><span class='line'>   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">test_save</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="c1">// given</span>
-</span><span class='line'>      <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;Martin&quot;</span><span class="o">;</span>
-</span><span class='line'>      <span class="n">UserService</span> <span class="n">userService</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">UserServiceImpl</span><span class="o">(</span><span class="k">new</span> <span class="nf">FakeUserDaoImpl</span><span class="o">());</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="c1">// when</span>
-</span><span class='line'>      <span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="n">userService</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="c1">// then</span>
-</span><span class='line'>      <span class="n">assertThat</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getName</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="kd">private</span> <span class="kd">class</span> <span class="nc">FakeUserDaoImpl</span> <span class="kd">implements</span> <span class="n">UserDao</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="nd">@Override</span>
-</span><span class='line'>      <span class="kd">public</span> <span class="n">User</span> <span class="nf">save</span><span class="o">(</span><span class="n">User</span> <span class="n">user</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>         <span class="k">return</span> <span class="n">user</span><span class="o">;</span>
-</span><span class='line'>      <span class="o">}</span>
-</span><span class='line'>   <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>De plus, elle permet également d'assurer que le <code>userDao</code> ne sera jamais modifié. Il suffirait donc de mettre un contrôle de nullité dans le constructeur pour certifier qu'il ne sera jamais <code>null</code>.</p>
-
-<p>Cependant, elle a pour inconvénient d'imposer la création de la dépendance dès l'instanciation du service même si elle n'est pas nécessaire.</p>
-
-<h2>Injection sur la déclaration de l'attribut</h2>
-
-<p>Cette méthode consiste à ajouter l'annotation <code>@Autowired</code> directement sur la déclaration de l'attribut.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserServiceImpl</span> <span class="kd">implements</span> <span class="n">UserService</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="nd">@Autowired</span>
-</span><span class='line'>   <span class="kd">private</span> <span class="n">UserDao</span> <span class="n">userDao</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="nd">@Override</span>
-</span><span class='line'>   <span class="kd">public</span> <span class="n">User</span> <span class="nf">save</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">User</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="c1">// userDao est injecté via l&#39;annotation @Autowired.</span>
-</span><span class='line'>      <span class="k">return</span> <span class="n">userDao</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
-</span><span class='line'>   <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Cette manière d'injecter a l'avantage d'être simple à utiliser.</p>
-
-<p>Néanmoins, elle n'est pas conseillée car elle force à employer la réfléxion, ce qui la rend notamment plus compliquée à tester (utilisation obligatoire d'un framework de test).</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserServiceTest</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="nd">@Test</span>
-</span><span class='line'>   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">test_save</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="c1">// given</span>
-</span><span class='line'>      <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;Martin&quot;</span><span class="o">;</span>
-</span><span class='line'>      <span class="n">UserService</span> <span class="n">userService</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">UserServiceImpl</span><span class="o">();</span>
-</span><span class='line'>      <span class="n">UserDao</span> <span class="n">fakeUserDao</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">FakeUserDaoImpl</span><span class="o">();</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="c1">// Utilisation de la classe ReflectionTestUtils de Spring.</span>
-</span><span class='line'>      <span class="n">ReflectionTestUtils</span><span class="o">.</span><span class="na">setField</span><span class="o">(</span><span class="n">userService</span><span class="o">,</span> <span class="s">&quot;userDao&quot;</span><span class="o">,</span> <span class="n">fakeUserDao</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="c1">// when</span>
-</span><span class='line'>      <span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="n">userService</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="c1">// then</span>
-</span><span class='line'>      <span class="n">assertThat</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getName</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="kd">private</span> <span class="kd">class</span> <span class="nc">FakeUserDaoImpl</span> <span class="kd">implements</span> <span class="n">UserDao</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="nd">@Override</span>
-</span><span class='line'>      <span class="kd">public</span> <span class="n">User</span> <span class="nf">save</span><span class="o">(</span><span class="n">User</span> <span class="n">user</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>         <span class="k">return</span> <span class="n">user</span><span class="o">;</span>
-</span><span class='line'>      <span class="o">}</span>
-</span><span class='line'>   <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>De plus, elle rompt le principe de la programmation orientée objet qui stipule que les objets sont responsables de leurs attributs privés. En effet, l'attribut privé est ici manipulé directement par Spring ou le framework de test choisi.</p>
-
-<h2>Conclusion</h2>
-
-<p>L'injection d'un attribut d'un objet peut se faire de différentes manières.
-L'injection par setter a pour avantage de rendre le code facilement testable. L'injection par constructeur a, en plus, l'avantage de pouvoir contrôler la nullité de l'attribut. Elle est donc conseilée pour les attributs obligatoires. Finalement, l'injection sur la déclaration de l'attribut est déconseilée car elle rend le code moins facilement testable et crée des dépendances cachées.</p>
-
-<p>La testabilité du code est importante. En effet, un code non testable est signe d'un code qui sera difficile à comprendre et à maintenir.</p>
 ]]></content>
   </entry>
   

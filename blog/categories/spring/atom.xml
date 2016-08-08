@@ -4,7 +4,7 @@
   <title><![CDATA[Category: spring | Nadia Humbert-Labeaumaz]]></title>
   <link href="https://nphumbert.github.io/blog/categories/spring/atom.xml" rel="self"/>
   <link href="https://nphumbert.github.io/"/>
-  <updated>2016-07-14T17:47:07+02:00</updated>
+  <updated>2016-08-08T07:52:11+02:00</updated>
   <id>https://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -12,6 +12,134 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ecrire des tests avec Spring Boot 1.4]]></title>
+    <link href="https://nphumbert.github.io/blog/2016/08/08/ecrire-des-tests-avec-spring-boot-1-dot-4/"/>
+    <updated>2016-08-08T07:11:29+02:00</updated>
+    <id>https://nphumbert.github.io/blog/2016/08/08/ecrire-des-tests-avec-spring-boot-1-dot-4</id>
+    <content type="html"><![CDATA[<p>La version 1.4 de Spring Boot est sortie le 28 juillet 2016. Elle contient notamment des évolutions importantes au niveau de l'écriture des tests.<br/>
+L'objectif de cet article est de voir comment migrer les tests d'un <em>controller</em> Spring MVC en utilisant les nouvelles fonctionnalités apportées par cette version.</p>
+
+<!-- more -->
+
+
+<h2>Modification du pom.xml</h2>
+
+<p>Le starter de test de Spring Boot 1.4 embarque désormais les dépendances vers <a href="http://joel-costigliola.github.io/assertj">AssertJ</a>, <a href="https://github.com/skyscreamer/JSONassert">JSONassert</a> et <a href="https://github.com/jayway/JsonPath">JsonPath</a>. Il est donc possible de supprimer l'appel explicite vers ces dépendances dans notre pom, il suffit d'importer le starter :</p>
+
+<pre><code class="xml">&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
+    &lt;scope&gt;test&lt;/scope&gt;
+&lt;/dependency&gt;
+</code></pre>
+
+<h2>Configuration du test</h2>
+
+<p>Dans Spring Boot 1.3, il est possible d'écrire un test d'intégration d'un <em>controller</em> avec Spring de la manière suivante :</p>
+
+<pre><code class="java">@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(classes = DemoApplication.class)
+@WebAppConfiguration
+public class DemoControllerTest {
+    // ...
+}
+</code></pre>
+
+<p>Le test ci-dessus va charger la classe de configuration Spring Boot <code>DemoApplication</code> à l'intérieur d'un contexte d'application de type <code>WebApplicationContext</code>. Il sera donc possible de <a href="https://nphumbert.github.io/blog/2015/10/31/testing-spring-mvc-controllers">tester le <em>controller</em> avec MockMvc</a>.</p>
+
+<p>Depuis Spring Boot 1.4, l'annotation <code>@SpringBootTest</code>remplace toutes les annotations existantes pour faire des tests d'intégration avec Spring. De plus, le runner JUnit peut être remplacé par <code>SpringRunner</code> qui a été introduit dans la version 4.3 de Spring. Finalement, il n'est plus nécessaire de fournir explicitement la classe de configuration Spring Boot. En effet, la classe annotée avec <code>@SpringBootApplication</code> sera automatiquement utilisée. Le test devient donc :</p>
+
+<pre><code class="java">@RunWith(SpringRunner.class)
+@SpringBootTest
+public class DemoControllerTest {
+    // ...
+}
+</code></pre>
+
+<h2>Gestion des mocks</h2>
+
+<p>Pour tester un <em>controller</em> en isolation, il faut l'instancier en mockant ses dépendances (avec <a href="http://mockito.org">Mockito</a> par exemple) et le fournir au builder de <code>MockMvc</code>.</p>
+
+<p>Avec Spring Boot 1.3, il est possible d'écrire ceci :</p>
+
+<pre><code class="java">@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(classes = DemoApplication.class)
+@WebAppConfiguration
+public class DemoControllerTest {
+
+    private MockMvc mockMvc;
+
+    @Mock
+    private DemoService demoService;
+
+    @InjectMocks
+    private DemoController demoController;
+
+    @Before
+    public void setUp() {
+        Mockito.initMocks(this);
+        this.mockMvc = MockMvcBuilders.standaloneSetup(demoController).build();
+        Mockito.when(demoService.call()).thenReturn(42);
+    }
+}
+</code></pre>
+
+<p>Spring Boot 1.4 permet de mocker les beans Spring avec Mockito grâce à une annotation spécifique. Ainsi, le bean de l'<code>ApplicationContext</code> est remplacé par un <em>mock</em> et Spring se charge donc de l'injecter dans le <em>controller</em>. Le test devient donc le suivant :</p>
+
+<pre><code class="java">@RunWith(SpringRunner.class)
+@SpringBootTest
+public class DemoControllerTest {
+
+    private MockMvc mockMvc;
+
+    @MockBean
+    private DemoService demoService;
+
+    @Autowired
+    private DemoController demoController;
+
+    @Before
+    public void setUp() {
+        this.mockMvc = MockMvcBuilders.standaloneSetup(demoController).build();
+        Mockito.when(demoService.call()).thenReturn(42);
+    }
+}
+</code></pre>
+
+<p>Dans ce test, le contexte d'application est chargé dans son intégralité avec le bean <code>DemoService</code> remplacé par un <em>mock</em>. Le <code>DemoController</code> injecté utilisera donc ce <em>mock</em>.</p>
+
+<h2>Limitation de la configuration chargée</h2>
+
+<p>Dans ce contexte, il n'est pas forcément nécessaire de charger tout le contexte d'application pour tester uniquement le <em>controller</em>.</p>
+
+<p>Spring Boot 1.4 introduit l'annotation <code>@WebMvcTest</code> qui permet de tester spécifiquement des <em>controllers</em> Spring MVC avec <code>MockMvc</code>. Ainsi, seule la configuration Spring MVC sera chargée. Le test précédent peut donc s'écrire de la manière suivante :</p>
+
+<pre><code class="java">@RunWith(SpringRunner.class)
+@WebMvcTest(DemoController.class)
+public class DemoControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private DemoService demoService;
+
+    @Before
+    public void setUp() {
+        Mockito.when(demoService.call()).thenReturn(42);
+    }
+}
+</code></pre>
+
+<p><code>MockMvc</code> n'a plus besoin d'être instancié explicitement dans le <em>setup</em>. Grâce à l'annotation <code>@WebMvcTest</code>, l'instance peut être directement injectée dans le test.</p>
+
+<h2>Conclusion</h2>
+
+<p>Les évolutions apportées par Spring Boot 1.4 au niveau des tests permettent de simplifier l'écriture des tests d'intégration. En effet, il n'y a plus qu'une seule annotation à utiliser (<code>@SpringBootTest</code>). De plus, l'intégration de Mockito dans Spring Boot permet de remplacer directement des beans du contexte d'application par des <em>mocks</em>. Finalement, dans le cadre du test d'un <em>controller</em> Spring MVC avec <code>MockMvc</code>, l'annotation <code>@WebMvcTest</code> permet de ne charger que les beans nécessaires à l'exécution des tests.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Testing Spring MVC Controllers]]></title>
@@ -338,226 +466,6 @@ protected void configure(HttpSecurity http) throws Exception {
 <h2>Conclusion</h2>
 
 <p>La configuration de Spring Security en Java config est relativement simple et directe. Elle permet de contrôler et de centraliser les accès à toutes les URL de l'application. De plus, il est possible de définir très simplement les URL de login et de logout, Spring Security se chargeant des traitements des requêtes.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Injections de dépendances avec Spring]]></title>
-    <link href="https://nphumbert.github.io/blog/2015/06/14/injections-de-dependances-avec-spring/"/>
-    <updated>2015-06-14T08:35:20+02:00</updated>
-    <id>https://nphumbert.github.io/blog/2015/06/14/injections-de-dependances-avec-spring</id>
-    <content type="html"><![CDATA[<p>Il existe plusieurs méthodes pour injecter une dépendance dans un objet Java :</p>
-
-<ul>
-<li>Injection sur un setter</li>
-<li>Injection sur le constructeur</li>
-<li>Injection directe sur la déclaration de l'attribut</li>
-</ul>
-
-
-<p>Cet article a pour objectif de définir ces différentes méthodes, de décrire leurs avantages et inconvénients et indiquer leurs cas d'utilisation.</p>
-
-<!-- more -->
-
-
-<p>Dans la plupart des applications Java d'entreprise, il y a des services ayant besoin de DAO pour accéder à la base de données. Le code suivant est une illustration de ce cas :</p>
-
-<pre><code class="java">public class UserServiceImpl implements UserService {
-
-   private UserDao userDao;
-
-   @Override
-   public User save(String name) {
-
-      User user = new User(name);
-
-      // NullPointerException car userDao n'est pas injecté.
-      return userDao.save(user);
-   }
-}
-</code></pre>
-
-<p>Dans le cadre de cet article, l'annotation <code>@Autowired</code> de Spring sera utilisée pour injecter <code>userDao</code> dans le service.</p>
-
-<h2>Injection sur un setter</h2>
-
-<p>Il est possible de créer un setter et de l'annoter avec <code>@Autowired</code>. Spring va alors utiliser ce setter pour injecter <code>userDao</code> dans le service.</p>
-
-<pre><code class="java">public class UserServiceImpl implements UserService {
-
-   private UserDao userDao;
-
-   @Autowired
-   public void setUserDao(UserDao userDao) {
-      this.userDao = userDao;
-   }
-
-   @Override
-   public User save(String name) {
-
-      User user = new User(name);
-
-      // userDao est injecté via le setter annoté.
-      return userDao.save(user);
-   }
-}
-</code></pre>
-
-<p>Cette méthode a pour avantage de rendre le <code>userDao</code> facilement injectable dans un test unitaire sans avoir à utiliser de framework particulier. Comme montré dans l'exemple ci-après :</p>
-
-<pre><code class="java">public class UserServiceTest {
-
-   @Test
-   public void test_save() {
-
-      // given
-      String name = "Martin";
-      UserService userService = new UserServiceImpl();
-      userService.setUserDao(new FakeUserDaoImpl());
-
-      // when
-      User user = userService.save(name);
-
-      // then
-      assertThat(user.getName()).isEqualTo(name);
-
-   }
-
-   private class FakeUserDaoImpl implements UserDao {
-
-      @Override
-      public User save(User user) {
-         return user;
-      }
-   }
-
-}
-</code></pre>
-
-<p>Cependant, elle a pour inconvénient de rendre l'attribut <code>userDao</code> du service modifiable par tous les objets qui disposent d'une instance du service (ils peuvent donc même le rendre <code>null</code>).</p>
-
-<h2>Injection sur le constructeur</h2>
-
-<p>Dans cette méthode d'injection, le <code>userDao</code> est injecté dans le service via son constructeur annoté avec <code>@Autowired</code>.</p>
-
-<pre><code class="java">public class UserServiceImpl implements UserService {
-
-   private final UserDao userDao;
-
-   @Autowired
-   public UserServiceImpl(UserDao userDao) {
-      this.userDao = userDao;
-   }
-
-   @Override
-   public User save(String name) {
-
-      User user = new User(name);
-
-      // userDao est injecté via le constructeur annoté.
-      return userDao.save(user);
-   }
-}
-</code></pre>
-
-<p>Comme la méthode d'injection à l'aide du setter, celle-ci permet de rendre le <code>userDao</code> facilement injectable dans un test unitaire.</p>
-
-<pre><code class="java">public class UserServiceTest {
-
-   @Test
-   public void test_save() {
-
-      // given
-      String name = "Martin";
-      UserService userService = new UserServiceImpl(new FakeUserDaoImpl());
-
-      // when
-      User user = userService.save(name);
-
-      // then
-      assertThat(user.getName()).isEqualTo(name);
-
-   }
-
-   private class FakeUserDaoImpl implements UserDao {
-
-      @Override
-      public User save(User user) {
-         return user;
-      }
-   }
-
-}
-</code></pre>
-
-<p>De plus, elle permet également d'assurer que le <code>userDao</code> ne sera jamais modifié. Il suffirait donc de mettre un contrôle de nullité dans le constructeur pour certifier qu'il ne sera jamais <code>null</code>.</p>
-
-<p>Cependant, elle a pour inconvénient d'imposer la création de la dépendance dès l'instanciation du service même si elle n'est pas nécessaire.</p>
-
-<h2>Injection sur la déclaration de l'attribut</h2>
-
-<p>Cette méthode consiste à ajouter l'annotation <code>@Autowired</code> directement sur la déclaration de l'attribut.</p>
-
-<pre><code class="java">public class UserServiceImpl implements UserService {
-
-   @Autowired
-   private UserDao userDao;
-
-   @Override
-   public User save(String name) {
-
-      User user = new User(name);
-
-      // userDao est injecté via l'annotation @Autowired.
-      return userDao.save(user);
-   }
-}
-</code></pre>
-
-<p>Cette manière d'injecter a l'avantage d'être simple à utiliser.</p>
-
-<p>Néanmoins, elle n'est pas conseillée car elle force à employer la réfléxion, ce qui la rend notamment plus compliquée à tester (utilisation obligatoire d'un framework de test).</p>
-
-<pre><code class="java">public class UserServiceTest {
-
-   @Test
-   public void test_save() {
-
-      // given
-      String name = "Martin";
-      UserService userService = new UserServiceImpl();
-      UserDao fakeUserDao = new FakeUserDaoImpl();
-
-      // Utilisation de la classe ReflectionTestUtils de Spring.
-      ReflectionTestUtils.setField(userService, "userDao", fakeUserDao);
-
-      // when
-      User user = userService.save(name);
-
-      // then
-      assertThat(user.getName()).isEqualTo(name);
-
-   }
-
-   private class FakeUserDaoImpl implements UserDao {
-
-      @Override
-      public User save(User user) {
-         return user;
-      }
-   }
-
-}
-</code></pre>
-
-<p>De plus, elle rompt le principe de la programmation orientée objet qui stipule que les objets sont responsables de leurs attributs privés. En effet, l'attribut privé est ici manipulé directement par Spring ou le framework de test choisi.</p>
-
-<h2>Conclusion</h2>
-
-<p>L'injection d'un attribut d'un objet peut se faire de différentes manières.
-L'injection par setter a pour avantage de rendre le code facilement testable. L'injection par constructeur a, en plus, l'avantage de pouvoir contrôler la nullité de l'attribut. Elle est donc conseilée pour les attributs obligatoires. Finalement, l'injection sur la déclaration de l'attribut est déconseilée car elle rend le code moins facilement testable et crée des dépendances cachées.</p>
-
-<p>La testabilité du code est importante. En effet, un code non testable est signe d'un code qui sera difficile à comprendre et à maintenir.</p>
 ]]></content>
   </entry>
   
