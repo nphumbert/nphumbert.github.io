@@ -4,7 +4,7 @@
   <title><![CDATA[Nadia Humbert-Labeaumaz]]></title>
   <link href="https://nphumbert.github.io/atom.xml" rel="self"/>
   <link href="https://nphumbert.github.io/"/>
-  <updated>2016-09-18T18:56:59+02:00</updated>
+  <updated>2016-12-17T18:42:37+01:00</updated>
   <id>https://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -12,6 +12,278 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Gérer les dépendances circulaires]]></title>
+    <link href="https://nphumbert.github.io/blog/2016/12/17/gerer-les-dependances-circulaires/"/>
+    <updated>2016-12-17T18:31:18+01:00</updated>
+    <id>https://nphumbert.github.io/blog/2016/12/17/gerer-les-dependances-circulaires</id>
+    <content type="html"><![CDATA[<p>Durant mon travail, j'ai rencontré des dépendances circulaires dans une application sur laquelle je suis intervenue. Dans sa plus simple forme, il s'agit de deux classes qui dépendent l'une de l'autre.
+Ceci est, selon moi, un problème pour plusieurs raisons. L'objectif de cet article est de montrer ce qu'est une dépendance circulaire, en quoi cela peut poser problème, et comment les éliminer.</p>
+
+<!-- more -->
+
+
+<h2>Cas d'étude</h2>
+
+<p>Le code ci-dessous présente un cas simple de dépendance circulaire.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">class</span> <span class="nc">A</span> <span class="o">{</span>
+</span><span class='line'>  <span class="kd">private</span> <span class="kd">final</span> <span class="n">B</span> <span class="n">b</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">A</span><span class="o">(</span><span class="n">B</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">this</span><span class="o">.</span><span class="na">b</span> <span class="o">=</span> <span class="n">b</span><span class="o">;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kt">void</span> <span class="nf">doSomething</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">b</span><span class="o">.</span><span class="na">doSomethingGreat</span><span class="o">();</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kt">void</span> <span class="nf">doSomethingAwesome</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Doing something awesome!&quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">class</span> <span class="nc">B</span> <span class="o">{</span>
+</span><span class='line'>  <span class="kd">private</span> <span class="n">A</span> <span class="n">a</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kt">void</span> <span class="nf">setA</span><span class="o">(</span><span class="n">A</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">this</span><span class="o">.</span><span class="na">a</span> <span class="o">=</span> <span class="n">a</span><span class="o">;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kt">void</span> <span class="nf">doSomething</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">a</span><span class="o">.</span><span class="na">doSomethingAwesome</span><span class="o">();</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kt">void</span> <span class="nf">doSomethingGreat</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Doing something great!&quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Problèmes associés</h2>
+
+<h3>Instanciation de b</h3>
+
+<p>Le code suivant illustre l'utilisation de <code>B</code> :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">B</span> <span class="n">b</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">B</span><span class="o">();</span> <span class="c1">// 1</span>
+</span><span class='line'><span class="n">A</span> <span class="n">a</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">A</span><span class="o">(</span><span class="n">b</span><span class="o">);</span>
+</span><span class='line'><span class="n">b</span><span class="o">.</span><span class="na">setA</span><span class="o">(</span><span class="n">a</span><span class="o">);</span> <span class="c1">// 2</span>
+</span><span class='line'><span class="n">b</span><span class="o">.</span><span class="na">doSomething</span><span class="o">();</span> <span class="c1">// 3</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Nous pouvons observer que la classe <code>B</code> ne peut pas être utilisée directement après son instanciation (<code>1</code>). Elle est dans un état incohérent car il est impératif de setter l'instance de <code>A</code> (<code>2</code>) afin de pouvoir l'utiliser. Sinon, une exception de type <code>NullPointerException</code> sera remontée lors de l'appel de la méthode <code>doSomething</code> (<code>3</code>). Cette opération (<code>2</code>) peut facilement être oubliée. De plus, si l'appel de la méthode (<code>3</code>) intervient bien plus tard, cet oubli peut ne pas être détecté immédiatemment.</p>
+
+<h3>Immuabilité de B</h3>
+
+<p>Un autre inconvénient est que <code>B</code> n'est pas immuable. En effet, une fois instancié, il est possible de modifier son état en appelant autant de fois que l'on veut la méthode <code>setA</code>.
+Pour rendre <code>B</code> immuable, il faudrait supprimer le setter, rendre l'attribut <code>a</code> <code>final</code> et le passer en paramètre du constructeur. Ceci est impossible actuellement à cause de la dépendance circulaire.</p>
+
+<h3>Fort couplage</h3>
+
+<p>Le fort couplage introduit entre les deux classes peut être un signe qu'il y a un problème de séparation des responsabilités. Il est, par exemple, possible que les deux classes partagent la même responsabilité et qu'elles puissent donc être fusionnées. Une autre possibilité est qu'une troisième responsabilité soit présente et qu'elle doive être extraite dans une classe séparée.</p>
+
+<h2>Solutions envisageables</h2>
+
+<p>Dans le contexte de mon travail, les solutions que j'ai dû adopter étaient relativement simples. Ces solutions seront décrites par la suite.</p>
+
+<h3>Déplacer le comportement dans une des deux classes</h3>
+
+<p>Il est possible que le comportement de <code>doSomethingAwesome</code> soit lié uniquement à la classe <code>B</code>. Dans ce cas, il est possible de déplacer cette méthode dans <code>B</code> :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">class</span> <span class="nc">A</span> <span class="o">{</span>
+</span><span class='line'>  <span class="kd">private</span> <span class="kd">final</span> <span class="n">B</span> <span class="n">b</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">A</span><span class="o">(</span><span class="n">B</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">this</span><span class="o">.</span><span class="na">b</span> <span class="o">=</span> <span class="n">b</span><span class="o">;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kt">void</span> <span class="nf">doSomething</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">b</span><span class="o">.</span><span class="na">doSomethingGreat</span><span class="o">();</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kt">void</span> <span class="nf">doSomethingAwesome</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">b</span><span class="o">.</span><span class="na">doSomethingAwesome</span><span class="o">();</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">class</span> <span class="nc">B</span> <span class="o">{</span>
+</span><span class='line'>  <span class="kt">void</span> <span class="nf">doSomething</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">doSomethingAwesome</span><span class="o">();</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kt">void</span> <span class="nf">doSomethingGreat</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Doing something great!&quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kt">void</span> <span class="nf">doSomethingAwesome</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Doing something awesome!&quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Il n'y a donc plus de dépendance circulaire car <code>B</code> ne dépend plus de <code>A</code>. Le code est ainsi plus SOLID car la classe <code>A</code> n'a plus de responsabilités qui ne lui appartiennent pas.</p>
+
+<p>Le code ci-dessus a été écrit de manière à conserver l'API de <code>A</code>. La méthode <code>doSomethingAwesome</code> de <code>A</code> pourrait donc être supprimée si elle n'est désormais plus appelée.</p>
+
+<h3>Créer une nouvelle classe</h3>
+
+<p>Si la méthode <code>doSomethingAwesome</code> n'est une responsabilité ni de <code>A</code> ni de <code>B</code>, elle doit être extraite dans une classe séparée :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">class</span> <span class="nc">Awesome</span> <span class="o">{</span>
+</span><span class='line'>  <span class="kt">void</span> <span class="nf">doSomethingAwesome</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Doing something awesome!&quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">class</span> <span class="nc">A</span> <span class="o">{</span>
+</span><span class='line'>  <span class="kd">private</span> <span class="kd">final</span> <span class="n">B</span> <span class="n">b</span><span class="o">;</span>
+</span><span class='line'>  <span class="kd">private</span> <span class="kd">final</span> <span class="n">Awesome</span> <span class="n">awesome</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">A</span><span class="o">(</span><span class="n">B</span> <span class="n">b</span><span class="o">,</span> <span class="n">Awesome</span> <span class="n">awesome</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">this</span><span class="o">.</span><span class="na">b</span> <span class="o">=</span> <span class="n">b</span><span class="o">;</span>
+</span><span class='line'>    <span class="k">this</span><span class="o">.</span><span class="na">awesome</span> <span class="o">=</span> <span class="n">awesome</span><span class="o">;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kt">void</span> <span class="nf">doSomething</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">b</span><span class="o">.</span><span class="na">doSomethingGreat</span><span class="o">();</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kt">void</span> <span class="nf">doSomethingAwesome</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">awesome</span><span class="o">.</span><span class="na">doSomethingAwesome</span><span class="o">();</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">class</span> <span class="nc">B</span> <span class="o">{</span>
+</span><span class='line'>  <span class="kd">private</span> <span class="kd">final</span> <span class="n">Awesome</span> <span class="n">awesome</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">B</span><span class="o">(</span><span class="n">Awesome</span> <span class="n">awesome</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">this</span><span class="o">.</span><span class="na">awesome</span> <span class="o">=</span> <span class="n">awesome</span><span class="o">;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kt">void</span> <span class="nf">doSomething</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">awesome</span><span class="o">.</span><span class="na">doSomethingAwesome</span><span class="o">();</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kt">void</span> <span class="nf">doSomethingGreat</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Doing something great!&quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Conclusion</h2>
+
+<p>Les dépendances circulaires peuvent être un signe de mauvais design. En effet, elles introduisent un fort couplage, provoquent l'instanciation d'objets incohérents et empêchent l'immuabilité de ceux-ci. Il est donc nécessaire de les analyser afin de bien comprendre leur origine et de les corriger si besoin. Dans cet article, deux manières de faire ont été présentées.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Ecrire des tests avec Spring Boot 1.4]]></title>
@@ -2341,160 +2613,6 @@ Cette solution n'est pas toujours adpatée pour des raisons de confidentialité,
 <p>Les <em>flash attributes</em> de Spring MVC peuvent être utilisés pour transférer des paramètres à travers une redirection. Ce mécanisme permet notamment d'implémenter très facilement une confirmation de soumission de formulaire à l'utilisateur.</p>
 
 <p>Le code source du projet de démonstration peut être trouvé sur <a href="https://github.com/nphumbert/demo-flash-attributes">GitHub</a>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Spring Security et Spring Boot]]></title>
-    <link href="https://nphumbert.github.io/blog/2015/06/21/spring-security-et-spring-boot/"/>
-    <updated>2015-06-21T11:51:37+02:00</updated>
-    <id>https://nphumbert.github.io/blog/2015/06/21/spring-security-et-spring-boot</id>
-    <content type="html"><![CDATA[<p>Depuis Spring 3.1, il est possible de configurer Spring en Java.
-La configuration Java de Spring Security est supportée depuis sa version 3.2 (<a href="http://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#jc">source</a>).</p>
-
-<p>L'objectif de cet article est de montrer comment configurer Spring Security en Java config, dans une application Spring Boot, avec une base de données qui contient les utilisateurs et leur mot de passe hashé. De plus, une authentification HTTP basic sera mise en place.</p>
-
-<!-- more -->
-
-
-<h2>Créer la classe de configuration</h2>
-
-<p>La classe Java qui doit gérer la configuration doit être munie de l'annotation <code>@Configuration</code> définie par Spring. De plus, elle doit étendre la classe <code>WebSecurityConfigurerAdapter</code>. Spring Boot mettant en place une configuration par défaut, il faut donc finalement utiliser l'annotation <code>@Order</code> afin d'indiquer que la nouvelle configuration doit être utilisée.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Configuration</span>
-</span><span class='line'><span class="nd">@Order</span><span class="o">(</span><span class="n">SecurityProperties</span><span class="o">.</span><span class="na">ACCESS_OVERRIDE_ORDER</span><span class="o">)</span>
-</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SecurityConfiguration</span> <span class="kd">extends</span> <span class="n">WebSecurityConfigurerAdapter</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Configurer Spring Security pour utiliser une base de données</h2>
-
-<p>Pour indiquer à Spring la méthode d'authentification, il faut redéfinir la méthode <code>configure(AuthenticationManagerBuilder)</code>. Spring Security offre une API <em>fluent</em> pour configurer une authentification à partir de l'objet <code>AuthenticationManagerBuilder</code>.</p>
-
-<p>Le code ci-dessous permet de configurer l'authentification en utilisant une base de données.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Configuration</span>
-</span><span class='line'><span class="nd">@Order</span><span class="o">(</span><span class="n">SecurityProperties</span><span class="o">.</span><span class="na">ACCESS_OVERRIDE_ORDER</span><span class="o">)</span>
-</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SecurityConfiguration</span> <span class="kd">extends</span> <span class="n">WebSecurityConfigurerAdapter</span> <span class="o">{</span>
-</span><span class='line'>  
-</span><span class='line'>    <span class="nd">@Autowired</span>
-</span><span class='line'>    <span class="kd">private</span> <span class="n">DataSource</span> <span class="n">dataSource</span><span class="o">;</span> <span class="c1">// 3</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nd">@Override</span>
-</span><span class='line'>    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">(</span><span class="n">AuthenticationManagerBuilder</span> <span class="n">auth</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
-</span><span class='line'>        <span class="n">auth</span><span class="o">.</span><span class="na">jdbcAuthentication</span><span class="o">()</span> <span class="c1">// 1</span>
-</span><span class='line'>                <span class="o">.</span><span class="na">passwordEncoder</span><span class="o">(</span><span class="k">new</span> <span class="nf">ShaPasswordEncoder</span><span class="o">(</span><span class="mi">256</span><span class="o">))</span> <span class="c1">// 6</span>
-</span><span class='line'>                <span class="o">.</span><span class="na">dataSource</span><span class="o">(</span><span class="n">dataSource</span><span class="o">)</span> <span class="c1">// 2</span>
-</span><span class='line'>                <span class="o">.</span><span class="na">usersByUsernameQuery</span><span class="o">(</span><span class="s">&quot;SELECT login, password, active FROM user WHERE login=?&quot;</span><span class="o">)</span> <span class="c1">// 4</span>
-</span><span class='line'>                <span class="o">.</span><span class="na">authoritiesByUsernameQuery</span><span class="o">(</span><span class="s">&quot;SELECT login, role FROM user WHERE login=?&quot;</span><span class="o">);</span> <span class="c1">// 5</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Dans le cadre de cet article, il s'agit d'une authentification JDBC (<code>1</code>). La base de données à laquelle Spring doit accéder est accessible via une <code>dataSource</code> (<code>2</code>). Elle a été configurée dans l'application (typiquement dans <code>application.properties</code>) et peut donc être directement injectée par Spring grâce à l'annotation <code>@Autowired</code> (<code>3</code>).</p>
-
-<p>La requête pour récupérer un utilisateur à partir de son login est fournie via la méthode <code>usersByUsernameQuery</code> (<code>4</code>) et celle pour récupérer les rôles d'un utilisateur à partir de son login via la méthode <code>authoritiesByUsernameQuery</code> (<code>5</code>). Un utilisateur est caractérisé par un login, un mot de passe et un booléen indiquant s'il est actif. Un rôle est une chaîne de caractères qui correspondra à un profil ayant un ensemble de droits.</p>
-
-<p>Finalement, il est indiqué que les mots de passe dans la base sont hashés à l'aide de l'agorithme SHA-256 (<code>6</code>).</p>
-
-<h2>Configuration de l'authentification HTTP basic</h2>
-
-<p>La méthode d'authentification <a href="https://fr.wikipedia.org/wiki/Authentification_HTTP#M.C3.A9thode_.C2.AB_Basic_.C2.BB">HTTP basic</a> est une méthode d'authentification simple en HTTP et sera utilisée dans cet article.
-Cette méthode est indiquée en surchargeant la méthode <code>configure(HTTPSecurity)</code>. De même que dans la section précédente, Spring Security offre une API <em>fluent</em> pour configurer une authentification HTTP à partir de l'objet <code>HTTPSecurity</code>.</p>
-
-<p>Le code ci-dessous permet de configurer l'authentification HTTP basic.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Override</span>
-</span><span class='line'><span class="kd">protected</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">(</span><span class="n">HttpSecurity</span> <span class="n">http</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
-</span><span class='line'>    <span class="n">http</span><span class="o">.</span><span class="na">httpBasic</span><span class="o">()</span> <span class="c1">// 1</span>
-</span><span class='line'>            <span class="o">.</span><span class="na">and</span><span class="o">()</span>
-</span><span class='line'>                <span class="o">.</span><span class="na">authorizeRequests</span><span class="o">()</span>
-</span><span class='line'>                    <span class="o">.</span><span class="na">antMatchers</span><span class="o">(</span><span class="s">&quot;/&quot;</span><span class="o">,</span> <span class="s">&quot;/css/**&quot;</span><span class="o">,</span> <span class="s">&quot;/js/**&quot;</span><span class="o">).</span><span class="na">permitAll</span><span class="o">()</span> <span class="c1">// 2</span>
-</span><span class='line'>                    <span class="o">.</span><span class="na">anyRequest</span><span class="o">().</span><span class="na">authenticated</span><span class="o">()</span> <span class="c1">// 3</span>
-</span><span class='line'>            <span class="o">.</span><span class="na">and</span><span class="o">()</span>
-</span><span class='line'>                <span class="o">.</span><span class="na">formLogin</span><span class="o">()</span>
-</span><span class='line'>                   <span class="o">.</span><span class="na">loginPage</span><span class="o">(</span><span class="s">&quot;/login&quot;</span><span class="o">).</span><span class="na">permitAll</span><span class="o">()</span> <span class="c1">// 4</span>
-</span><span class='line'>            <span class="o">.</span><span class="na">and</span><span class="o">()</span>
-</span><span class='line'>               <span class="o">.</span><span class="na">logout</span><span class="o">()</span>
-</span><span class='line'>                   <span class="o">.</span><span class="na">logoutUrl</span><span class="o">(</span><span class="s">&quot;/logout&quot;</span><span class="o">)</span> <span class="c1">// 5</span>
-</span><span class='line'>                   <span class="o">.</span><span class="na">logoutSuccessUrl</span><span class="o">(</span><span class="s">&quot;/&quot;</span><span class="o">);</span> <span class="c1">// 6</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>La méthode d'authentification HTTP est précisée avec la méthode <code>httpBasic</code> (<code>1</code>). La racine, les fichiers CSS et javascript sont accessibles à tout le monde (<code>2</code>) tandis que toutes les autres requêtes nécessitent d'être authentifié (<code>3</code>).</p>
-
-<p>L'URL de login est spécifiée via la méthode <code>loginPage</code> (<code>4</code>) et celle de logout via la méthode <code>logoutUrl</code> (<code>5</code>). Après la déconnexion, l'utilisateur est redirigé vers la racine (<code>6</code>).</p>
-
-<p>Le code suivant illustre un formulaire de login et un formulaire de logout.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="c">&lt;!-- Formulaire de login --&gt;</span>
-</span><span class='line'><span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">&quot;/login&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">name=</span><span class="s">&quot;username&quot;</span> <span class="nt">/&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;password&quot;</span> <span class="na">name=</span><span class="s">&quot;password&quot;</span> <span class="nt">/&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span><span class="nt">&gt;</span>Login<span class="nt">&lt;/button&gt;</span>
-</span><span class='line'><span class="nt">&lt;/form&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">&lt;!-- Formulaire de logout --&gt;</span>
-</span><span class='line'><span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">&quot;/logout&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span><span class="nt">&gt;</span>Logout<span class="nt">&lt;/button&gt;</span>
-</span><span class='line'><span class="nt">&lt;/form&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Conclusion</h2>
-
-<p>La configuration de Spring Security en Java config est relativement simple et directe. Elle permet de contrôler et de centraliser les accès à toutes les URL de l'application. De plus, il est possible de définir très simplement les URL de login et de logout, Spring Security se chargeant des traitements des requêtes.</p>
 ]]></content>
   </entry>
   
