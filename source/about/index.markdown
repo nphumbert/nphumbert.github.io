@@ -7,7 +7,7 @@ sharing: true
 footer: true
 ---
 
-I'm an entrepreneur and a freelance developer. I also create my own applications ([Nano](http://nphumbert.github.io/nano)) and speak about software development, particularly on my YouTube channel called [Crafties](http://nphumbert.github.io/crafties/).
+I'm an entrepreneur and a freelance developer. I also create my own applications ([Nano](http://nphumbert.github.io/nano)) and speak about software development, particularly on my YouTube channel called [Crafties](http://nphumbert.github.io/crafties/). Recently, I created the [Lyon Kotlin User Group](https://www.meetup.com/fr-FR/Lyon-Kotlin-User-Group/).
 
 I am a very accesible person and enjoy to talk to people from all over the world. I speak French, Spanish, English, Portuguese and a bit of Italian.  
 I love my husband, family, sports, music and programming.
