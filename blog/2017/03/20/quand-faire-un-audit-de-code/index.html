@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Nadia Humbert-Labeaumaz</title>
+  <title>Quand faire un audit de code ? - Nadia Humbert-Labeaumaz</title>
   <meta name="author" content="Nadia Humbert-Labeaumaz">
 
   
-  <meta name="description" content="Dans une application web, il est courant d'effectuer une redirection après la soumission d'un formulaire. Cette redirection permet notamment de &hellip;">
+  <meta name="description" content="Dans notre activité, nous sommes amenés à faire régulièrement des audits de code. Planifié ou forcé, un audit a pour but de déterminer la qualité &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="https://nphumbert.github.io/posts/3">
+  <link rel="canonical" href="https://nphumbert.github.io/blog/2017/03/20/quand-faire-un-audit-de-code">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Nadia Humbert-Labeaumaz" type="application/atom+xml">
@@ -118,15 +118,14 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/07/25/transferer-des-parametres-a-travers-un-redirect-avec-spring-mvc/">Transférer des paramètres à travers un redirect avec Spring MVC</a></h1>
+      
+        <h1 class="entry-title">Quand faire un audit de code ?</h1>
+      
     
     
       <p class="meta">
@@ -135,9 +134,9 @@
 
 
 
-<time class='entry-date' datetime='2015-07-25T12:06:04+02:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:06 pm</span></time>
+<time class='entry-date' datetime='2017-03-20T07:52:15+01:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>7:52 am</span></time>
         
-         | <a href="/blog/2015/07/25/transferer-des-parametres-a-travers-un-redirect-avec-spring-mvc/#disqus_thread">Comments</a>
+         | <a href="#disqus_thread">Comments</a>
         
         
       </p>
@@ -145,123 +144,105 @@
   </header>
 
 
-  <div class="entry-content"><p>Dans une application web, il est courant d'effectuer une redirection après la soumission d'un formulaire. Cette redirection permet notamment de rendre l'url <em>bookmarkable</em> et d'empêcher l'utilisateur de resoumettre le formulaire par erreur (suite à un <em>refresh</em>, par exemple).</p>
+<div class="entry-content"><p>Dans notre activité, nous sommes amenés à faire régulièrement des audits de code. Planifié ou forcé, un audit a pour but de déterminer la qualité logicielle d'une base de code et de faire des préconisations pour améliorer sa santé. L'objectif de cet article est de faire un retour d'expérience sur les différentes circonstances qui mènent à la réalisation d'un tel audit.</p>
 
-<p>Il peut être intéressant de passer des paramètres à travers ce redirect. Par exemple, pour indiquer à l'utilisateur que son formulaire a bien été soumis. Pour ce faire, il est possible d'ajouter des paramètres directement dans l'url : <code>redirect:/path/to/endpoint?formSubmitted=true</code>.
-Cette solution n'est pas toujours adpatée pour des raisons de confidentialité, de taille d'url ou simplement d'esthétique.</p>
+<!-- more -->
 
-<p>L'objectif de cet article est de démontrer comment transférer des paramètres à travers une redirection avec Spring MVC en utilisant des <em>flash attributes</em>. L'exemple utilisé consistera en un formulaire qui permet d'envoyer un nom. Ce nom s'affichera ensuite une fois le formulaire soumis.</p>
 
+<h2>Tout semble aller, un audit pour vérifier qu'on est sur les rails</h2>
+
+<p>Ce genre d'audit est le plus rare. Il est planifié par un client pour s'assurer que sa base de code respecte les bonnes pratiques de programmation. <em>A priori</em> aucun signe n'indique un quelconque problème dans le code mais le client a conscience de l'importance de la qualité logicielle qu'il inclut très tôt dans son processus de développement.</p>
+
+<p>Dans ce contexte, un audit a pour rôle de permettre d'apporter des ajustements à la manière de coder pour limiter la dette technique et partir sur de bonnes bases pour la suite du projet. L'équipe projet peut tirer pleinement profit de ce genre d'audit car il est réalisé sereinement dans une optique d'amélioration continue.</p>
+
+<h2>Un audit de code avant d'envisager des grosses modifications</h2>
+
+<p>Ce type d'audit est planifié par un client qui vient d'acquérir, par exemple, un nouveau marché. Il dispose actuellement d'une base de code assez limitée en taille mais qui va devoir grossir assez rapidement. En général, cela s'accompagne d'un agrandissement de l'équipe et d'une accélération du rythme de développement.</p>
+
+<p>Ici, un audit de code vise à faire un <em>checkup</em> de l'existant afin de préconiser les corrections nécessaires avant qu'il ne soit trop tard et que la dette technique ne soit irrattrapable. Il est recommandé de le planifier le plus tôt possible afin d'avoir le temps de mettre en place les améliorations nécessaires et qu'il puisse être le plus profitable possible.</p>
+
+<h2>Il y a des problèmes, un audit pour voir ce qui ne va pas</h2>
+
+<p>Cet audit n'est pas prévu, il est effectué de manière forcée suite à un trop grand nombre de dysfonctionnements. Ceux-ci peuvent par exemple être de trop nombreuses régressions, des livraisons douloureuses ou des bugs fonctionnels importants. Le client soupçonne la qualité logicielle de son produit et a donc le réflexe de demander un audit pour déterminer les sources de ses problèmes et proposer des solutions adaptées.</p>
+
+<p>Le contexte n'est pas idéal pour l'équipe car ils peuvent avoir l'impression d'être contrôlés et sanctionnés. Il est donc important pour les auditeurs de bien montrer qu'ils ne viennent pas pour juger les développeurs mais simplement les aider à améliorer le projet. Avec une collaboration saine et efficace, l'équipe projet se rend compte rapidement de l'objectif de l'audit. L'idée est que celle-ci prenne en main l'audit et ses conclusions de manière à ce que la situation s'améliore dans les meilleurs délais.</p>
+
+<h2>Un audit pour trancher un conflit contractuel</h2>
+
+<p>Un audit de ce type est très difficile pour toutes les parties. Il s'agit d'un prestataire (typiquement au forfait) dont le client impose un audit pour contrôler la qualité du logiciel, sur laquelle le prestataire s'est, en général, plus ou moins engagé. Il est bien visible que, dans ce contexte, le client pourrait chercher les failles pour invoquer le contrat et infliger des pénalités au prestataire tandis que celui-ci cherchera peut-être à se défendre, et donc minimiser les conclusions de l'audit. Il peut arriver que les deux parties soient de bonne volonté et souhaitent sincèrement améliorer la qualité du code, mais cela reste une situation conflictuelle peu propice au travail serein.</p>
+
+<p>Dans cette situation, le rôle des auditeurs est de rester neutres et imperméables à la situation afin de réaliser un audit de qualité qui permettra réellement d'améliorer la situation. Il est très important de comprendre le contexte et les enjeux de manière non ambiguë. Cependant, les détails contractuels ne sont pas du ressort des auditeurs et ils ne doivent absolument pas prendre partie.</p>
+
+<h2>Conclusion</h2>
+
+<p>Il existe plusieurs situations très différentes qui peuvent mener à un audit de code. En fonction du contexte, le rôle des auditeurs et l'objectif de l'audit peuvent varier. Il est très rare qu'une équipe souhaite volontairement produire du code de mauvaise qualité, cela est très souvent le fruit d'un ensemble de circonstances et d'événements, parfois subis. Par conséquent, quelle que soit la situation, nous pensons qu'un audit doit être neutre et proposer des solutions concrètes pour améliorer la situation, sans viser des individus en particulier.</p>
+
+<hr />
+
+<p><em>Cet article a été écrit en collaboration avec Renaud Humbert-Labeaumaz (<a href="https://www.twitter.com/rnowif">@rnowif</a>)</em></p>
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/07/25/transferer-des-parametres-a-travers-un-redirect-avec-spring-mvc/">Read on &rarr;</a>
-    </footer>
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/21/spring-security-et-spring-boot/">Spring Security et Spring Boot</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-06-21T11:51:37+02:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>11:51 am</span></time>
-        
-         | <a href="/blog/2015/06/21/spring-security-et-spring-boot/#disqus_thread">Comments</a>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Depuis Spring 3.1, il est possible de configurer Spring en Java.
-La configuration Java de Spring Security est supportée depuis sa version 3.2 (<a href="http://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#jc">source</a>).</p>
-
-<p>L'objectif de cet article est de montrer comment configurer Spring Security en Java config, dans une application Spring Boot, avec une base de données qui contient les utilisateurs et leur mot de passe hashé. De plus, une authentification HTTP basic sera mise en place.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/06/21/spring-security-et-spring-boot/">Read on &rarr;</a>
-    </footer>
   
 
 
-    </article>
+
+  <span class="byline author vcard">Authored by <span class="fn">
   
+    Nadia Humbert-Labeaumaz
   
-    <article>
+  </span></span>
+
+
       
-  <header>
+
+
+
+
+<time class='entry-date' datetime='2017-03-20T07:52:15+01:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>7:52 am</span></time>
+      
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/audit/'>audit</a>
+  
+</span>
+
+
+    </p>
     
-      <h1 class="entry-title"><a href="/blog/2015/06/14/injections-de-dependances-avec-spring/">Injections de dépendances avec Spring</a></h1>
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="https://nphumbert.github.io/blog/2017/03/20/quand-faire-un-audit-de-code/" data-via="nphumbert" data-counturl="https://nphumbert.github.io/blog/2017/03/20/quand-faire-un-audit-de-code/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
     
-    
-      <p class="meta">
-        
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/12/17/gerer-les-dependances-circulaires/" title="Previous Post: Gérer les dépendances circulaires">&laquo; Gérer les dépendances circulaires</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
-
-
-<time class='entry-date' datetime='2015-06-14T08:35:20+02:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:35 am</span></time>
-        
-         | <a href="/blog/2015/06/14/injections-de-dependances-avec-spring/#disqus_thread">Comments</a>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Il existe plusieurs méthodes pour injecter une dépendance dans un objet Java :</p>
-
-<ul>
-<li>Injection sur un setter</li>
-<li>Injection sur le constructeur</li>
-<li>Injection directe sur la déclaration de l'attribut</li>
-</ul>
-
-
-<p>Cet article a pour objectif de définir ces différentes méthodes, de décrire leurs avantages et inconvénients et indiquer leurs cas d'utilisation.</p>
 
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/06/14/injections-de-dependances-avec-spring/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-    <a class="next" href="/posts/2">Newer &rarr;</a>
-    
-  </div>
-</div>
-<aside class="sidebar">
-  
-    
-  
-</aside>
 
     </div>
   </div>
@@ -277,7 +258,10 @@ La configuration Java de Spring Security est supportée depuis sa version 3.2 (<
       var disqus_shortname = 'nphumbert';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://nphumbert.github.io/blog/2017/03/20/quand-faire-un-audit-de-code/';
+        var disqus_url = 'https://nphumbert.github.io/blog/2017/03/20/quand-faire-un-audit-de-code/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

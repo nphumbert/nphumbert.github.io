@@ -4,7 +4,7 @@
   <title><![CDATA[Nadia Humbert-Labeaumaz]]></title>
   <link href="https://nphumbert.github.io/atom.xml" rel="self"/>
   <link href="https://nphumbert.github.io/"/>
-  <updated>2017-02-27T13:34:43+01:00</updated>
+  <updated>2017-04-19T09:55:46+02:00</updated>
   <id>https://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -12,6 +12,50 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Quand faire un audit de code ?]]></title>
+    <link href="https://nphumbert.github.io/blog/2017/03/20/quand-faire-un-audit-de-code/"/>
+    <updated>2017-03-20T07:52:15+01:00</updated>
+    <id>https://nphumbert.github.io/blog/2017/03/20/quand-faire-un-audit-de-code</id>
+    <content type="html"><![CDATA[<p>Dans notre activité, nous sommes amenés à faire régulièrement des audits de code. Planifié ou forcé, un audit a pour but de déterminer la qualité logicielle d'une base de code et de faire des préconisations pour améliorer sa santé. L'objectif de cet article est de faire un retour d'expérience sur les différentes circonstances qui mènent à la réalisation d'un tel audit.</p>
+
+<!-- more -->
+
+
+<h2>Tout semble aller, un audit pour vérifier qu'on est sur les rails</h2>
+
+<p>Ce genre d'audit est le plus rare. Il est planifié par un client pour s'assurer que sa base de code respecte les bonnes pratiques de programmation. <em>A priori</em> aucun signe n'indique un quelconque problème dans le code mais le client a conscience de l'importance de la qualité logicielle qu'il inclut très tôt dans son processus de développement.</p>
+
+<p>Dans ce contexte, un audit a pour rôle de permettre d'apporter des ajustements à la manière de coder pour limiter la dette technique et partir sur de bonnes bases pour la suite du projet. L'équipe projet peut tirer pleinement profit de ce genre d'audit car il est réalisé sereinement dans une optique d'amélioration continue.</p>
+
+<h2>Un audit de code avant d'envisager des grosses modifications</h2>
+
+<p>Ce type d'audit est planifié par un client qui vient d'acquérir, par exemple, un nouveau marché. Il dispose actuellement d'une base de code assez limitée en taille mais qui va devoir grossir assez rapidement. En général, cela s'accompagne d'un agrandissement de l'équipe et d'une accélération du rythme de développement.</p>
+
+<p>Ici, un audit de code vise à faire un <em>checkup</em> de l'existant afin de préconiser les corrections nécessaires avant qu'il ne soit trop tard et que la dette technique ne soit irrattrapable. Il est recommandé de le planifier le plus tôt possible afin d'avoir le temps de mettre en place les améliorations nécessaires et qu'il puisse être le plus profitable possible.</p>
+
+<h2>Il y a des problèmes, un audit pour voir ce qui ne va pas</h2>
+
+<p>Cet audit n'est pas prévu, il est effectué de manière forcée suite à un trop grand nombre de dysfonctionnements. Ceux-ci peuvent par exemple être de trop nombreuses régressions, des livraisons douloureuses ou des bugs fonctionnels importants. Le client soupçonne la qualité logicielle de son produit et a donc le réflexe de demander un audit pour déterminer les sources de ses problèmes et proposer des solutions adaptées.</p>
+
+<p>Le contexte n'est pas idéal pour l'équipe car ils peuvent avoir l'impression d'être contrôlés et sanctionnés. Il est donc important pour les auditeurs de bien montrer qu'ils ne viennent pas pour juger les développeurs mais simplement les aider à améliorer le projet. Avec une collaboration saine et efficace, l'équipe projet se rend compte rapidement de l'objectif de l'audit. L'idée est que celle-ci prenne en main l'audit et ses conclusions de manière à ce que la situation s'améliore dans les meilleurs délais.</p>
+
+<h2>Un audit pour trancher un conflit contractuel</h2>
+
+<p>Un audit de ce type est très difficile pour toutes les parties. Il s'agit d'un prestataire (typiquement au forfait) dont le client impose un audit pour contrôler la qualité du logiciel, sur laquelle le prestataire s'est, en général, plus ou moins engagé. Il est bien visible que, dans ce contexte, le client pourrait chercher les failles pour invoquer le contrat et infliger des pénalités au prestataire tandis que celui-ci cherchera peut-être à se défendre, et donc minimiser les conclusions de l'audit. Il peut arriver que les deux parties soient de bonne volonté et souhaitent sincèrement améliorer la qualité du code, mais cela reste une situation conflictuelle peu propice au travail serein.</p>
+
+<p>Dans cette situation, le rôle des auditeurs est de rester neutres et imperméables à la situation afin de réaliser un audit de qualité qui permettra réellement d'améliorer la situation. Il est très important de comprendre le contexte et les enjeux de manière non ambiguë. Cependant, les détails contractuels ne sont pas du ressort des auditeurs et ils ne doivent absolument pas prendre partie.</p>
+
+<h2>Conclusion</h2>
+
+<p>Il existe plusieurs situations très différentes qui peuvent mener à un audit de code. En fonction du contexte, le rôle des auditeurs et l'objectif de l'audit peuvent varier. Il est très rare qu'une équipe souhaite volontairement produire du code de mauvaise qualité, cela est très souvent le fruit d'un ensemble de circonstances et d'événements, parfois subis. Par conséquent, quelle que soit la situation, nous pensons qu'un audit doit être neutre et proposer des solutions concrètes pour améliorer la situation, sans viser des individus en particulier.</p>
+
+<hr />
+
+<p><em>Cet article a été écrit en collaboration avec Renaud Humbert-Labeaumaz (<a href="https://www.twitter.com/rnowif">@rnowif</a>)</em></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Gérer les dépendances circulaires]]></title>
@@ -2523,96 +2567,6 @@ Plus précisément, il est nécessaire de surcharger la méthode <code>addResour
 <h2>Conclusion</h2>
 
 <p>Pour conclure, Spring permet d'exposer des ressources statiques via des URL de manière simple et rapide.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Transférer des paramètres à travers un redirect avec Spring MVC]]></title>
-    <link href="https://nphumbert.github.io/blog/2015/07/25/transferer-des-parametres-a-travers-un-redirect-avec-spring-mvc/"/>
-    <updated>2015-07-25T12:06:04+02:00</updated>
-    <id>https://nphumbert.github.io/blog/2015/07/25/transferer-des-parametres-a-travers-un-redirect-avec-spring-mvc</id>
-    <content type="html"><![CDATA[<p>Dans une application web, il est courant d'effectuer une redirection après la soumission d'un formulaire. Cette redirection permet notamment de rendre l'url <em>bookmarkable</em> et d'empêcher l'utilisateur de resoumettre le formulaire par erreur (suite à un <em>refresh</em>, par exemple).</p>
-
-<p>Il peut être intéressant de passer des paramètres à travers ce redirect. Par exemple, pour indiquer à l'utilisateur que son formulaire a bien été soumis. Pour ce faire, il est possible d'ajouter des paramètres directement dans l'url : <code>redirect:/path/to/endpoint?formSubmitted=true</code>.
-Cette solution n'est pas toujours adpatée pour des raisons de confidentialité, de taille d'url ou simplement d'esthétique.</p>
-
-<p>L'objectif de cet article est de démontrer comment transférer des paramètres à travers une redirection avec Spring MVC en utilisant des <em>flash attributes</em>. L'exemple utilisé consistera en un formulaire qui permet d'envoyer un nom. Ce nom s'affichera ensuite une fois le formulaire soumis.</p>
-
-<!-- more -->
-
-
-<h2>Traitement du formulaire</h2>
-
-<p>Le code suivant décrit la gestion de la soumission du formulaire par un <em>controller</em> Spring MVC :</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&quot;/&quot;</span><span class="o">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">RequestMethod</span><span class="o">.</span><span class="na">POST</span><span class="o">)</span>
-</span><span class='line'><span class="kd">public</span> <span class="n">ModelAndView</span> <span class="nf">post</span><span class="o">(</span><span class="nd">@RequestParam</span><span class="o">(</span><span class="s">&quot;name&quot;</span><span class="o">)</span> <span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="n">RedirectAttributes</span> <span class="n">redirectAttributes</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>   <span class="n">redirectAttributes</span><span class="o">.</span><span class="na">addFlashAttribute</span><span class="o">(</span><span class="s">&quot;name&quot;</span><span class="o">,</span> <span class="n">name</span><span class="o">);</span> <span class="c1">// 1</span>
-</span><span class='line'>   <span class="k">return</span> <span class="k">new</span> <span class="nf">ModelAndView</span><span class="o">(</span><span class="s">&quot;redirect:/&quot;</span><span class="o">);</span> <span class="c1">// 2</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Afin d'ajouter un <em>flash attribute</em> à la redirection, il faut utiliser une instance de la classe <code>RedirectAttributes</code> (<code>1</code>). Cette instance est automatiquement injectée par Spring lorsqu'elle est déclarée dans la méthode du <em>controller</em>.</p>
-
-<p>Une fois le <em>flash attribute</em> ajouté, il est possible de faire la redirection (<code>2</code>).</p>
-
-<h2>Traitement de l'affichage</h2>
-
-<p>Le code suivant décrit le traitement de la requête <code>GET</code> par un <em>controller</em> Spring MVC :</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&quot;/&quot;</span><span class="o">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">RequestMethod</span><span class="o">.</span><span class="na">GET</span><span class="o">)</span>
-</span><span class='line'><span class="kd">public</span> <span class="n">ModelAndView</span> <span class="nf">get</span><span class="o">(</span><span class="n">HttpServletRequest</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="n">ModelAndView</span> <span class="n">modelAndView</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">ModelAndView</span><span class="o">(</span><span class="s">&quot;default&quot;</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="o">?&gt;</span> <span class="n">flashMap</span> <span class="o">=</span> <span class="n">RequestContextUtils</span><span class="o">.</span><span class="na">getInputFlashMap</span><span class="o">(</span><span class="n">request</span><span class="o">);</span> <span class="c1">// 1</span>
-</span><span class='line'>   <span class="k">if</span> <span class="o">(!</span><span class="n">CollectionUtils</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">(</span><span class="n">flashMap</span><span class="o">))</span> <span class="o">{</span>
-</span><span class='line'>      <span class="n">modelAndView</span><span class="o">.</span><span class="na">addObject</span><span class="o">(</span><span class="s">&quot;name&quot;</span><span class="o">,</span> <span class="n">flashMap</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&quot;name&quot;</span><span class="o">));</span> <span class="c1">// 2</span>
-</span><span class='line'>   <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="k">return</span> <span class="n">modelAndView</span><span class="o">;</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Pour récupérer la <em>map</em> contenant les <em>flash attributes</em>, il faut utiliser la méthode <code>RequestContextUtils.getInputFlashMap</code> sur la requête <code>HttpServletRequest</code> (<code>1</code>). Cette requête est également injectée par Spring lorsqu'elle est déclarée dans la méthode du <em>controller</em>.</p>
-
-<p>La valeur de l'attribut peut alors être récupérée depuis la <em>map</em> pour être utilisée, ici dans le <code>ModelAndView</code> (<code>2</code>).</p>
-
-<p>Ci-dessous un exemple est donné pour afficher conditionnellement cet attribut dans un template <a href="http://www.thymeleaf.org/">Thymeleaf</a> :</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s">&quot;alert alert-success&quot;</span> <span class="n">role</span><span class="o">=</span><span class="s">&quot;alert&quot;</span> <span class="nl">th:</span><span class="k">if</span><span class="o">=</span><span class="s">&quot;${not #strings.isEmpty(name)}&quot;</span><span class="o">&gt;</span>
-</span><span class='line'>   <span class="n">Hello</span><span class="o">,</span> <span class="o">&lt;</span><span class="n">span</span> <span class="nl">th:</span><span class="n">text</span><span class="o">=</span><span class="s">&quot;${name}&quot;</span><span class="o">&gt;</span><span class="n">John</span> <span class="n">Doe</span><span class="o">&lt;/</span><span class="n">span</span><span class="o">&gt;!</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Conclusion</h2>
-
-<p>Les <em>flash attributes</em> de Spring MVC peuvent être utilisés pour transférer des paramètres à travers une redirection. Ce mécanisme permet notamment d'implémenter très facilement une confirmation de soumission de formulaire à l'utilisateur.</p>
-
-<p>Le code source du projet de démonstration peut être trouvé sur <a href="https://github.com/nphumbert/demo-flash-attributes">GitHub</a>.</p>
 ]]></content>
   </entry>
   
