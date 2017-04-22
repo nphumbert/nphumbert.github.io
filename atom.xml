@@ -4,7 +4,7 @@
   <title><![CDATA[Nadia Humbert-Labeaumaz]]></title>
   <link href="https://nphumbert.github.io/atom.xml" rel="self"/>
   <link href="https://nphumbert.github.io/"/>
-  <updated>2017-04-19T09:55:46+02:00</updated>
+  <updated>2017-04-22T11:27:08+02:00</updated>
   <id>https://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -12,6 +12,233 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Go Back in Time with Git]]></title>
+    <link href="https://nphumbert.github.io/blog/2017/04/19/go-back-in-time-with-git/"/>
+    <updated>2017-04-19T21:22:15+02:00</updated>
+    <id>https://nphumbert.github.io/blog/2017/04/19/go-back-in-time-with-git</id>
+    <content type="html"><![CDATA[<p>Recently, I animated a workshop about how to go back in time with Git alongside <a href="https://twitter.com/rnowif">Renaud</a>. Here are the main points that were raised during this session.</p>
+
+<!-- more -->
+
+
+<h2>Case #1: Delete the Last Commit</h2>
+
+<p>The initial Git tree used to illustrate this case is:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>* 7ec8248 N - <span class="o">(</span>HEAD -&gt; master<span class="o">)</span> Hello, world!
+</span><span class='line'>* 26af837 N - Hello, world
+</span><span class='line'>* c9b1299 N - Hello
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The goal here is to delete the last commit so the resulting tree looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>* 26af837 N - <span class="o">(</span>HEAD -&gt; master<span class="o">)</span> Hello, world
+</span><span class='line'>* c9b1299 N - Hello
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The easiest way to achieve this purpose is to use the <code>git reset</code> command.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git reset --hard 26af837
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It sets the current branch to the specified commit. The <code>--hard</code> option will discard all changes that have been made after the specified commit.</p>
+
+<h2>Case #2: Create a Branch from a Previous Commit</h2>
+
+<p>In this case, the initial Git tree is the same as before.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>* 7ec8248 N - <span class="o">(</span>HEAD -&gt; master<span class="o">)</span> Hello, world!
+</span><span class='line'>* 26af837 N - Hello, world
+</span><span class='line'>* c9b1299 N - Hello
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We want to create a branch from the commit <code>26af837</code> to fix a bug for instance. The resulting tree should be the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>* ae77cf0 N - <span class="o">(</span>HEAD -&gt; bug-fix<span class="o">)</span> Fixed it!
+</span><span class='line'><span class="p">|</span> * 7ec8248 N - <span class="o">(</span>master<span class="o">)</span> Hello, world!
+</span><span class='line'><span class="p">|</span>/
+</span><span class='line'>* 26af837 N - Hello, world
+</span><span class='line'>* c9b1299 N - Hello
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>First, we need to position ourselves on the commit:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git checkout 26af837
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then, we are in the &lsquo;detached HEAD&rsquo; state which means that we are no longer on a branch and further commits will not be kept. Consequently, we create the branch and commit the bug fix:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git checkout -b bug-fix
+</span><span class='line'><span class="nv">$ </span><span class="c"># Fix the bug ...</span>
+</span><span class='line'><span class="nv">$ </span>git commit -m <span class="s2">&quot;Fixed it!&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Case #3: Put the Last Commit on a New Branch</h2>
+
+<p>Here, we made a commit on the <code>master</code> branch by mistake and we want to transfer it to another branch.</p>
+
+<p>The Git tree should go from this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>* 7ec8248 N - <span class="o">(</span>HEAD -&gt; master<span class="o">)</span> Hello, world!
+</span><span class='line'>* 26af837 N - Hello, world
+</span><span class='line'>* c9b1299 N - Hello
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>to this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>* 7ec8248 N - <span class="o">(</span>HEAD -&gt; feature<span class="o">)</span> Hello, world!
+</span><span class='line'>* 26af837 N - <span class="o">(</span>master<span class="o">)</span> Hello, world
+</span><span class='line'>* c9b1299 N - Hello
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To do so, we just have to create the <code>feature</code> branch from the last commit and reset <code>master</code> to the previous one.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git checkout -b feature
+</span><span class='line'><span class="nv">$ </span>git checkout master
+</span><span class='line'><span class="nv">$ </span>git reset --hard 26af837
+</span><span class='line'><span class="nv">$ </span>git checkout feature
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Case #4: Rewrite History</h2>
+
+<p>In this case, we want to completely remove a past commit from the Git tree.</p>
+
+<p>The initial tree looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>* b1b5f0a N - <span class="o">(</span>HEAD -&gt; master<span class="o">)</span> Hello, world
+</span><span class='line'>* b7d38ac N - Add key.txt
+</span><span class='line'>* c9b1299 N - Hello
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We want the resulting tree to show no sign of the commit <code>b7d38ac</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>* efb44c9 N - <span class="o">(</span>HEAD -&gt; master<span class="o">)</span> Hello, world
+</span><span class='line'>* c9b1299 N - Hello
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>git rebase -i</code> command allows to rewrite the history of a branch from a specific starting point. It will prompt the list of all the commits since this starting point. You can perform different actions on these commits like reword a commit message, squash several commits into one, reordering and delete commits for instance. After these modifications, lines will be executed from top to bottom. More information about rewriting history can be found <a href="https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History">here</a>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git rebase -i HEAD~2
+</span><span class='line'><span class="nv">$ </span><span class="c"># Delete the line corresponding to the commit to remove.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Since we wanted to go two commits back, we used the notation <code>HEAD~2</code> to specify the starting point. Note that we could also have used the specific hash of the commit (<code>c9b1299</code>).</p>
+
+<h2>Case #5: Revert a Commit</h2>
+
+<p>During this workshop, an attendee talked about the <code>git revert</code> command. Unlike the other commands that we saw in this article, the <code>git revert</code> command do not modify past commits. It creates a <strong>new</strong> commit that is the exact opposite of the reverted commit.</p>
+
+<p>For instance, if we start from this Git tree:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>* f999291 N - <span class="o">(</span>HEAD -&gt; master<span class="o">)</span> Hello, world
+</span><span class='line'>* a9f8fb3 N - Add key.txt
+</span><span class='line'>* c9b1299 N - Hello
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>and revert the commit a9f8fb3 which contains only a new file, a new commit that only contains the removal of this file will be created.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git revert a9f8fb3
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>* 55bc161 N - <span class="o">(</span>HEAD -&gt; master<span class="o">)</span> Revert <span class="s2">&quot;Add key.txt&quot;</span>
+</span><span class='line'>* f999291 N - Hello, world
+</span><span class='line'>* a9f8fb3 N - Add key.txt
+</span><span class='line'>* c9b1299 N - Hello
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I think that this command could be used when several people are working on the branch in order to avoid a forced push on the remote repository. Moreover, it could also be used if you want to keep an explicit trace of this action in the tree for a particular reason.</p>
+
+<h2>Last resort: Keep Calm and Use Git Reflog</h2>
+
+<p>Renaud wrote an <a href="https://blog.crafties.fr/2017/04/11/git-reflog/">article</a> on the <code>git reflog</code> command to recover commits that appear to be lost. To illustrate what this command does, here is its ouput when used in the case #4:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git reflog
+</span><span class='line'>efb44c9 HEAD@<span class="o">{</span>0<span class="o">}</span>: rebase -i <span class="o">(</span>finish<span class="o">)</span>: returning to refs/heads/master
+</span><span class='line'>efb44c9 HEAD@<span class="o">{</span>1<span class="o">}</span>: rebase -i <span class="o">(</span>pick<span class="o">)</span>: Hello, world
+</span><span class='line'>c9b1299 HEAD@<span class="o">{</span>2<span class="o">}</span>: rebase -i <span class="o">(</span>start<span class="o">)</span>: checkout HEAD~2
+</span><span class='line'>26af837 HEAD@<span class="o">{</span>3<span class="o">}</span>: commit: Hello, world
+</span><span class='line'>712d068 HEAD@<span class="o">{</span>4<span class="o">}</span>: commit: Add key.txt
+</span><span class='line'>c9b1299 HEAD@<span class="o">{</span>5<span class="o">}</span>: commit <span class="o">(</span>initial<span class="o">)</span>: Hello
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can see that the deleted commit (<code>712d068</code>) still appears in the reflog.</p>
+
+<h2>Conclusion</h2>
+
+<p>This article shows several ways to go back in time with Git. These commands could be used alone or combined to get you out of complicated situations or to rearrange your Git tree before a <code>git push</code> for instance.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Quand faire un audit de code ?]]></title>
@@ -2515,58 +2742,6 @@ The goal of this article is to show how to test Spring MVC controllers using onl
 <h2>Conclusion</h2>
 
 <p>The Spring test framework is a very powerful, complete and simple way to test Spring MVC controllers. Its fluent API allows to write elegant and yet precise tests.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Exposer des ressources statiques avec Spring MVC]]></title>
-    <link href="https://nphumbert.github.io/blog/2015/09/18/exposer-des-ressources-statiques-avec-spring-mvc/"/>
-    <updated>2015-09-18T13:59:06+02:00</updated>
-    <id>https://nphumbert.github.io/blog/2015/09/18/exposer-des-ressources-statiques-avec-spring-mvc</id>
-    <content type="html"><![CDATA[<p>Il est souvent nécessaire d'exposer des ressources statiques telles que des images, des fichiers pdf, des vidéos, etc. dans une application web.
-Ces fichiers sont stockés sur le serveur et ne sont donc pas accessibles à l'utilisateur via une URL.</p>
-
-<p>L'objectif de cet article est d'exposer des fichiers stockés sur le serveur via une URL dans une application Spring MVC.</p>
-
-<!-- more -->
-
-
-<h2>Surcharge de la configuration web</h2>
-
-<p>Pour exposer des ressources statiques, il faut surcharger la configuration web de Spring MVC.
-Pour ce faire, une classe de configuration qui hérite de <code>WebMvcConfigurerAdapter</code> doit être implémentée.
-Plus précisément, il est nécessaire de surcharger la méthode <code>addResourceHandlers()</code>.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Configuration</span>
-</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">WebConfig</span> <span class="kd">extends</span> <span class="n">WebMvcConfigurerAdapter</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">DIRECTORY</span> <span class="o">=</span> <span class="s">&quot;/path/to/server/disk/resources&quot;</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nd">@Override</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addResourceHandlers</span><span class="o">(</span><span class="n">ResourceHandlerRegistry</span> <span class="n">registry</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="n">registry</span><span class="o">.</span><span class="na">addResourceHandler</span><span class="o">(</span><span class="s">&quot;/resources/**&quot;</span><span class="o">)</span> <span class="c1">// 1</span>
-</span><span class='line'>                <span class="o">.</span><span class="na">addResourceLocations</span><span class="o">(</span><span class="s">&quot;file:///&quot;</span> <span class="o">+</span> <span class="n">DIRECTORY</span> <span class="o">+</span> <span class="s">&quot;/&quot;</span><span class="o">);</span> <span class="c1">// 2</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>La méthode de configuration fournit un objet de type <code>ResourceHandlerRegistry</code> qui permet d'associer une URL (<code>1</code>) à un dossier (<code>2</code>). Ainsi, l'URL <code>http://example.com/resources/file.pdf</code> sera associée au fichier <code>/path/to/server/disk/resources/file.pdf</code>.</p>
-
-<h2>Conclusion</h2>
-
-<p>Pour conclure, Spring permet d'exposer des ressources statiques via des URL de manière simple et rapide.</p>
 ]]></content>
   </entry>
   
