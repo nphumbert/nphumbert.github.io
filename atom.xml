@@ -4,7 +4,7 @@
   <title><![CDATA[Nadia Humbert-Labeaumaz]]></title>
   <link href="https://nphumbert.github.io/atom.xml" rel="self"/>
   <link href="https://nphumbert.github.io/"/>
-  <updated>2017-07-24T08:43:32+02:00</updated>
+  <updated>2017-07-24T11:05:22+02:00</updated>
   <id>https://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -233,6 +233,10 @@
 <h2>Conclusion</h2>
 
 <p>Microservices foster low coupling between components and resiliency. Hence, it would be sad to throw an error every time a service or a middleware is down. The circuit breaker pattern explained in this article allows you to ensure the continuity of service, even if it has to be offered in a degraded manner. As always, Spring Boot is a great help to setup this mechanism very easily.</p>
+
+<hr />
+
+<p><em>This article has been written in collaboration with Renaud Humbert-Labeaumaz (<a href="https://www.twitter.com/rnowif">@rnowif</a>)</em></p>
 ]]></content>
   </entry>
   
