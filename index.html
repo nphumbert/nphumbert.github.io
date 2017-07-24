@@ -9,7 +9,7 @@
   <meta name="author" content="Nadia Humbert-Labeaumaz">
 
   
-  <meta name="description" content="Recently, I conducted a workshop about how to go back in time with Git alongside Renaud. Here are the main points that were raised during this &hellip;">
+  <meta name="description" content="In a microservices architecture, several things can go wrong. A middleware, the network or the service you want to contact can be down. In this world &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -120,6 +120,123 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/07/23/setup-a-circuit-breaker-with-hystrix/">Setup a Circuit Breaker with Hystrix, Feign Client and Spring Boot</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-07-23T13:33:38+02:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2017</span></span> <span class='time'>1:33 pm</span></time>
+        
+         | <a href="/blog/2017/07/23/setup-a-circuit-breaker-with-hystrix/#disqus_thread">Comments</a>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>In a microservices architecture, several things can go wrong. A middleware, the network or the service you want to contact can be down. In this world of uncertainty, you have to anticipate problems in order not to break the entire chain and throw an error to the end user when you could offer a partially degraded service instead.</p>
+
+<p>The goal of this article is to show how to implement the circuit breaker pattern using Hystrix, Feign Client and Spring Boot.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/07/23/setup-a-circuit-breaker-with-hystrix/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/07/20/refactoring-conditional-with-map/">Refactoring Conditional Structures with Map</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-07-20T16:32:15+02:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:32 pm</span></time>
+        
+         | <a href="/blog/2017/07/20/refactoring-conditional-with-map/#disqus_thread">Comments</a>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>When working on already existing codebases, I often encounter pieces of code that look like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Day</span> <span class="o">{</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">start</span><span class="o">(</span><span class="n">Weather</span> <span class="n">weather</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">switch</span><span class="o">(</span><span class="n">weather</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="k">case</span> <span class="nl">RAINY:</span>
+</span><span class='line'>          <span class="n">takeAnUmbrella</span><span class="o">();</span>
+</span><span class='line'>          <span class="k">break</span><span class="o">;</span>
+</span><span class='line'>      <span class="k">case</span> <span class="nl">SUNNY:</span>
+</span><span class='line'>          <span class="n">takeAHat</span><span class="o">();</span>
+</span><span class='line'>          <span class="k">break</span><span class="o">;</span>
+</span><span class='line'>      <span class="k">case</span> <span class="nl">STORMY:</span>
+</span><span class='line'>          <span class="n">stayHome</span><span class="o">();</span>
+</span><span class='line'>          <span class="k">break</span><span class="o">;</span>
+</span><span class='line'>      <span class="k">default</span><span class="o">:</span>
+</span><span class='line'>          <span class="n">doNothing</span><span class="o">();</span>
+</span><span class='line'>          <span class="k">break</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Basically, depending on the weather, an action has to be taken. This kind of code is pretty hard to test and to maintain. The goal of this article is to refactor it using a <code>Map</code>.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/07/20/refactoring-conditional-with-map/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -433,83 +550,6 @@ Dans cet article, une solution à ce kata sera développée. Le projet qui a ser
   
     <footer>
       <a rel="full-article" href="/blog/2016/04/20/polymorphisme-avec-le-kata-parrot-refactoring/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/04/13/once-upon-a-time-tdd-and-me/">Once upon a time TDD... and me</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-04-13T23:56:11+02:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>11:56 pm</span></time>
-        
-         | <a href="/blog/2016/04/13/once-upon-a-time-tdd-and-me/#disqus_thread">Comments</a>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Once upon a time, there was a young woman that had plenty of projects and passions and was a bit hyperactive. She doesn&rsquo;t really enjoy talking about her life and asks herself very seriously how is she going to write this post.
-Among her early age dreams were learning many things about science, especially biosciences, and about software engineering. She started with biosciences (by the way, they are extremely fascinating, nothing is more complex and well crafted than the human body) and then she decided to continue with software engineering. However, the software engineering program that she completed only lasted one year (6 months of classes and 6 months of internship). Of course, this was only a door to access the world that she wanted to discover so much.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/04/13/once-upon-a-time-tdd-and-me/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/04/13/il-etait-une-fois-le-tdd-et-moi/">Il était une fois le TDD... et moi</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-04-13T17:27:36+02:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>5:27 pm</span></time>
-        
-         | <a href="/blog/2016/04/13/il-etait-une-fois-le-tdd-et-moi/#disqus_thread">Comments</a>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Il était une fois une jeune fille pleine de projets, de passions et un chouilla hyperactive.<br/>
-Elle n'aime pas particulièrement raconter sa vie et se demande donc fortement comment elle va réussir à faire cet article.<br/>
-Parmi ses rêves de gosse se trouvaient d'apprendre plein de choses sur les sciences, notamment les biosciences, et sur l'informatique. Elle a donc démarré avec les biosciences (d'ailleurs c'est méga passionant, rien de plus complexe et de mieux architecturé que le corps humain) puis a décidé d'enchaîner avec l'informatique. Cependant, le cursus suivi en informatique n'a duré qu'un an (moitié cours, moitié stage). Evidemment, il ne s'agissait que d'une porte d'accès au monde qu'elle souhaitait tant découvrir.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/04/13/il-etait-une-fois-le-tdd-et-moi/">Read on &rarr;</a>
     </footer>
   
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Nadia Humbert-Labeaumaz]]></title>
   <link href="https://nphumbert.github.io/atom.xml" rel="self"/>
   <link href="https://nphumbert.github.io/"/>
-  <updated>2017-04-22T18:55:53+02:00</updated>
+  <updated>2017-07-24T08:43:32+02:00</updated>
   <id>https://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -12,6 +12,416 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Setup a Circuit Breaker with Hystrix, Feign Client and Spring Boot]]></title>
+    <link href="https://nphumbert.github.io/blog/2017/07/23/setup-a-circuit-breaker-with-hystrix/"/>
+    <updated>2017-07-23T13:33:38+02:00</updated>
+    <id>https://nphumbert.github.io/blog/2017/07/23/setup-a-circuit-breaker-with-hystrix</id>
+    <content type="html"><![CDATA[<p>In a microservices architecture, several things can go wrong. A middleware, the network or the service you want to contact can be down. In this world of uncertainty, you have to anticipate problems in order not to break the entire chain and throw an error to the end user when you could offer a partially degraded service instead.</p>
+
+<p>The goal of this article is to show how to implement the circuit breaker pattern using Hystrix, Feign Client and Spring Boot.</p>
+
+<!-- more -->
+
+
+<h2>Feign Client Crash Course</h2>
+
+<p><a href="https://github.com/OpenFeign/feign">Feign</a> is an HTTP client created by Netflix to make HTTP communications easier. It is integrated to Spring Boot with the <code>spring-cloud-starter-feign</code> starter.</p>
+
+<p>To create a client to consume an HTTP service, an interface annotated with <code>@FeignClient</code> must be created. Endpoints can be declared in this interface using an API that is very close to the Spring MVC API. The <code>@EnableFeignClients</code> annotation must also be added to a Spring Configuration class.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Configuration</span>
+</span><span class='line'><span class="nd">@EnableFeignClients</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">FeignConfiguration</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@FeignClient</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;videos&quot;</span><span class="o">,</span> <span class="n">url</span> <span class="o">=</span> <span class="s">&quot;http://localhost:9090/videos&quot;</span><span class="o">)</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">VideoClient</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@PostMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&quot;/api/videos/suggest&quot;</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">List</span><span class="o">&lt;</span><span class="n">Suggestion</span><span class="o">&gt;</span> <span class="nf">suggest</span><span class="o">(</span><span class="nd">@RequestBody</span> <span class="n">ViewingHistory</span> <span class="n">history</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>An instance of <code>VideoClient</code> is automagically injected into the Spring application context and can be autowired and used throughout the application. Moreover, if the <code>videos</code> microservice is registred to the same discovery service as the current microservice, there is no need for an URL as it will be retrieved for you based on the <code>name</code>.</p>
+
+<p>If the <code>videos</code> service, a middleware or the network happens to be down or overloaded, the <code>suggest</code> method will throw a <code>FeignException</code> that will be propagated throughout the stack if not caught.</p>
+
+<h2>Create a Fallback Implementation</h2>
+
+<p>Fortunately, Spring Cloud comes with a solution to this problem: a circuit breaker. In this article, we will use <a href="https://github.com/Netflix/Hystrix">Hystrix</a>. It is also created by Netflix and also integrated to Spring Boot using the <code>spring-cloud-starter-hystrix</code> starter.</p>
+
+<p>The idea is to create an implementation of the <code>VideoClient</code> and mark it as the default behaviour if <code>videos</code> is unreachable or overloaded. Like a lot of other Spring features, it is enabled using an annotation: <code>@EnableCircuitBreaker</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Configuration</span>
+</span><span class='line'><span class="nd">@EnableFeignClients</span>
+</span><span class='line'><span class="nd">@EnableCircuitBreaker</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">FeignConfiguration</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@FeignClient</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;videos&quot;</span><span class="o">,</span> <span class="n">url</span> <span class="o">=</span> <span class="s">&quot;http://localhost:9090/videos&quot;</span><span class="o">,</span> <span class="n">fallback</span> <span class="o">=</span> <span class="n">VideoClientFallback</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">VideoClient</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@PostMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&quot;/api/videos/suggest&quot;</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">List</span><span class="o">&lt;</span><span class="n">Suggestion</span><span class="o">&gt;</span> <span class="nf">suggest</span><span class="o">(</span><span class="nd">@RequestBody</span> <span class="n">ViewingHistory</span> <span class="n">history</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Component</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">VideoClientFallback</span> <span class="kd">implements</span> <span class="n">VideoClient</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Suggestion</span><span class="o">&gt;</span> <span class="nf">suggest</span><span class="o">(</span><span class="n">ViewingHistory</span> <span class="n">history</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="c1">// Degraded service: no suggestion to offer</span>
+</span><span class='line'>      <span class="k">return</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A configuration property has to be added to the <code>application.yml</code> file of the Spring Boot application to tell Feign to enable Hystrix.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">feign</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">hystrix</span><span class="p-Indicator">:</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">enabled</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Voila! Every time the remote service will be unavailable, the <code>suggest</code> method of the <code>VideoClientFallback</code> will be called and the end user will not get an error violently thrown at her.</p>
+
+<h2>Keep Track of the Source Error</h2>
+
+<p>With this setup, the fallback will be called regardless of the initial error that will be swallowed. If you want to retrieve this error and do something with it, you can use a <code>FallbackFactory</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@FeignClient</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;videos&quot;</span><span class="o">,</span> <span class="n">url</span> <span class="o">=</span> <span class="s">&quot;http://localhost:9090/videos&quot;</span><span class="o">,</span> <span class="n">fallbackFactory</span> <span class="o">=</span> <span class="n">VideoClientFallbackFactory</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">VideoClient</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nd">@PostMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&quot;/api/videos/suggest&quot;</span><span class="o">)</span>
+</span><span class='line'>  <span class="n">List</span><span class="o">&lt;</span><span class="n">Suggestion</span><span class="o">&gt;</span> <span class="nf">suggest</span><span class="o">(</span><span class="nd">@RequestBody</span> <span class="n">ViewingHistory</span> <span class="n">history</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Component</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">VideoClientFallbackFactory</span> <span class="kd">implements</span> <span class="n">FallbackFactory</span><span class="o">&lt;</span><span class="n">VideoClient</span><span class="o">&gt;</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="n">VideoClient</span> <span class="nf">create</span><span class="o">(</span><span class="n">Throwable</span> <span class="n">throwable</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="k">new</span> <span class="nf">VideoClientFallback</span><span class="o">(</span><span class="n">throwable</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">VideoClientFallback</span> <span class="kd">implements</span> <span class="n">VideoClient</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">private</span> <span class="kd">final</span> <span class="n">Throwable</span> <span class="n">cause</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="nf">VideoClientFallback</span><span class="o">(</span><span class="n">Throwable</span> <span class="n">cause</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="k">this</span><span class="o">.</span><span class="na">cause</span> <span class="o">=</span> <span class="n">cause</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Suggestion</span><span class="o">&gt;</span> <span class="nf">suggest</span><span class="o">(</span><span class="n">ViewingHistory</span> <span class="n">history</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="o">(</span><span class="n">cause</span> <span class="k">instanceof</span> <span class="n">FeignException</span> <span class="o">&amp;&amp;</span> <span class="o">((</span><span class="n">FeignException</span><span class="o">)</span> <span class="n">cause</span><span class="o">).</span><span class="na">status</span><span class="o">()</span> <span class="o">==</span> <span class="mi">404</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="c1">// Treat the HTTP 404 status</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Conclusion</h2>
+
+<p>Microservices foster low coupling between components and resiliency. Hence, it would be sad to throw an error every time a service or a middleware is down. The circuit breaker pattern explained in this article allows you to ensure the continuity of service, even if it has to be offered in a degraded manner. As always, Spring Boot is a great help to setup this mechanism very easily.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Refactoring Conditional Structures with Map]]></title>
+    <link href="https://nphumbert.github.io/blog/2017/07/20/refactoring-conditional-with-map/"/>
+    <updated>2017-07-20T16:32:15+02:00</updated>
+    <id>https://nphumbert.github.io/blog/2017/07/20/refactoring-conditional-with-map</id>
+    <content type="html"><![CDATA[<p>When working on already existing codebases, I often encounter pieces of code that look like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Day</span> <span class="o">{</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">start</span><span class="o">(</span><span class="n">Weather</span> <span class="n">weather</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">switch</span><span class="o">(</span><span class="n">weather</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="k">case</span> <span class="nl">RAINY:</span>
+</span><span class='line'>          <span class="n">takeAnUmbrella</span><span class="o">();</span>
+</span><span class='line'>          <span class="k">break</span><span class="o">;</span>
+</span><span class='line'>      <span class="k">case</span> <span class="nl">SUNNY:</span>
+</span><span class='line'>          <span class="n">takeAHat</span><span class="o">();</span>
+</span><span class='line'>          <span class="k">break</span><span class="o">;</span>
+</span><span class='line'>      <span class="k">case</span> <span class="nl">STORMY:</span>
+</span><span class='line'>          <span class="n">stayHome</span><span class="o">();</span>
+</span><span class='line'>          <span class="k">break</span><span class="o">;</span>
+</span><span class='line'>      <span class="k">default</span><span class="o">:</span>
+</span><span class='line'>          <span class="n">doNothing</span><span class="o">();</span>
+</span><span class='line'>          <span class="k">break</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Basically, depending on the weather, an action has to be taken. This kind of code is pretty hard to test and to maintain. The goal of this article is to refactor it using a <code>Map</code>.</p>
+
+<!-- more -->
+
+
+<h2>What is the Problem?</h2>
+
+<p>Using conditional structures like this might be a sign of bad design. Indeed, this code tends to grow indefinitely as new cases have to be handled and the same code has to be modified over and over. A time will come when the code will be so bloated that it will be very hard to add new behaviour. This is a violation of the <em>Open Closed Principle</em> which stipulates that the code should be open for extension but closed for modification: you should be able to add new behaviour to your code without modifying it.</p>
+
+<h2>Transform the Imperative Algorithm into Data</h2>
+
+<p>By analyzing this code, it becomes clear that this algorithm is no more than a <code>Map</code>: for a certain weather (the key), a piece of code has to be executed (the value). A first refactoring can be done to make this conceptual <code>Map</code> concrete:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Day</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">private</span> <span class="kd">final</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">Weather</span><span class="o">,</span> <span class="n">Runnable</span><span class="o">&gt;</span> <span class="n">startOfTheDayActions</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">public</span> <span class="nf">Day</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">startOfTheDayActions</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">Weather</span><span class="o">.</span><span class="na">RAINY</span><span class="o">,</span> <span class="k">this</span><span class="o">::</span><span class="n">takeAnUmbrella</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">startOfTheDayActions</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">Weather</span><span class="o">.</span><span class="na">SUNNY</span><span class="o">,</span> <span class="k">this</span><span class="o">::</span><span class="n">takeAHat</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">startOfTheDayActions</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">Weather</span><span class="o">.</span><span class="na">STORMY</span><span class="o">,</span> <span class="k">this</span><span class="o">::</span><span class="n">stayHome</span><span class="o">);</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">start</span><span class="o">(</span><span class="n">Weather</span> <span class="n">weather</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">startOfTheDayActions</span><span class="o">.</span><span class="na">getOrDefault</span><span class="o">(</span><span class="n">weather</span><span class="o">,</span> <span class="k">this</span><span class="o">::</span><span class="n">doNothing</span><span class="o">).</span><span class="na">run</span><span class="o">();</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is a first step and the code is already much clearer. Now, the mapping between the weather and the action to perform is explicit and the <code>start</code> method will not have to be modified very often. When a new case must be handled, it&rsquo;s just a new entry in the <code>Map</code>.</p>
+
+<p>Nonetheless, this do not solve all problems. The class still has to be modified to add a new entry. To go further, the <code>Map</code> can be passed as a parameter of the constructor.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Day</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">private</span> <span class="kd">final</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">Weather</span><span class="o">,</span> <span class="n">Runnable</span><span class="o">&gt;</span> <span class="n">startOfTheDayActions</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">public</span> <span class="nf">Day</span><span class="o">(</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">Weather</span><span class="o">,</span> <span class="n">Runnable</span><span class="o">&gt;</span> <span class="n">startOfTheDayActions</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">this</span><span class="o">.</span><span class="na">startOfTheDayActions</span> <span class="o">=</span> <span class="n">startOfTheDayActions</span><span class="o">;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">start</span><span class="o">(</span><span class="n">Weather</span> <span class="n">weather</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">startOfTheDayActions</span><span class="o">.</span><span class="na">getOrDefault</span><span class="o">(</span><span class="n">weather</span><span class="o">,</span> <span class="k">this</span><span class="o">::</span><span class="n">doNothing</span><span class="o">).</span><span class="na">run</span><span class="o">();</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now the only responsibility of the class is to use the mapping to perform the correct action. This mapping is now the responsibility of another class.</p>
+
+<h2>Note about Spring Framework</h2>
+
+<p>If you are using Spring Framework and the <code>Day</code> class is a <code>@Component</code>, you can simply inject the <code>Map</code> as any other dependency.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Component</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Day</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">private</span> <span class="kd">final</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">Weather</span><span class="o">,</span> <span class="n">Runnable</span><span class="o">&gt;</span> <span class="n">startOfTheDayActions</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">public</span> <span class="nf">Day</span><span class="o">(</span><span class="nd">@Qualifier</span><span class="o">(</span><span class="s">&quot;startOfTheDayActions&quot;</span><span class="o">)</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">Weather</span><span class="o">,</span> <span class="n">Runnable</span><span class="o">&gt;</span> <span class="n">startOfTheDayActions</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">this</span><span class="o">.</span><span class="na">startOfTheDayActions</span> <span class="o">=</span> <span class="n">startOfTheDayActions</span><span class="o">;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">start</span><span class="o">(</span><span class="n">Weather</span> <span class="n">weather</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">startOfTheDayActions</span><span class="o">.</span><span class="na">getOrDefault</span><span class="o">(</span><span class="n">weather</span><span class="o">,</span> <span class="k">this</span><span class="o">::</span><span class="n">doNothing</span><span class="o">).</span><span class="na">run</span><span class="o">();</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Configuration</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ActionConfig</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nd">@Bean</span><span class="o">(</span><span class="s">&quot;startOfTheDayActions&quot;</span><span class="o">)</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">Weather</span><span class="o">,</span> <span class="n">Runnable</span><span class="o">&gt;</span> <span class="nf">startOfTheDayActions</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">Map</span><span class="o">&lt;</span><span class="n">Weather</span><span class="o">,</span> <span class="n">Runnable</span><span class="o">&gt;</span> <span class="n">actions</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span><span class='line'>    <span class="c1">// Create mapping</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">actions</span><span class="o">;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Conclusion</h2>
+
+<p>This refactoring is very easy to do but it can reduce the complexity of a method in a very efficient way. I think that the code should reveal intention and should not be bloated with conditional structures when it is not necessary.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Go Back in Time with Git]]></title>
@@ -2536,212 +2946,6 @@ You can currently visualize your revenue per month, per customer and per product
 <h2>Conclusion</h2>
 
 <p><a href="https://nano.litesln.com">Nano</a> aims to ensure a secured management of your invoices in terms of legislation and allows you to do so in a simple way. You can watch a demo of Nano <a href="https://www.youtube.com/watch?v=jWs6Qh3xLKY">here</a>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Le gestionnaire de factures Nano est disponible]]></title>
-    <link href="https://nphumbert.github.io/blog/2015/12/05/le-gestionnaire-de-factures-nano-est-disponible/"/>
-    <updated>2015-12-05T19:09:13+01:00</updated>
-    <id>https://nphumbert.github.io/blog/2015/12/05/le-gestionnaire-de-factures-nano-est-disponible</id>
-    <content type="html"><![CDATA[<p>Je suis heureuse de vous annoncer la première version de <a href="https://nano.litesln.com">Nano</a> de LiteSln. Nano est un site web de gestion des factures qui assure leur cohérence à l'aide d'une stratégie de numération qui peut être adaptée à la législation du pays. Elle permet également d'imprimer des factures avec votre propre modèle personnalisé et de suivre vos performances grâce à des statistiques.</p>
-
-<p>L'objectif de cet article est d'introduire les principales fonctionnalités de Nano.</p>
-
-<!-- more -->
-
-
-<h2>Factures</h2>
-
-<p>Vous pouvez créer et gérer des factures ainsi que des produits et des clients à l'aide de Nano.</p>
-
-<h3>Création d'une facture</h3>
-
-<p>Une facture est associée à un client et contient des articles qui correspondent à des produits dans une certaine quantité.<br/>
-Il est également possible d'ajouter des charges à une facture. Une charge peut être fixe ou un pourcentage du prix total de la facture (une taxe par exemple).</p>
-
-<p>Toutes les factures créées sont consultables et des actions peuvent y être appliquées, selon leur état.</p>
-
-<h3>Cycle de vie</h3>
-
-<p>Au départ, un devis est créé. Il peut être émis et la facture est alors due. Une fois que le client a payé, la facture est marquée comme payée et ne peut plus être annulée.</p>
-
-<p>Pour des raisons de sécurité, les articles et les charges peuvent seulement être ajoutés à des devis.</p>
-
-<h2>Personnalisation</h2>
-
-<p>Il est possible de personnaliser votre expérience avec Nano en changeant les valeurs par défault pour la stratégie de numération et le modèle d'impression de vos factures.</p>
-
-<h3>Stratégie de numération</h3>
-
-<p>La numération des factures peut varier en fonction de la législation qui s'applique à votre entreprise.
-Par exemple, le format des numéros de facture ou la manière dont ils sont incrémentés peuvent être imposés.</p>
-
-<p>Nano traite cette problématique en vous permettant d'utiliser une stratégie de numération personnalisée. Afin de garantir la cohérence dans la numération, vous ne pouvez pas la changer une fois que votre première facture a été créée.</p>
-
-<p>Vous pouvez facilement migrer vers Nano depuis votre système de gestion de factures actuel. En effet, il est possible de choisir le numéro de votre première facture dans Nano, à condition que celui-ci respecte le format requis par votre stratégie de numération.</p>
-
-<h3>Modèle de facture</h3>
-
-<p>Un modèle de facture personnalisé vous permet d'imprimer vos factures avec le format et les informations que vous souhaitez. Ce modèle peut être changé même après la création de plusieurs factures.</p>
-
-<h2>Statistiques</h2>
-
-<p>Afin de suivre vos performances, Nano fourni un ensemble de statistiques et de graphiques.
-Actuellement, vous pouvez visualiser vos revenus par mois, par client et par produit. D'autres statistiques seront ajoutées dans de futures versions.</p>
-
-<h2>Conclusion</h2>
-
-<p><a href="https://nano.litesln.com">Nano</a> vise à assurer la gestion sécurisée de vos factures en termes de législation et vous permet de le faire de manière simple. Vous pouvez voir une démo de Nano <a href="https://www.youtube.com/watch?v=jWs6Qh3xLKY">ici</a>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Testing Spring MVC Controllers]]></title>
-    <link href="https://nphumbert.github.io/blog/2015/10/31/testing-spring-mvc-controllers/"/>
-    <updated>2015-10-31T12:54:08+01:00</updated>
-    <id>https://nphumbert.github.io/blog/2015/10/31/testing-spring-mvc-controllers</id>
-    <content type="html"><![CDATA[<p>Since Spring 3.2 (January, 2013), it is possible to test Spring MVC controllers without an external framework.
-The goal of this article is to show how to test Spring MVC controllers using only Spring testing capabilities.</p>
-
-<!-- more -->
-
-
-<p>To do so, a very simple Spring Boot project will be used as a support. You can find it on <a href="https://github.com/nphumbert/demo-test-spring-mvc">GitHub</a>. The controller to test will first be introduced. Then, explanations will be given on how to test it.</p>
-
-<h2>Controller</h2>
-
-<p>The controller that will be tested is showed below. It permits to do a search in a fruit list.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Controller</span>
-</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ApplicationController</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&quot;/fruits&quot;</span><span class="o">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">RequestMethod</span><span class="o">.</span><span class="na">GET</span><span class="o">)</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getFruits</span><span class="o">(</span><span class="nd">@RequestParam</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&quot;search&quot;</span><span class="o">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">false</span><span class="o">)</span> <span class="n">String</span> <span class="n">search</span><span class="o">,</span> <span class="kd">final</span> <span class="n">Model</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="n">model</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">&quot;fruitBowl&quot;</span><span class="o">,</span> <span class="n">search</span><span class="o">(</span><span class="n">search</span><span class="o">));</span>
-</span><span class='line'>        <span class="k">return</span> <span class="s">&quot;fruits&quot;</span><span class="o">;</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">search</span><span class="o">(</span><span class="n">String</span> <span class="n">search</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="k">if</span> <span class="o">(</span><span class="n">StringUtils</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">(</span><span class="n">search</span><span class="o">))</span> <span class="o">{</span>
-</span><span class='line'>            <span class="k">return</span> <span class="nf">fruitBowl</span><span class="o">();</span>
-</span><span class='line'>        <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="k">return</span> <span class="nf">fruitBowl</span><span class="o">().</span><span class="na">stream</span><span class="o">()</span>
-</span><span class='line'>                <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">fruit</span> <span class="o">-&gt;</span> <span class="n">fruit</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="n">search</span><span class="o">))</span>
-</span><span class='line'>                <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">toList</span><span class="o">());</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">fruitBowl</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="nf">asList</span><span class="o">(</span><span class="s">&quot;banana&quot;</span><span class="o">,</span> <span class="s">&quot;orange&quot;</span><span class="o">);</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Test</h2>
-
-<p>The test class must be annotated with the following annotations:</p>
-
-<ul>
-<li><code>@RunWith(SpringJUnit4ClassRunner.class)</code> to benefit from Spring features in JUnit tests.</li>
-<li><code>@SpringApplicationConfiguration(classes = DemoTestSpringMvcApplication.class)</code> to specify the configuration class that will be used during the test.</li>
-<li><code>@WebAppConfiguration</code> to indicate that the Spring application context that must be loaded is a <code>WebApplicationContext</code>.</li>
-</ul>
-
-
-<p>The entry point used to perform the tests is the class <code>MockMvc</code>. Thereafter, the usage of this class will be explained.</p>
-
-<h3>Set up</h3>
-
-<p>The set up of the <code>MockMvc</code> class can be done as follows:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Before</span>
-</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">setUp</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>    <span class="n">ApplicationController</span> <span class="n">controller</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">ApplicationController</span><span class="o">();</span> <span class="c1">// 1</span>
-</span><span class='line'>    <span class="k">this</span><span class="o">.</span><span class="na">mockMvc</span> <span class="o">=</span> <span class="n">MockMvcBuilders</span><span class="o">.</span><span class="na">standaloneSetup</span><span class="o">(</span><span class="n">controller</span><span class="o">).</span><span class="na">build</span><span class="o">();</span> <span class="c1">// 2</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>First, the controller must be instantiated (<code>1</code>). Then, the mock is initialized using the static method <code>MockMvcBuilders.standaloneSetup()</code> (<code>2</code>). At this point, the mock is ready to test the controller.</p>
-
-<h3>Perform</h3>
-
-<p>The method <code>MockMvc.perform()</code> allows to simulate HTTP requests to the controller. For instance, a GET request is done as follows:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">mockMvc</span><span class="o">.</span><span class="na">perform</span><span class="o">(</span>
-</span><span class='line'>    <span class="n">get</span><span class="o">(</span><span class="s">&quot;/fruits&quot;</span><span class="o">)</span> <span class="c1">// 1</span>
-</span><span class='line'>        <span class="o">.</span><span class="na">param</span><span class="o">(</span><span class="s">&quot;search&quot;</span><span class="o">,</span> <span class="s">&quot;ban&quot;</span><span class="o">)</span> <span class="c1">// 2</span>
-</span><span class='line'><span class="o">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The class <code>MockMvcRequestBuilders</code> provides static methods, such as <code>get</code> or <code>post</code>, to simulate HTTP requests on a particular endpoint of the controller (<code>1</code>). HTTP parameters can be added fluently to the request (<code>2</code>).</p>
-
-<p>Furthermore, other static methods are provided by the <code>MockMvcRequestBuilders</code> class:</p>
-
-<ul>
-<li>HTTP verbs like <code>delete</code>, <code>put</code> or <code>patch</code>.</li>
-<li><code>fileUpload</code> to upload binary files.</li>
-<li>Others (<a href="http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/test/web/servlet/request/MockMvcRequestBuilders.html">documentation</a>).</li>
-</ul>
-
-
-<h3>Assert</h3>
-
-<p>MockMvc permits to add assertions to the controller&rsquo;s response.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">mockMvc</span><span class="o">.</span><span class="na">perform</span><span class="o">(</span><span class="n">get</span><span class="o">(</span><span class="s">&quot;/fruits&quot;</span><span class="o">)</span>
-</span><span class='line'>    <span class="o">.</span><span class="na">param</span><span class="o">(</span><span class="s">&quot;search&quot;</span><span class="o">,</span> <span class="s">&quot;ban&quot;</span><span class="o">))</span>
-</span><span class='line'>    <span class="o">.</span><span class="na">andExpect</span><span class="o">(</span><span class="n">status</span><span class="o">().</span><span class="na">isOk</span><span class="o">())</span> <span class="c1">// 1</span>
-</span><span class='line'>    <span class="o">.</span><span class="na">andExpect</span><span class="o">(</span><span class="n">view</span><span class="o">().</span><span class="na">name</span><span class="o">(</span><span class="s">&quot;fruits&quot;</span><span class="o">))</span> <span class="c1">// 2</span>
-</span><span class='line'>    <span class="o">.</span><span class="na">andExpect</span><span class="o">(</span><span class="n">model</span><span class="o">().</span><span class="na">attribute</span><span class="o">(</span><span class="s">&quot;fruitBowl&quot;</span><span class="o">,</span> <span class="n">contains</span><span class="o">(</span><span class="s">&quot;banana&quot;</span><span class="o">)));</span> <span class="c1">// 3</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Assertions are done with the <code>andExpect()</code> method. The class <code>MockMvcResultMatchers</code> provides static methods to do assertions on the HTTP status (<code>1</code>), the view asked by the controller (<code>2</code>) and on the model completed by the controller (<code>3</code>).</p>
-
-<h2>Conclusion</h2>
-
-<p>The Spring test framework is a very powerful, complete and simple way to test Spring MVC controllers. Its fluent API allows to write elegant and yet precise tests.</p>
 ]]></content>
   </entry>
   

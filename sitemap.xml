@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>https://nphumbert.github.io/blog/2017/07/23/setup-a-circuit-breaker-with-hystrix/</loc>
+<lastmod>2017-07-23T13:33:38+02:00</lastmod>
+</url>
+<url>
+<loc>https://nphumbert.github.io/blog/2017/07/20/refactoring-conditional-with-map/</loc>
+<lastmod>2017-07-20T16:32:15+02:00</lastmod>
+</url>
+<url>
 <loc>https://nphumbert.github.io/blog/2017/04/19/go-back-in-time-with-git/</loc>
 <lastmod>2017-04-19T21:22:15+02:00</lastmod>
 </url>
@@ -188,5 +196,8 @@
 </url>
 <url>
 <loc>https://nphumbert.github.io/blog/categories/git/</loc>
+</url>
+<url>
+<loc>https://nphumbert.github.io/blog/categories/clean-code/</loc>
 </url>
 </urlset>
