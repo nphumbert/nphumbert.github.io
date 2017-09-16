@@ -3,7 +3,7 @@ layout: post
 title: "Setup a Circuit Breaker with Hystrix, Feign Client and Spring Boot"
 date: 2017-07-23 13:33:38 +0200
 comments: true
-categories: ["architecture", "java", "spring"]
+categories: ["microservices", "java", "spring"]
 ---
 
 In a microservices architecture, several things can go wrong. A middleware, the network or the service you want to contact can be down. In this world of uncertainty, you have to anticipate problems in order not to break the entire chain and throw an error to the end user when you could offer a partially degraded service instead.
