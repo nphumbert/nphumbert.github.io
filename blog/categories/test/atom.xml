@@ -4,7 +4,7 @@
   <title><![CDATA[Category: test | Nadia Humbert-Labeaumaz]]></title>
   <link href="https://nphumbert.github.io/blog/categories/test/atom.xml" rel="self"/>
   <link href="https://nphumbert.github.io/"/>
-  <updated>2017-07-24T11:05:22+02:00</updated>
+  <updated>2017-09-16T15:08:22+02:00</updated>
   <id>https://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -12,6 +12,169 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to Write Robust Component Tests]]></title>
+    <link href="https://nphumbert.github.io/blog/2017/09/16/how-to-write-robust-component-tests/"/>
+    <updated>2017-09-16T13:37:12+02:00</updated>
+    <id>https://nphumbert.github.io/blog/2017/09/16/how-to-write-robust-component-tests</id>
+    <content type="html"><![CDATA[<p>Component tests allow to test complete use cases from end to end. They are often expensive especially in terms of setup and execution time. Thus, thought needs to be given to define their scope. Nevertheless, they are required in order to check and document the overall behaviour of the application or the microservice.</p>
+
+<p>I have noticed that, in the context of microservices, these tests are very cost-effective. Indeed, they can be quite easy to setup because the already existing external API of the microservice can often be used directly without the need to setup additional things (like a fake server for instance). Moreover, the scope of a microservice is generally limited and can be tested exhaustively in isolation.</p>
+
+<p>The goal of this article is to show how to make these tests robust. The main idea is to make them independent of the implementation.</p>
+
+<!-- more -->
+
+
+<p>The following example shows a Gherkin specification, for a booking HTTP API, that is very coupled to the technical implementation:
+<code>gherkin
+Scenario: Get an error when trying to book a hotel with no vacancy
+    Given Get to hotel service "/api/hotel/1234" returns a response with the status code 200 and the body:
+        """
+        {
+          "id": "1234",
+          "name": "Ritz",
+          "availableRooms": 0
+        }
+        """
+    Given Get to user service "/api/user/456" returns a response with the status code 200 and the body:
+        """
+        {
+          "id": "456",
+          "firstName": "John",
+          "lastName": "Doe"
+        }
+        """
+    When I post "http://my.app.fr:8080/booking/api/" on the "booking" application with the following body:
+        """
+        {
+          "userId": "456",
+          "hotelId": "1234",
+          "from": "2017-09-16",
+          "to": "2017-09-24"
+        }
+        """
+    Then I get a response with the status code 200
+    And I get a JSON response with the body:
+        """
+        {
+          "errors" : [ {
+            "code" : 12,
+            "message" : "There is no room available for this booking request"
+          } ]
+        }
+        """
+</code></p>
+
+<p>This is the associated Java code to the first step (the framework used is Cucumber):
+<code>java
+@Given("^Get to hotel service \"([^\"]*)\" returns a response with the status code (\\d+) and the body:$$")
+public void getToHotelServiceReturnsAResponseWithTheStatusCodeAndTheBody(String uri, int statusCode, String body) {
+    hotelWireMockServer.stubFor(get(urlEqualTo(uri))
+        .willReturn(aResponse()
+            .withStatus(statusCode)
+            .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+            .withBody(body)
+        )
+    );
+}
+</code></p>
+
+<p>It is possible to make the test more explicit and functional. For instance, instead of describing HTTP calls and responses in the steps, it is possible to write them in plain English. The first steps in the Gherkin file can be replaced by:</p>
+
+<pre><code class="gherkin">Given There is no vacancy for the hotel "Ritz" of id 1234
+Given The following users exist:
+    | id   | firstName | lastName |
+    | 456  | John      | Doe      |
+</code></pre>
+
+<p>The associated Java code is now the following:
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Given</span><span class="o">(&amp;</span><span class="n">ldquo</span><span class="o">;^</span><span class="n">There</span> <span class="n">is</span> <span class="n">no</span> <span class="n">vacancy</span> <span class="k">for</span> <span class="n">the</span> <span class="n">hotel</span> <span class="err">\</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="o">;([^</span><span class="err">\</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="o">;]*)</span><span class="err">\</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="o">;</span> <span class="n">of</span> <span class="nf">id</span> <span class="o">(</span><span class="err">\</span><span class="n">d</span><span class="o">+)</span><span class="n">$</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="o">;)</span>
+</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">thereIsNoVacancyForTheHotelOfId</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="n">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">hotelWireMockServer</span><span class="o">.</span><span class="na">stubFor</span><span class="o">(</span><span class="n">get</span><span class="o">(</span><span class="n">urlEqualTo</span><span class="o">(&amp;</span><span class="n">rdquo</span><span class="o">;/</span><span class="n">api</span><span class="o">/</span><span class="n">hotel</span><span class="o">/&amp;</span><span class="n">ldquo</span><span class="o">;</span> <span class="o">+</span> <span class="n">id</span><span class="o">))</span>
+</span><span class='line'>        <span class="o">.</span><span class="na">willReturn</span><span class="o">(</span><span class="n">aResponse</span><span class="o">()</span>
+</span><span class='line'>            <span class="o">.</span><span class="na">withStatus</span><span class="o">(</span><span class="n">statusCode</span><span class="o">)</span>
+</span><span class='line'>            <span class="o">.</span><span class="na">withHeader</span><span class="o">(</span><span class="s">&quot;Content-Type&amp;rdquo;, MediaType.APPLICATION_JSON_VALUE)</span>
+</span><span class='line'><span class="s">            .withBody(&amp;ldquo;{ \&quot;</span><span class="n">id</span><span class="err">\</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="o">;:</span> <span class="err">\</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="o">;&amp;</span><span class="n">rdquo</span><span class="o">;</span> <span class="o">+</span> <span class="n">id</span> <span class="o">+</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="o">;</span><span class="err">\</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="o">;,</span> <span class="err">\</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="o">;</span><span class="n">name</span><span class="err">\</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="o">;:</span> <span class="err">\</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="o">;&amp;</span><span class="n">rdquo</span><span class="o">;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+&amp;</span><span class="n">ldquo</span><span class="o">;</span><span class="err">\</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="o">;,</span> <span class="err">\</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="o">;</span><span class="n">availableRooms</span><span class="err">\</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="o">;:</span> <span class="mi">0</span> <span class="o">}&amp;</span><span class="n">ldquo</span><span class="o">;)</span>
+</span><span class='line'>        <span class="o">)</span>
+</span><span class='line'>    <span class="o">);</span>
+</span><span class='line'><span class="o">}&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="nd">@Given</span><span class="o">(&amp;</span><span class="n">ldquo</span><span class="o">;^</span><span class="n">The</span> <span class="n">following</span> <span class="n">users</span> <span class="nl">exist:</span><span class="n">$</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="o">;)</span>
+</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">theFollowingUsersExist</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">UserDTO</span><span class="o">&gt;</span> <span class="n">users</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">users</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span>
+</span><span class='line'>        <span class="n">user</span> <span class="o">-&gt;</span> <span class="n">userWireMockServer</span><span class="o">.</span><span class="na">stubFor</span><span class="o">(</span><span class="n">get</span><span class="o">(</span><span class="n">urlEqualTo</span><span class="o">(&amp;</span><span class="n">ldquo</span><span class="o">;/</span><span class="n">api</span><span class="o">/</span><span class="n">user</span><span class="o">/&amp;</span><span class="n">rdquo</span><span class="o">;</span> <span class="o">+</span> <span class="n">user</span><span class="o">.</span><span class="na">id</span><span class="o">))</span>
+</span><span class='line'>            <span class="o">.</span><span class="na">willReturn</span><span class="o">(</span><span class="n">aResponse</span><span class="o">()</span>
+</span><span class='line'>                <span class="o">.</span><span class="na">withStatus</span><span class="o">(</span><span class="mi">200</span><span class="o">)</span>
+</span><span class='line'>                <span class="o">.</span><span class="na">withHeader</span><span class="o">(&amp;</span><span class="n">ldquo</span><span class="o">;</span><span class="n">Content</span><span class="o">-</span><span class="n">Type</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="o">;,</span> <span class="n">MediaType</span><span class="o">.</span><span class="na">APPLICATION_JSON_VALUE</span><span class="o">)</span>
+</span><span class='line'>                <span class="o">.</span><span class="na">withBody</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">asJson</span><span class="o">())</span>
+</span><span class='line'>            <span class="o">)</span>
+</span><span class='line'>        <span class="o">)</span>
+</span><span class='line'>    <span class="o">);</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>We notice that the purely technical details like the URL, the JSON response and the HTTP status are now specified in the Java code. This allows to make the Gherkin specification more focused on the behaviour, clearer and more concise. The maintainability and robustness of this test are hence increased.</p>
+
+<p>The initial test is now the following:
+<code>gherkin
+Scenario: Get an error when trying to book a hotel with no vacancy
+    Given There is no vacancy for the hotel "Ritz" of id 1234
+    Given The following users exist:
+        | id   | firstName | lastName |
+        | 456  | John      | Doe      |
+    When I post "http://my.app.fr:8080/booking/api/" on the "booking" application with the following body:
+        """
+        {
+          "userId": "456",
+          "hotelId": "1234",
+          "from": "2017-09-16",
+          "to": "2017-09-24"
+        }
+        """
+    Then I get a response with the status code 200
+    And I get a JSON response with the body:
+        """
+        {
+          "errors" : [ {
+            "code" : 12,
+            "message" : "There is no room available for this booking request"
+          } ]
+        }
+        """
+</code></p>
+
+<p>Since this microservice is an HTTP API, it can be relevant to keep the <code>When</code> and <code>Then</code> in a technical form. Indeed, one can argue that the HTTP status and the format of the exchanged messages are part of its behaviour.</p>
+
+<h2>Conclusion</h2>
+
+<p>A component test must explicitely describe a real use case. In order to do that, it is important to make it as independent as possible of the implementation. This article shows a way to go from a test highly coupled to the implementation to a test more functional and concise.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Ecrire des tests avec Spring Boot 1.4]]></title>

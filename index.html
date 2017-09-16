@@ -9,7 +9,7 @@
   <meta name="author" content="Nadia Humbert-Labeaumaz">
 
   
-  <meta name="description" content="In a microservices architecture, several things can go wrong. A middleware, the network or the service you want to contact can be down. In this world &hellip;">
+  <meta name="description" content="Component tests allow to test complete use cases from end to end. They are often expensive especially in terms of setup and execution time. Thus, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -120,6 +120,47 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/09/16/how-to-write-robust-component-tests/">How to Write Robust Component Tests</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-09-16T13:37:12+02:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>1:37 pm</span></time>
+        
+         | <a href="/blog/2017/09/16/how-to-write-robust-component-tests/#disqus_thread">Comments</a>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Component tests allow to test complete use cases from end to end. They are often expensive especially in terms of setup and execution time. Thus, thought needs to be given to define their scope. Nevertheless, they are required in order to check and document the overall behaviour of the application or the microservice.</p>
+
+<p>I have noticed that, in the context of microservices, these tests are very cost-effective. Indeed, they can be quite easy to setup because the already existing external API of the microservice can often be used directly without the need to setup additional things (like a fake server for instance). Moreover, the scope of a microservice is generally limited and can be tested exhaustively in isolation.</p>
+
+<p>The goal of this article is to show how to make these tests robust. The main idea is to make them independent of the implementation.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/09/16/how-to-write-robust-component-tests/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -511,45 +552,6 @@ Le code source de ces katas est disponible sur GitHub :</p>
   
     <footer>
       <a rel="full-article" href="/blog/2016/05/08/decouverte-de-kotlin-par-la-pratique/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/04/20/polymorphisme-avec-le-kata-parrot-refactoring/">Polymorphisme avec le kata parrot refactoring</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-04-20T16:26:03+02:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:26 pm</span></time>
-        
-         | <a href="/blog/2016/04/20/polymorphisme-avec-le-kata-parrot-refactoring/#disqus_thread">Comments</a>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Ce kata est tiré d'un exemple du livre &ldquo;Refactoring, Improving the Design of Existing Code&rdquo; de Martin Fowler, et a été créé par Emilie Bache.
-L'exemple contient des signes de mauvais design et permet notamment de pratiquer le polymorphisme.<br/>
-Dans cet article, une solution à ce kata sera développée. Le projet qui a servi de support se trouve sur <a href="https://github.com/nphumbert/kata-parrot-refactoring">GitHub</a> avec la solution respective.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/04/20/polymorphisme-avec-le-kata-parrot-refactoring/">Read on &rarr;</a>
     </footer>
   
 
