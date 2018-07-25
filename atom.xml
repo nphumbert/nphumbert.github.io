@@ -4,7 +4,7 @@
   <title><![CDATA[Nadia Humbert-Labeaumaz]]></title>
   <link href="https://nphumbert.github.io/atom.xml" rel="self"/>
   <link href="https://nphumbert.github.io/"/>
-  <updated>2018-05-06T21:56:42+02:00</updated>
+  <updated>2018-07-25T17:07:45+02:00</updated>
   <id>https://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -2343,6 +2343,54 @@ Mais comment mettre en place cet outil dans une structure ? Je pense que, comme 
   </entry>
   
   <entry>
+    <title type="html"><![CDATA[The Story of Nano]]></title>
+    <link href="https://nphumbert.github.io/blog/2016/03/30/the-story-of-nano/"/>
+    <updated>2016-03-30T19:22:26+02:00</updated>
+    <id>https://nphumbert.github.io/blog/2016/03/30/the-story-of-nano</id>
+    <content type="html"><![CDATA[<p><a href="https://nano.litesln.com">Nano</a> is a free application that allows you to manage your invoices. It also permits you to manage a repository of your customers and products and to monitor your performance through statistics.</p>
+
+<!-- more -->
+
+
+<h2>Who can use it?</h2>
+
+<p>Nano can be used by anyone who needs to manage invoices.</p>
+
+<h2>Why Nano was created?</h2>
+
+<p><a href="https://nano.litesln.com">Nano</a> was created in order to help Honduran entrepreneurs to adapt to the significant changes that have been made recently to the Honduran legislation.
+Indeed, the Honduran law has been quite complexified over the past few years.
+As a result, Honduran entrepreneurs do not know exactly all the changes that have been made to the legislation.
+Therefore, many entrepreneurs don&rsquo;t have valid invoices and some of them saw their entreprises closed as a consequence.
+Nano was then created to help them.</p>
+
+<h2>How does it work?</h2>
+
+<p>Through a mechanism of strategies, Nano has the ability to adapt to different contexts (legislation, type of company, etc.).
+The main goal being to help Honduran entrepreneurs, a specific strategy has been created for Honduras.
+There is also a standard strategy giving access to Nano&rsquo;s services to entrepreneurs all over the world.</p>
+
+<h2>What are the main features of Nano?</h2>
+
+<p>The main features of <a href="https://nano.litesln.com">Nano</a> are:</p>
+
+<ul>
+<li>Invoice creation and workflow</li>
+<li>Customers and products repository management</li>
+<li>Standard invoice template and numeration strategy</li>
+<li>Honduran specific invoice template and numeration strategy</li>
+<li>Unlimited number of customers, products and invoices</li>
+<li>Statistics</li>
+</ul>
+
+
+<h2>How much does it cost?</h2>
+
+<p>It is totally <strong>free</strong>!</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Refactoring Is Like Sleeping]]></title>
     <link href="https://nphumbert.github.io/blog/2016/03/10/refactoring-is-like-sleeping/"/>
     <updated>2016-03-10T15:12:42+01:00</updated>
@@ -2984,293 +3032,110 @@ Mais comment mettre en place cet outil dans une structure ? Je pense que, comme 
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Testing Spring MVC Controllers]]></title>
-    <link href="https://nphumbert.github.io/blog/2015/10/31/testing-spring-mvc-controllers/"/>
-    <updated>2015-10-31T12:54:08+01:00</updated>
-    <id>https://nphumbert.github.io/blog/2015/10/31/testing-spring-mvc-controllers</id>
-    <content type="html"><![CDATA[<p>Since Spring 3.2 (January, 2013), it is possible to test Spring MVC controllers without an external framework.
-The goal of this article is to show how to test Spring MVC controllers using only Spring testing capabilities.</p>
+    <title type="html"><![CDATA[Nano, una ayuda para los empresarios de Honduras]]></title>
+    <link href="https://nphumbert.github.io/blog/2015/12/15/nano-una-ayuda-para-los-empresarios-de-honduras/"/>
+    <updated>2015-12-15T22:46:46+01:00</updated>
+    <id>https://nphumbert.github.io/blog/2015/12/15/nano-una-ayuda-para-los-empresarios-de-honduras</id>
+    <content type="html"><![CDATA[<p>Han habido diversos cambios en el reglamento de facturación de Honduras que han impactado el trabajo de los empresarios. En efecto, conforme a los artículos 41 y 42 del acuerdo 189-2014 y de la reforma 058-2014, las facturas en Honduras deben contener imperativamente un conjunto de informaciones bien definidas.</p>
+
+<p>El objetivo de este documento es indicar el tipo de datos que deben contener las facturas en Honduras y mostrar las funciones de <a href="https://nano.litesln.com">Nano</a> que facilitan la administración de cuyas facturas y que ayudan a los empresarios de Honduras a diario.</p>
 
 <!-- more -->
 
 
-<p>To do so, a very simple Spring Boot project will be used as a support. You can find it on <a href="https://github.com/nphumbert/demo-test-spring-mvc">GitHub</a>. The controller to test will first be introduced. Then, explanations will be given on how to test it.</p>
+<h2>¿ Qué deben contener las facturas en Honduras ?</h2>
 
-<h2>Controller</h2>
-
-<p>The controller that will be tested is showed below. It permits to do a search in a fruit list.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Controller</span>
-</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ApplicationController</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&quot;/fruits&quot;</span><span class="o">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">RequestMethod</span><span class="o">.</span><span class="na">GET</span><span class="o">)</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getFruits</span><span class="o">(</span><span class="nd">@RequestParam</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&quot;search&quot;</span><span class="o">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">false</span><span class="o">)</span> <span class="n">String</span> <span class="n">search</span><span class="o">,</span> <span class="kd">final</span> <span class="n">Model</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="n">model</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">&quot;fruitBowl&quot;</span><span class="o">,</span> <span class="n">search</span><span class="o">(</span><span class="n">search</span><span class="o">));</span>
-</span><span class='line'>        <span class="k">return</span> <span class="s">&quot;fruits&quot;</span><span class="o">;</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">search</span><span class="o">(</span><span class="n">String</span> <span class="n">search</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="k">if</span> <span class="o">(</span><span class="n">StringUtils</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">(</span><span class="n">search</span><span class="o">))</span> <span class="o">{</span>
-</span><span class='line'>            <span class="k">return</span> <span class="nf">fruitBowl</span><span class="o">();</span>
-</span><span class='line'>        <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="k">return</span> <span class="nf">fruitBowl</span><span class="o">().</span><span class="na">stream</span><span class="o">()</span>
-</span><span class='line'>                <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">fruit</span> <span class="o">-&gt;</span> <span class="n">fruit</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="n">search</span><span class="o">))</span>
-</span><span class='line'>                <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">toList</span><span class="o">());</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">fruitBowl</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="nf">asList</span><span class="o">(</span><span class="s">&quot;banana&quot;</span><span class="o">,</span> <span class="s">&quot;orange&quot;</span><span class="o">);</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Test</h2>
-
-<p>The test class must be annotated with the following annotations:</p>
+<p>Actualmente, los datos siguientes deben aparecer en todas las facturas emitidas en Honduras:</p>
 
 <ul>
-<li><code>@RunWith(SpringJUnit4ClassRunner.class)</code> to benefit from Spring features in JUnit tests.</li>
-<li><code>@SpringApplicationConfiguration(classes = DemoTestSpringMvcApplication.class)</code> to specify the configuration class that will be used during the test.</li>
-<li><code>@WebAppConfiguration</code> to indicate that the Spring application context that must be loaded is a <code>WebApplicationContext</code>.</li>
+<li>La identificación y ubicación del contribuyente;</li>
+<li>La denominación del documento: &ldquo;Factura&rdquo; en este caso;</li>
+<li>La Clave de Autorización de Impresión (CAI);</li>
+<li>La fecha límite de autorización de impresión vigente;</li>
+<li>El número correlativo de la factura;</li>
+<li>El destino de los ejemplares;</li>
+<li>El rango de documentos fiscales autorizado por la DEI;</li>
+<li>Los datos del comprador o adquirente. Estos dependen del tipo de comprador o adquirente: contribuyente que requiere sustentar gastos, costos o crédito o consumidor final;</li>
 </ul>
 
 
-<p>The entry point used to perform the tests is the class <code>MockMvc</code>. Thereafter, the usage of this class will be explained.</p>
+<p>Nano facilita la gestión del detalle de las informaciones descritas previamente así como de otras necesarias en ciertos casos excepcionales descritos por la ley.</p>
 
-<h3>Set up</h3>
+<h2>¿ Cómo Nano le ayuda todos los días a administrar sus facturas en Honduras ?</h2>
 
-<p>The set up of the <code>MockMvc</code> class can be done as follows:</p>
+<p><a href="https://nano.litesln.com">Nano</a> de LiteSln permite administrar de manera segura y simple sus facturas asegurándose que sean válidas (todos los datos necesarios a su constitución son indicados). A continuación vamos a describir algunas de las medidas tomadas por Nano para ayudar a los empresarios hondureños.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Before</span>
-</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">setUp</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>    <span class="n">ApplicationController</span> <span class="n">controller</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">ApplicationController</span><span class="o">();</span> <span class="c1">// 1</span>
-</span><span class='line'>    <span class="k">this</span><span class="o">.</span><span class="na">mockMvc</span> <span class="o">=</span> <span class="n">MockMvcBuilders</span><span class="o">.</span><span class="na">standaloneSetup</span><span class="o">(</span><span class="n">controller</span><span class="o">).</span><span class="na">build</span><span class="o">();</span> <span class="c1">// 2</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>Nano garantiza que el número de factura se situe en el rango de documentos fiscales autorizado y que no se sobrepasa la fecha límite de autorización de impresión.<br/>
+Un recordatorio es dado dos meses antes de esa fecha límite para que el empresario tenga tiempo de procurarse un nuevo rango asociado a una nueva fecha límite de autorización de impresión.
+En la fecha límite o cuando el rango se acaba, Nano le invita a actualizar estos datos.</p>
 
+<p><a href="https://nano.litesln.com">Nano</a> de LiteSln permite también identificar las informaciones que faltan para completar sus facturas antes de cada impresión. Si todas las informaciones ya están indicadas, la impresión se lanza sin acción previa necesaria. Sino, Nano propone al usuario completar un formulario con las informaciones que faltan. Al llenar y validar el formulario, la factura impresa contendrá todas las informaciones requiridas por la ley.</p>
 
-<p>First, the controller must be instantiated (<code>1</code>). Then, the mock is initialized using the static method <code>MockMvcBuilders.standaloneSetup()</code> (<code>2</code>). At this point, the mock is ready to test the controller.</p>
+<p>Otra ventaja de Nano es que otorga la generación de un número ilimitado de facturas para un número ilimitado de clientes. En efecto, el objetivo de LiteSln es brindar un servicio que sea accesible a todos los empresarios hondureños. De esta forma, el empresario genera y utiliza la cantidad de facturas que necesita.</p>
 
-<h3>Perform</h3>
+<p>Otro activo importante de Nano es que se adapta a los cambios fácilmente. Por ejemplo, si hay un cambio de ley, Nano se adapata para generar facturas con la información requerida por la nueva ley. Además, el empresario puede personalizar sus facturas si lo necesita.</p>
 
-<p>The method <code>MockMvc.perform()</code> allows to simulate HTTP requests to the controller. For instance, a GET request is done as follows:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">mockMvc</span><span class="o">.</span><span class="na">perform</span><span class="o">(</span>
-</span><span class='line'>    <span class="n">get</span><span class="o">(</span><span class="s">&quot;/fruits&quot;</span><span class="o">)</span> <span class="c1">// 1</span>
-</span><span class='line'>        <span class="o">.</span><span class="na">param</span><span class="o">(</span><span class="s">&quot;search&quot;</span><span class="o">,</span> <span class="s">&quot;ban&quot;</span><span class="o">)</span> <span class="c1">// 2</span>
-</span><span class='line'><span class="o">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The class <code>MockMvcRequestBuilders</code> provides static methods, such as <code>get</code> or <code>post</code>, to simulate HTTP requests on a particular endpoint of the controller (<code>1</code>). HTTP parameters can be added fluently to the request (<code>2</code>).</p>
-
-<p>Furthermore, other static methods are provided by the <code>MockMvcRequestBuilders</code> class:</p>
-
-<ul>
-<li>HTTP verbs like <code>delete</code>, <code>put</code> or <code>patch</code>.</li>
-<li><code>fileUpload</code> to upload binary files.</li>
-<li>Others (<a href="http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/test/web/servlet/request/MockMvcRequestBuilders.html">documentation</a>).</li>
-</ul>
-
-
-<h3>Assert</h3>
-
-<p>MockMvc permits to add assertions to the controller&rsquo;s response.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">mockMvc</span><span class="o">.</span><span class="na">perform</span><span class="o">(</span><span class="n">get</span><span class="o">(</span><span class="s">&quot;/fruits&quot;</span><span class="o">)</span>
-</span><span class='line'>    <span class="o">.</span><span class="na">param</span><span class="o">(</span><span class="s">&quot;search&quot;</span><span class="o">,</span> <span class="s">&quot;ban&quot;</span><span class="o">))</span>
-</span><span class='line'>    <span class="o">.</span><span class="na">andExpect</span><span class="o">(</span><span class="n">status</span><span class="o">().</span><span class="na">isOk</span><span class="o">())</span> <span class="c1">// 1</span>
-</span><span class='line'>    <span class="o">.</span><span class="na">andExpect</span><span class="o">(</span><span class="n">view</span><span class="o">().</span><span class="na">name</span><span class="o">(</span><span class="s">&quot;fruits&quot;</span><span class="o">))</span> <span class="c1">// 2</span>
-</span><span class='line'>    <span class="o">.</span><span class="na">andExpect</span><span class="o">(</span><span class="n">model</span><span class="o">().</span><span class="na">attribute</span><span class="o">(</span><span class="s">&quot;fruitBowl&quot;</span><span class="o">,</span> <span class="n">contains</span><span class="o">(</span><span class="s">&quot;banana&quot;</span><span class="o">)));</span> <span class="c1">// 3</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Assertions are done with the <code>andExpect()</code> method. The class <code>MockMvcResultMatchers</code> provides static methods to do assertions on the HTTP status (<code>1</code>), the view asked by the controller (<code>2</code>) and on the model completed by the controller (<code>3</code>).</p>
+<p>Finalmente, Nano provee un conjunto de estadísticas y de gráficos que le permiten monitorear su rendimiento. Puede actualmente visualizar sus ingresos por mes, por cliente y por producto. Otras estadísticas serán añadidas en futuras versiones de Nano.</p>
 
 <h2>Conclusion</h2>
 
-<p>The Spring test framework is a very powerful, complete and simple way to test Spring MVC controllers. Its fluent API allows to write elegant and yet precise tests.</p>
+<p><a href="https://nano.litesln.com">Nano</a> asegura una gestión simple y segura de sus facturas. Puede mirar demostraciones de Nano para <a href="https://www.youtube.com/watch?v=Ozo9xQw6vKU">configurar su cuenta</a> y para <a href="https://www.youtube.com/watch?v=EsVpSXKLXgA">crear e imprimir una factura hondureña</a>.</p>
+
+<p>Si tiene preguntas u observaciones, puede ponerse en contacto con nosotros por <a href="mailto:contact@litesln.com">mail</a> o a través de la sección de <a href="https://nano.litesln.com/contact">contacto</a> de Nano.</p>
 ]]></content>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Exposer des ressources statiques avec Spring MVC]]></title>
-    <link href="https://nphumbert.github.io/blog/2015/09/18/exposer-des-ressources-statiques-avec-spring-mvc/"/>
-    <updated>2015-09-18T13:59:06+02:00</updated>
-    <id>https://nphumbert.github.io/blog/2015/09/18/exposer-des-ressources-statiques-avec-spring-mvc</id>
-    <content type="html"><![CDATA[<p>Il est souvent nécessaire d'exposer des ressources statiques telles que des images, des fichiers pdf, des vidéos, etc. dans une application web.
-Ces fichiers sont stockés sur le serveur et ne sont donc pas accessibles à l'utilisateur via une URL.</p>
+    <title type="html"><![CDATA[El administrador de facturas Nano disponible]]></title>
+    <link href="https://nphumbert.github.io/blog/2015/12/05/el-administrador-de-facturas-nano-esta-disponible/"/>
+    <updated>2015-12-05T21:25:20+01:00</updated>
+    <id>https://nphumbert.github.io/blog/2015/12/05/el-administrador-de-facturas-nano-esta-disponible</id>
+    <content type="html"><![CDATA[<p>Tengo el placer de anunciar la primera versión de <a href="https://nano.litesln.com">Nano</a> de LiteSln. Nano es un sitio web  para administrar facturas de manera segura utilizando una estrategia de numeración que puede ser adaptada a la legislación del país. Nano también permite la edición de facturas según un modelo personalizado y el monitoreo de su rendimiento mediante varias estadísticas.</p>
 
-<p>L'objectif de cet article est d'exposer des fichiers stockés sur le serveur via une URL dans une application Spring MVC.</p>
-
-<!-- more -->
-
-
-<h2>Surcharge de la configuration web</h2>
-
-<p>Pour exposer des ressources statiques, il faut surcharger la configuration web de Spring MVC.
-Pour ce faire, une classe de configuration qui hérite de <code>WebMvcConfigurerAdapter</code> doit être implémentée.
-Plus précisément, il est nécessaire de surcharger la méthode <code>addResourceHandlers()</code>.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Configuration</span>
-</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">WebConfig</span> <span class="kd">extends</span> <span class="n">WebMvcConfigurerAdapter</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">DIRECTORY</span> <span class="o">=</span> <span class="s">&quot;/path/to/server/disk/resources&quot;</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nd">@Override</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addResourceHandlers</span><span class="o">(</span><span class="n">ResourceHandlerRegistry</span> <span class="n">registry</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="n">registry</span><span class="o">.</span><span class="na">addResourceHandler</span><span class="o">(</span><span class="s">&quot;/resources/**&quot;</span><span class="o">)</span> <span class="c1">// 1</span>
-</span><span class='line'>                <span class="o">.</span><span class="na">addResourceLocations</span><span class="o">(</span><span class="s">&quot;file:///&quot;</span> <span class="o">+</span> <span class="n">DIRECTORY</span> <span class="o">+</span> <span class="s">&quot;/&quot;</span><span class="o">);</span> <span class="c1">// 2</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>La méthode de configuration fournit un objet de type <code>ResourceHandlerRegistry</code> qui permet d'associer une URL (<code>1</code>) à un dossier (<code>2</code>). Ainsi, l'URL <code>http://example.com/resources/file.pdf</code> sera associée au fichier <code>/path/to/server/disk/resources/file.pdf</code>.</p>
-
-<h2>Conclusion</h2>
-
-<p>Pour conclure, Spring permet d'exposer des ressources statiques via des URL de manière simple et rapide.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Transférer des paramètres à travers un redirect avec Spring MVC]]></title>
-    <link href="https://nphumbert.github.io/blog/2015/07/25/transferer-des-parametres-a-travers-un-redirect-avec-spring-mvc/"/>
-    <updated>2015-07-25T12:06:04+02:00</updated>
-    <id>https://nphumbert.github.io/blog/2015/07/25/transferer-des-parametres-a-travers-un-redirect-avec-spring-mvc</id>
-    <content type="html"><![CDATA[<p>Dans une application web, il est courant d'effectuer une redirection après la soumission d'un formulaire. Cette redirection permet notamment de rendre l'url <em>bookmarkable</em> et d'empêcher l'utilisateur de resoumettre le formulaire par erreur (suite à un <em>refresh</em>, par exemple).</p>
-
-<p>Il peut être intéressant de passer des paramètres à travers ce redirect. Par exemple, pour indiquer à l'utilisateur que son formulaire a bien été soumis. Pour ce faire, il est possible d'ajouter des paramètres directement dans l'url : <code>redirect:/path/to/endpoint?formSubmitted=true</code>.
-Cette solution n'est pas toujours adpatée pour des raisons de confidentialité, de taille d'url ou simplement d'esthétique.</p>
-
-<p>L'objectif de cet article est de démontrer comment transférer des paramètres à travers une redirection avec Spring MVC en utilisant des <em>flash attributes</em>. L'exemple utilisé consistera en un formulaire qui permet d'envoyer un nom. Ce nom s'affichera ensuite une fois le formulaire soumis.</p>
+<p>El objetivo de este artículo es presentar las funciones principales de Nano.</p>
 
 <!-- more -->
 
 
-<h2>Traitement du formulaire</h2>
+<h2>Facturas</h2>
 
-<p>Le code suivant décrit la gestion de la soumission du formulaire par un <em>controller</em> Spring MVC :</p>
+<p>Puede crear y administrar facturas así como productos y clientes utilizando Nano.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&quot;/&quot;</span><span class="o">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">RequestMethod</span><span class="o">.</span><span class="na">POST</span><span class="o">)</span>
-</span><span class='line'><span class="kd">public</span> <span class="n">ModelAndView</span> <span class="nf">post</span><span class="o">(</span><span class="nd">@RequestParam</span><span class="o">(</span><span class="s">&quot;name&quot;</span><span class="o">)</span> <span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="n">RedirectAttributes</span> <span class="n">redirectAttributes</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>   <span class="n">redirectAttributes</span><span class="o">.</span><span class="na">addFlashAttribute</span><span class="o">(</span><span class="s">&quot;name&quot;</span><span class="o">,</span> <span class="n">name</span><span class="o">);</span> <span class="c1">// 1</span>
-</span><span class='line'>   <span class="k">return</span> <span class="k">new</span> <span class="nf">ModelAndView</span><span class="o">(</span><span class="s">&quot;redirect:/&quot;</span><span class="o">);</span> <span class="c1">// 2</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
+<h3>Creación de factura</h3>
 
+<p>Una factura es asociada a un cliente y contiene artículos que corresponden a productos en una dada cantidad. Es igualmente posible agregar diversos honorarios a una factura. Un honorario puede ser fijo o un porcentaje del precio total de la factura (impuestos por ejemplo).</p>
 
-<p>Afin d'ajouter un <em>flash attribute</em> à la redirection, il faut utiliser une instance de la classe <code>RedirectAttributes</code> (<code>1</code>). Cette instance est automatiquement injectée par Spring lorsqu'elle est déclarée dans la méthode du <em>controller</em>.</p>
+<p>Todas las facturas creadas pueden ser consultadas y acciones pueden ser efectuadas en ellas, dependiendo de su estado  actual.</p>
 
-<p>Une fois le <em>flash attribute</em> ajouté, il est possible de faire la redirection (<code>2</code>).</p>
+<h3>Ciclo de vida</h3>
 
-<h2>Traitement de l'affichage</h2>
+<p>Al principio, una oferta de venta es creada. Esta puede ser emitida y la factura es entonces debida. Una vez que el cliente paga, la factura es marcada como pagada y no puede ser más cancelada.</p>
 
-<p>Le code suivant décrit le traitement de la requête <code>GET</code> par un <em>controller</em> Spring MVC :</p>
+<p>Par razones de seguridad, los artículos y los honorarios pueden ser únicamente agregados a una oferta de venta.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&quot;/&quot;</span><span class="o">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">RequestMethod</span><span class="o">.</span><span class="na">GET</span><span class="o">)</span>
-</span><span class='line'><span class="kd">public</span> <span class="n">ModelAndView</span> <span class="nf">get</span><span class="o">(</span><span class="n">HttpServletRequest</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="n">ModelAndView</span> <span class="n">modelAndView</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">ModelAndView</span><span class="o">(</span><span class="s">&quot;default&quot;</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="o">?&gt;</span> <span class="n">flashMap</span> <span class="o">=</span> <span class="n">RequestContextUtils</span><span class="o">.</span><span class="na">getInputFlashMap</span><span class="o">(</span><span class="n">request</span><span class="o">);</span> <span class="c1">// 1</span>
-</span><span class='line'>   <span class="k">if</span> <span class="o">(!</span><span class="n">CollectionUtils</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">(</span><span class="n">flashMap</span><span class="o">))</span> <span class="o">{</span>
-</span><span class='line'>      <span class="n">modelAndView</span><span class="o">.</span><span class="na">addObject</span><span class="o">(</span><span class="s">&quot;name&quot;</span><span class="o">,</span> <span class="n">flashMap</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&quot;name&quot;</span><span class="o">));</span> <span class="c1">// 2</span>
-</span><span class='line'>   <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="k">return</span> <span class="n">modelAndView</span><span class="o">;</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
+<h2>Personalización</h2>
 
+<p>Es posible personalizar su experiencia con Nano cambiando la estrategia de numeración y el modelo de impresión por defecto de sus facturas.</p>
 
-<p>Pour récupérer la <em>map</em> contenant les <em>flash attributes</em>, il faut utiliser la méthode <code>RequestContextUtils.getInputFlashMap</code> sur la requête <code>HttpServletRequest</code> (<code>1</code>). Cette requête est également injectée par Spring lorsqu'elle est déclarée dans la méthode du <em>controller</em>.</p>
+<h3>Estrategia de numeración</h3>
 
-<p>La valeur de l'attribut peut alors être récupérée depuis la <em>map</em> pour être utilisée, ici dans le <code>ModelAndView</code> (<code>2</code>).</p>
+<p>Las estrategias de numeración pueden diferir según la legislación que se aplica a su empresa. Por ejemplo, el formato del número de factura o la manera en la que es incrementado pueden ser impuestas por la ley.</p>
 
-<p>Ci-dessous un exemple est donné pour afficher conditionnellement cet attribut dans un template <a href="http://www.thymeleaf.org/">Thymeleaf</a> :</p>
+<p>Nano trata esta problemática permitiéndole usar una estrategia de numeración personalizada. Para garantizar la coherenncia de la numeración, no puede modificarla una vez la primera factura creada.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s">&quot;alert alert-success&quot;</span> <span class="n">role</span><span class="o">=</span><span class="s">&quot;alert&quot;</span> <span class="nl">th:</span><span class="k">if</span><span class="o">=</span><span class="s">&quot;${not #strings.isEmpty(name)}&quot;</span><span class="o">&gt;</span>
-</span><span class='line'>   <span class="n">Hello</span><span class="o">,</span> <span class="o">&lt;</span><span class="n">span</span> <span class="nl">th:</span><span class="n">text</span><span class="o">=</span><span class="s">&quot;${name}&quot;</span><span class="o">&gt;</span><span class="n">John</span> <span class="n">Doe</span><span class="o">&lt;/</span><span class="n">span</span><span class="o">&gt;!</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>Puede migrar facilmente de su sistema de gestión de facturas actual a Nano. En efecto, es posible escoger el número de su primera factura en Nano, a condición de respetar el formato necesario para su estrategia de numeración.</p>
 
+<h3>Modelo de factura</h3>
+
+<p>Un modelo personalizado de factura le permite imprimir las facturas con el formato y la información deseados. El modelo puede ser cambiado en todo momento, aún cuando facturas ya han sido creadas.</p>
+
+<h2>Estadísticas</h2>
+
+<p>Para monitorear su rendimiento, Nano provee un conjunto de estadísticas y de gráficos. Puede actualmente visualizar sus ingresos por mes, por cliente y por producto. Otras estadísticas serán añadidas en futuras versiones de Nano.</p>
 
 <h2>Conclusion</h2>
 
-<p>Les <em>flash attributes</em> de Spring MVC peuvent être utilisés pour transférer des paramètres à travers une redirection. Ce mécanisme permet notamment d'implémenter très facilement une confirmation de soumission de formulaire à l'utilisateur.</p>
-
-<p>Le code source du projet de démonstration peut être trouvé sur <a href="https://github.com/nphumbert/demo-flash-attributes">GitHub</a>.</p>
+<p><a href="https://nano.litesln.com">Nano</a> asegura una gestión simple y segura de sus facturas. Puede mirar una demostración de Nano <a href="https://www.youtube.com/watch?v=jWs6Qh3xLKY">aquí</a>.</p>
 ]]></content>
   </entry>
   
