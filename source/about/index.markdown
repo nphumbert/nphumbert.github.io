@@ -8,7 +8,7 @@ footer: true
 ---
 
 I'm an entrepreneur and a freelance developer. I cofounded [Crafties](https://www.crafties.fr), a company that helps to improve the health of IT projects by performing technical audits, training courses, coaching sessions and software development.  
-I also create my own applications ([Nano](/projects)) and speak about software development, particularly on my YouTube channel (also) called [Crafties](http://nphumbert.github.io/crafties/). Recently, I created the [Lyon Kotlin User Group](https://www.meetup.com/fr-FR/Lyon-Kotlin-User-Group/).
+I also speak about software development, particularly on my YouTube channel (also) called [Crafties](http://nphumbert.github.io/crafties/). Recently, I created the [Lyon Kotlin User Group](https://www.meetup.com/fr-FR/Lyon-Kotlin-User-Group/).
 
 I am a very accesible person and enjoy to talk to people from all over the world. I speak French, Spanish, English, Portuguese and a bit of Italian. I love my husband, family, sports, music and programming.
 
