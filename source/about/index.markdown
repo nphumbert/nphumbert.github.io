@@ -7,7 +7,7 @@ sharing: true
 footer: true
 ---
 
-I'm an entrepreneur and a freelance advisor to companies. I cofounded [Crafties](https://www.crafties.fr), a company that helps improve the health of IT projects by performing technical audits, training courses, coaching sessions, software development and other consulting activies.  
+I'm an advisor to companies and an entrepreneur. I cofounded [Crafties](https://www.crafties.fr), a company that helps improve the health of IT projects by performing technical audits, training courses, coaching sessions, software development and other consulting activies.  
 
 I also created a YouTube channel (also) called [Crafties](https://www.youtube.com/Crafties) and the [Lyon Kotlin User Group](https://www.meetup.com/fr-FR/Lyon-Kotlin-User-Group/) to share software engineering good practices.
 
