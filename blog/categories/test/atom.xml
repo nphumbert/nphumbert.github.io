@@ -4,7 +4,7 @@
   <title><![CDATA[Category: test | Nadia Humbert-Labeaumaz]]></title>
   <link href="https://nphumbert.github.io/blog/categories/test/atom.xml" rel="self"/>
   <link href="https://nphumbert.github.io/"/>
-  <updated>2018-11-15T16:55:29+01:00</updated>
+  <updated>2018-12-21T09:48:51+01:00</updated>
   <id>https://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -20,7 +20,7 @@
     <id>https://nphumbert.github.io/blog/2017/09/16/how-to-write-robust-component-tests</id>
     <content type="html"><![CDATA[<p>Component tests allow to test complete use cases from end to end. They are often expensive especially in terms of setup and execution time. Thus, thought needs to be given to define their scope. Nevertheless, they are required in order to check and document the overall behaviour of the application or the microservice.</p>
 
-<p>I have noticed that, in the context of microservices, these tests are very cost-effective. Indeed, they can be quite easy to setup because the already existing external API of the microservice can often be used directly without the need to setup additional things (like a fake server for instance). Moreover, the scope of a microservice is generally limited and can be tested exhaustively in isolation.</p>
+<p>I have noticed that, in the context of microservices, these tests are very cost-effective. Indeed, they can be quite easy to set up because the already existing external API of the microservice can often be used directly without needing additional elements (like a fake server for instance). Moreover, the scope of a microservice is generally limited and can be tested exhaustively in isolation.</p>
 
 <p>The goal of this article is to show how to make these tests robust. The main idea is to make them independent of the implementation.</p>
 
@@ -138,7 +138,7 @@ Given The following users exist:
 </span><span class='line'><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure></p>
 
-<p>We notice that the purely technical details like the URL, the JSON response and the HTTP status are now specified in the Java code. This allows to make the Gherkin specification more focused on the behaviour, clearer and more concise. The maintainability and robustness of this test are hence increased.</p>
+<p>We notice that the purely technical details like the URL, the JSON response and the HTTP status are now specified in the Java code. This allows to make the Gherkin specification more focused on the behaviour, clearer and more concise. Hence, this test is now more maintainable and robust.</p>
 
 <p>The initial test is now the following:
 <code>gherkin

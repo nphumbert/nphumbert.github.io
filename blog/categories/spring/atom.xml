@@ -4,7 +4,7 @@
   <title><![CDATA[Category: spring | Nadia Humbert-Labeaumaz]]></title>
   <link href="https://nphumbert.github.io/blog/categories/spring/atom.xml" rel="self"/>
   <link href="https://nphumbert.github.io/"/>
-  <updated>2018-11-15T16:55:29+01:00</updated>
+  <updated>2018-12-21T09:48:51+01:00</updated>
   <id>https://nphumbert.github.io/</id>
   <author>
     <name><![CDATA[Nadia Humbert-Labeaumaz]]></name>
@@ -18,16 +18,18 @@
     <link href="https://nphumbert.github.io/blog/2017/09/17/testing-java-spring-cloud-microservices/"/>
     <updated>2017-09-17T16:09:24+02:00</updated>
     <id>https://nphumbert.github.io/blog/2017/09/17/testing-java-spring-cloud-microservices</id>
-    <content type="html"><![CDATA[<p>Tests are an essential part of our codebase. At the very least, they minimize the risk of regression when we modify our code. There are several types of tests and each has a specific role: unit tests, integration tests, component tests, contract tests and end-to-end tests. It is crucial to understand the role of each type of tests in order to leverage their potential.</p>
+    <content type="html"><![CDATA[<p>Tests are an essential part of our codebase. At the very least, they minimize the risk of regression when we modify our code. There are several types of tests and each has a specific role: unit tests, integration tests, component tests, contract tests and end-to-end tests. It is crucial to understand the role of each type of test in order to leverage their potential.</p>
 
-<p>The goal of this article is to describe a strategy to use them in order to test Java Spring Boot microservices. For every type of tests, we will try to explain its role, its scope as well as tooling we like to use.</p>
+<p>The goal of this article is to describe a strategy to use them in order to test Java Spring Boot microservices. For every type of test, we will try to explain its role, its scope as well as tooling we like to use.</p>
 
 <!-- more -->
 
 
 <h2>Anatomy of a Microservice</h2>
 
-<p>First of all, we will setup a common vocabulary to make this article as clear as possible. A standard microservice is composed of:</p>
+<p>First of all, we will set up a common vocabulary to make this article as clear as possible.</p>
+
+<p>A standard microservice is composed of:</p>
 
 <ul>
 <li><strong>Resources</strong>: HTTP controllers or AMQP listeners that will serve as the entry point of the microservice.</li>
@@ -42,22 +44,22 @@
 
 <h3>Unit Tests</h3>
 
-<p>Unit tests allow to test a unit (generally a method) in isolation. They are very cost-effective: easy to setup and very fast. Thus, they can give a very fast feedback about the state of the application to quickly spot bugs or regressions. It is then advised to test every edge cases and relevant combinations with unit tests.
+<p>Unit tests allow to test a unit (generally a method) in isolation. They are very cost-effective: easy to set up and very fast. Thus, they can give a fast feedback about the state of the application to quickly spot bugs or regressions. It is then advised to test every edge case and relevant combination with unit tests.
 As a bonus, they can validate a design: if the code is really difficult to test, the design is probably bad.</p>
 
-<p>In a microservice, like in any other codebase, it is crucial to unit test domain / service classes and every other classes that contain logic.</p>
+<p>In a microservice, like in any other codebase, it is crucial to unit test domain / service classes and every other class that contains logic.</p>
 
 <p>The tooling we prefer to write unit tests is <a href="http://junit.org/junit5/">Junit</a> (to run the tests), <a href="http://joel-costigliola.github.io/assertj/">AssertJ</a> (to write assertions) and <a href="http://site.mockito.org/">Mockito</a> (to mock external dependencies).</p>
 
 <h3>Integration Tests</h3>
 
-<p>Integration tests are used to test the correct integration of the different bricks of the application. They are sometimes hard to setup and have to be carefully chosen. The idea is not to test all possible interactions but to choose relevant ones. The feedback of these tests is less fast than with unit tests because they are slower to execute. It is important to note that writing too many integration tests for the same interaction can be counter-productive. Indeed, the build time will be increased without any added value.</p>
+<p>Integration tests are used to test the proper integration of the different bricks of the application. They are sometimes hard to set up and have to be carefully chosen. The idea is not to test all possible interactions but to choose relevant ones. The feedback of these tests is less fast than with unit tests because they are slower to execute. It is important to note that writing too many integration tests for the same interaction can be counter-productive. Indeed, the build time will be increased without any added value.</p>
 
 <p>In a microservice, integration tests can be written for:</p>
 
 <ul>
-<li>Repositories when the query is more complex than just a <code>findById</code>.</li>
-<li>Services in case of doubt on the interaction between the service and the respository (JPA or transaction issues for instance).</li>
+<li>Repositories, when the query is more complex than just a <code>findById</code>.</li>
+<li>Services, in case of doubt on the interaction between the service and the respository (JPA or transaction issues for instance).</li>
 <li>HTTP clients.</li>
 <li>Gateways.</li>
 </ul>
@@ -77,7 +79,7 @@ public class UserGatewayIntTest {
 </code></pre>
 
 <p>The test must use the <code>SpringRunner</code> and be annotated with <code>@SpringBootTest</code>. It is then possible to inject a bean using <code>@Autowired</code> and to mock one using <code>@MockBean</code>.
-In an integration test, the database should be embedded (H2 database is a good candidate) in order for the tests to be executable anywhere. For the same reason, external HTTP resources can be mocked using <a href="http://wiremock.org/">WireMock</a> and SMTP server with <a href="https://github.com/voodoodyne/subethasmtp">SubEthatSMTP</a>.</p>
+In an integration test, the database should be embedded (H2 database is a good candidate) in order for the tests to be executable anywhere. For the same reason, external HTTP resources can be mocked using <a href="http://wiremock.org/">WireMock</a> and an SMTP server with <a href="https://github.com/voodoodyne/subethasmtp">SubEthatSMTP</a>.</p>
 
 <p>In order to be able to mock external microservices, the port must be fixed. In production, microservices will register themselves to a registry and an URL will be dynamically assigned to them. If <a href="https://github.com/Netflix/ribbon">Ribbon</a> is used with Spring Cloud, it is possible to fix the URL in tests, by adding a property to the test <code>application.yml</code> (here, the external microservice name is <code>user</code>):</p>
 
@@ -90,13 +92,13 @@ In an integration test, the database should be embedded (H2 database is a good c
 
 <p>Component tests allow to test complete use cases from end to end. They are often expensive especially in terms of setup and execution time. Thus, thought needs to be given to define their scope. Nevertheless, they are required in order to check and document the overall behaviour of the application or the microservice.</p>
 
-<p>In the context of microservices, these tests are very cost-effective. Indeed, they can be quite easy to setup because the already existing external API of the microservice can often be used directly without the need to setup additional things (like a fake server for instance). Moreover, the scope of a microservice is generally limited and can be tested exhaustively in isolation.</p>
+<p>In the context of microservices, these tests are very cost-effective. Indeed, they can be quite easy to set up because the already existing external API of the microservice can often be used directly without needing additional elements (like a fake server for instance). Moreover, the scope of a microservice is generally limited and can be tested exhaustively in isolation.</p>
 
-<p>Component tests should be concise and easy to understand (see <a href="https://blog.crafties.fr/2017/09/16/how-to-write-robust-component-tests/">How to Write Robust Component Tests</a>). The goal is to test the behaviour of the microservice by writing a nominal case and very few edge cases. We noticed that writing the specification before implementing the feature can lead to very simple component tests. Moreover, it is a good practice to write the component tests in collaboration with the different stakeholders in order to cover the feature in a very efficient way.</p>
+<p>Component tests should be concise and easy to understand (see <a href="https://blog.crafties.fr/2017/09/16/how-to-write-robust-component-tests/">How to Write Robust Component Tests</a>). The goal is to test the behaviour of the microservice by writing a nominal case and very few edge cases. We noticed that writing the specification before implementing the feature can lead to very simple component tests. Moreover, it is a good practice to write the component tests in collaboration with the different project stakeholders in order to cover the feature in a very efficient way.</p>
 
 <p>In component tests, an embedded database can also be used. Moreover, it is possible to mock HTTP and AMQP clients: this is not the place to test the integration with external resources (see <a href="https://blog.crafties.fr/2017/07/23/setup-a-circuit-breaker-with-hystrix/">Setup a Circuit Breaker with Hystrix, Feign Client and Spring Boot</a>).</p>
 
-<p>An example of tools we can use to write component tests is <a href="https://github.com/cucumber/cucumber/wiki/Gherkin">Gherkin</a> (to write the specifications) with <a href="https://cucumber.io/">Cucumber</a> (to run the tests).</p>
+<p>An example of tooling we can use to write component tests is <a href="https://github.com/cucumber/cucumber/wiki/Gherkin">Gherkin</a> (to write the specifications) with <a href="https://cucumber.io/">Cucumber</a> (to run the tests).</p>
 
 <p>In order to perform requests on the HTTP API of the microservice and make assertions on the response, <a href="https://blog.crafties.fr/2015/10/31/testing-spring-mvc-controllers/">MockMvc</a> can be used.
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -243,7 +245,7 @@ In an integration test, the database should be embedded (H2 database is a good c
 
 <p>The goal of contract tests is to automatically verify that the provider of a service and its consumers speak the same language. These tests do not aim to verify the behaviour of the components but simply their contracts. They are particularly useful for microservices since almost all their value lies in their interactions. It is crucial to guarantee that no provider breaks the contract used by its consumers.</p>
 
-<p>The general idea is that consumers write tests that define the initial state of the provider, the request sent by the consumer and the expected response. The provider must provide a server in the required state. The contract will automatically be verified against this server. This implies the following:</p>
+<p>The general idea is that consumers write tests that define the initial state of the provider, the request sent by the consumer and the expected response. The provider must supply a server in the required state. The contract will automatically be verified against this server. This implies the following:</p>
 
 <ul>
 <li>on the consumer side: contract tests are written using the HTTP client. Given a provider state, assertions are made on the HTTP response.</li>
@@ -384,7 +386,7 @@ During the execution of the consumer tests, contracts (called pacts) are generat
 
 <h2>Conclusion</h2>
 
-<p>Automatic tests are very important in the software development industry. A good testing strategy can help to write more relevant, robust and maintainable tests. This article describes an example of strategy to test Java Spring Boot microservices.</p>
+<p>Automatic tests are very important in the software development industry. A good testing strategy can help write more relevant, robust and maintainable tests. This article describes an example of strategy to test Java Spring Boot microservices.</p>
 
 <hr />
 
