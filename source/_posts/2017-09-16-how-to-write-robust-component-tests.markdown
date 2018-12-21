@@ -8,7 +8,7 @@ categories: ["test", "java", "microservices"]
 
 Component tests allow to test complete use cases from end to end. They are often expensive especially in terms of setup and execution time. Thus, thought needs to be given to define their scope. Nevertheless, they are required in order to check and document the overall behaviour of the application or the microservice.
 
-I have noticed that, in the context of microservices, these tests are very cost-effective. Indeed, they can be quite easy to setup because the already existing external API of the microservice can often be used directly without the need to setup additional things (like a fake server for instance). Moreover, the scope of a microservice is generally limited and can be tested exhaustively in isolation.
+I have noticed that, in the context of microservices, these tests are very cost-effective. Indeed, they can be quite easy to set up because the already existing external API of the microservice can often be used directly without needing additional elements (like a fake server for instance). Moreover, the scope of a microservice is generally limited and can be tested exhaustively in isolation.
 
 The goal of this article is to show how to make these tests robust. The main idea is to make them independent of the implementation.
 
@@ -104,7 +104,7 @@ public void theFollowingUsersExist(List<UserDTO> users) {
 }
 ```
 
-We notice that the purely technical details like the URL, the JSON response and the HTTP status are now specified in the Java code. This allows to make the Gherkin specification more focused on the behaviour, clearer and more concise. The maintainability and robustness of this test are hence increased.
+We notice that the purely technical details like the URL, the JSON response and the HTTP status are now specified in the Java code. This allows to make the Gherkin specification more focused on the behaviour, clearer and more concise. Hence, this test is now more maintainable and robust.
 
 The initial test is now the following:
 ```gherkin
