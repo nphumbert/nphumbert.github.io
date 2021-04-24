@@ -1,628 +1,154 @@
-
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>Polymorphisme avec le kata parrot refactoring - Nadia Humbert-Labeaumaz</title>
-  <meta name="author" content="Nadia Humbert-Labeaumaz">
-
-  
-  <meta name="description" content="Ce kata est tiré d'un exemple du livre &ldquo;Refactoring, Improving the Design of Existing Code&rdquo; de Martin Fowler, et a été créé par Emilie &hellip;">
-  
-
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  
-  <link rel="canonical" href="https://nphumbert.github.io/blog/2016/04/20/polymorphisme-avec-le-kata-parrot-refactoring">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="Nadia Humbert-Labeaumaz" type="application/atom+xml">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="//fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
-<link href="//fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet" type="text/css">
-<!--- MathJax Configuration -->
-<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-  
-  <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-    ga('create', 'UA-71657955-1', 'auto');
-    ga('send', 'pageview');
-
-  </script>
-
-
-
-</head>
-
-<body   class="collapse-sidebar sidebar-footer" >
-  <header role="banner"><hgroup>
-  <h1><a href="/">Nadia Humbert-Labeaumaz</a></h1>
-  
-    <h2>Founder of Crafties</h2>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="subscribe" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS" target="_blank"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25" viewbox="0 0 100 100"><path class="social" d="M 13.310204,73.332654 C 5.967347,73.332654 0,79.322448 0,86.621428 c 0,7.338776 5.967347,13.262246 13.310204,13.262246 7.370408,0 13.328572,-5.92245 13.328572,-13.262246 0,-7.29898 -5.958164,-13.288774 -13.328572,-13.288774 z M 0.01530612,33.978572 V 53.143878 C 12.493878,53.143878 24.229592,58.02347 33.068368,66.865306 41.894898,75.685714 46.767346,87.47449 46.767346,100 h 19.25 C 66.017346,63.592858 36.4,33.979592 0.01530612,33.978572 l 0,0 z M 0.03877552,0 V 19.17449 C 44.54796,19.17551 80.77551,55.437756 80.77551,100 H 100 C 100,44.87653 55.15102,0 0.03877552,0 z"></path></svg></a></li>
-  
-</ul>
-  
-  
-  
-  
-  
-<ul class="subscribe">
-  <li><a href="https://github.com/nphumbert" rel="subscribe-github" title="@nphumbert on GitHub" target="_blank"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25" viewbox="0 0 100 100"><path class="social" d="M 50,0 C 22.385714,0 0,22.385714 0,50 0,77.614286 22.385714,100 50,100 77.614286,100 100,77.614286 100,50 100,22.385714 77.614286,0 50,0 z m 29.692858,79.692858 c -3.859184,3.859182 -8.351022,6.887754 -13.35,9.00306 -1.27041,0.536736 -2.560204,1.009184 -3.867348,1.415306 v -7.493878 c 0,-3.938774 -1.35102,-6.835714 -4.053062,-8.690816 1.692858,-0.163264 3.24694,-0.390816 4.663266,-0.683672 1.416326,-0.292858 2.913266,-0.716328 4.491838,-1.27041 1.57857,-0.55408 2.994896,-1.213264 4.247958,-1.97755 1.253062,-0.765306 2.458164,-1.758164 3.613266,-2.978572 1.155102,-1.220408 2.12449,-2.604082 2.905102,-4.15 0.780612,-1.545918 1.4,-3.40204 1.855102,-5.566326 0.455102,-2.164286 0.683674,-4.54898 0.683674,-7.153062 0,-5.045918 -1.643878,-9.341836 -4.931634,-12.890816 C 77.44796,33.35 77.285714,29.10204 75.463266,24.512244 l -1.22143,-0.145918 c -0.845918,-0.09796 -2.368366,0.260204 -4.565306,1.07449 -2.196938,0.814286 -4.663264,2.14796 -7.396938,4.004082 -3.87449,-1.07449 -7.893878,-1.611224 -12.061224,-1.611224 -4.19898,0 -8.203062,0.536734 -12.012246,1.611224 -1.72449,-1.17245 -3.361224,-2.139796 -4.907142,-2.905102 C 31.753062,25.77449 30.516326,25.254082 29.587756,24.97653 28.660204,24.7 27.79796,24.528572 27,24.463266 c -0.79796,-0.0653 -1.310204,-0.08062 -1.537756,-0.04898 -0.22755,0.03164 -0.390816,0.0653 -0.487754,0.09796 -1.82347,4.62245 -1.985714,8.87143 -0.487756,12.743878 -3.287754,3.54796 -4.931632,7.844898 -4.931632,12.890816 0,2.604082 0.227552,4.988776 0.683674,7.153062 0.456122,2.164286 1.07449,4.020408 1.855102,5.566326 0.780612,1.545918 1.75,2.929592 2.905102,4.15 1.155102,1.220408 2.360204,2.213266 3.613264,2.978572 1.253062,0.766326 2.669388,1.42449 4.24796,1.97755 1.578572,0.554082 3.07551,0.976532 4.491836,1.27041 1.416328,0.292856 2.970408,0.521428 4.663266,0.683672 -2.669388,1.82347 -4.004082,4.720408 -4.004082,8.690816 v 7.639796 C 36.536734,89.818368 35.083674,89.3 33.656122,88.695918 c -4.99898,-2.115306 -9.490816,-5.143878 -13.35,-9.00306 -3.859184,-3.859184 -6.887754,-8.351022 -9.00306,-13.35 C 9.1163263,61.171428 8.0071428,55.67347 8.0071428,50 c 0,-5.67347 1.1091835,-11.171428 3.2969392,-16.342858 2.115306,-4.998978 5.143878,-9.490816 9.00306,-13.35 3.859184,-3.859182 8.351022,-6.887754 13.35,-9.00306 C 38.828572,9.1163266 44.32653,8.0071428 50,8.0071428 c 5.67347,0 11.171428,1.1091838 16.342858,3.2969392 5,2.115306 9.490816,5.143878 13.35,9.00306 3.859182,3.859184 6.887754,8.351022 9.00306,13.35 2.186736,5.17245 3.295918,10.67041 3.295918,16.342858 0,5.672448 -1.109182,11.171428 -3.296938,16.342858 -2.115306,4.998978 -5.143878,9.490816 -9.00204,13.35 l 0,0 z"></path></svg></a></li>
-</ul>
-  
-  
-  
-<ul class="subscribe">
-  <li><a href="https://twitter.com/nphumbert" rel="subscribe-twitter" title="@nphumbert on Twitter" target="_blank"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25" viewBox="0 0 512 512"><path class="social" d="M0.001,334.932c33.327,30.816,118.891,59.981,188.517-8.271c-12.52,1.955-22.972-0.416-30.913-8.269
-  c-7.531-7.465-7.945-15.182-3.914-22.202c3.275-5.725,10.184-9.741,16.977-13.934c-12.323,2.285-22.829,1.095-32.218-3.706
-  c-12.604-6.444-24.863-13.228-28.3-27.207c7.71-8.112,16.28-15.359,34.831-12.627c-17.45-5.83-33.087-13.429-44.41-24.815
-  c-11.028-11.091-12.163-18.302-13.932-26.996c9.632-3.567,19.688-5.421,30.478-4.353c-24.397-12.476-34.757-29.63-40.487-48.325
-  c-1.731-5.652-2.044-11.03-1.31-16.545c98.826,37.305,145.11,64.109,170.662,89.251c11.496-30.589,38.3-99.868,78.371-123.646
-  c0.191,3.77-1.309,7.837-4.357,12.189c11.863-6.609,21.125-17.188,37.445-16.98c-1.879,7.723-7.279,13.904-17.85,17.854
-  c10.662-4.084,21.463-7.545,32.65-9.578c10.375-1.881,10.229,6.304,4.355,10.444c-11.916,8.412-24.578,9.456-37.006,13.498
-  c38.105,0.949,69.266,18.994,93.604,58.343c8.088,13.074,13.52,26.149,14.807,40.487c16.254,4.563,32.426,5.494,48.76,2.61
-  c4.475-0.796,8.645-1.63,12.627-3.482c-6.354,9.529-13.686,17.356-23.947,20.899c-9.811,3.387-19.637,6.688-30.473,6.968
-  c17.641,6.675,37.082,7.045,57.033,5.659c-24.402,23.486-43.08,22.922-61.824,22.642c-8.221,34.703-25.025,69.315-60.52,101.005
-  c-46.559,41.569-96.678,61.397-148.457,65.742c-48.552,4.07-95.488,3.512-146.726-20.464
-  C56.486,393.349,24.648,368.884,0.001,334.932L0.001,334.932z"/></svg></a></li>
-</ul>
-  
-  
-<ul class="subscribe">
-  <li><a href="https://linkedin.com/in/nadia-humbert-labeaumaz-519173123" rel="subscribe-linkedin" title="Nadia Humbert-Labeaumaz on LinkedIn" target="_blank"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25" viewBox="0 0 731 1000"><path class="social" d="M158.75 865l-156.25 0l0 -521.25l156.25 0l0 521.25zm393.75 -505q87.5 0 133.125 56.25t45.625 153.75l0 295l-156.25 0l0 -278.75q0 -108.75 -76.25 -108.75 -61.25 0 -80 61.25l0 326.25l-156.25 0q2.5 -468.75 0 -521.25l123.75 0l10 103.75l2.5 0q53.75 -87.5 153.75 -87.5zm-552.5 -146.25q0 -78.75 81.25 -78.75 80 0 80 78.75 0 77.5 -80 77.5 -81.25 0 -81.25 -77.5z"/></svg></a></li>
-</ul>
-  
-  
-  
-  
-  
-    
-      <form action="https://www.google.com/search" method="get">
-        <fieldset role="search">
-          <input type="hidden" name="sitesearch" value="nphumbert.github.io" />
-    
-          <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-        </fieldset>
-      </form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/drafties">Drafties</a></li>
-  <li><a href="/videos">Videos</a></li>
-  <li><a href="/talks">Talks</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-  <li><a href="/about">About</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div>
-<article class="hentry" role="article">
-  
-  <header>
-    
-      
-        <h1 class="entry-title">Polymorphisme avec le kata parrot refactoring</h1>
-      
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-04-20T16:26:03+02:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:26 pm</span></time>
-        
-         | <a href="#disqus_thread">Comments</a>
-        
-        
-      </p>
-    
-  </header>
-
-
-<div class="entry-content"><p>Ce kata est tiré d'un exemple du livre &ldquo;Refactoring, Improving the Design of Existing Code&rdquo; de Martin Fowler, et a été créé par Emilie Bache.
-L'exemple contient des signes de mauvais design et permet notamment de pratiquer le polymorphisme.<br/>
-Dans cet article, une solution à ce kata sera développée. Le projet qui a servi de support se trouve sur <a href="https://github.com/nphumbert/kata-parrot-refactoring">GitHub</a> avec la solution respective.</p>
-
-<!-- more -->
-
-
-<h2>Contexte</h2>
-
-<p>Il s'agit d'un projet où l'on calcule la vitesse d'un perroquet en fonction de son origine. La classe <code>Parrot</code> initiale est la suivante :</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Parrot</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">private</span> <span class="n">ParrotTypeEnum</span> <span class="n">type</span><span class="o">;</span>
-</span><span class='line'>    <span class="kd">private</span> <span class="kt">int</span> <span class="n">numberOfCoconuts</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-</span><span class='line'>    <span class="kd">private</span> <span class="kt">double</span> <span class="n">voltage</span><span class="o">;</span>
-</span><span class='line'>    <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">isNailed</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">public</span> <span class="nf">Parrot</span><span class="o">(</span><span class="n">ParrotTypeEnum</span> <span class="n">_type</span><span class="o">,</span> <span class="kt">int</span> <span class="n">numberOfCoconuts</span><span class="o">,</span> <span class="kt">double</span> <span class="n">voltage</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">isNailed</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">type</span> <span class="o">=</span> <span class="n">_type</span><span class="o">;</span>
-</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">numberOfCoconuts</span> <span class="o">=</span> <span class="n">numberOfCoconuts</span><span class="o">;</span>
-</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">voltage</span> <span class="o">=</span> <span class="n">voltage</span><span class="o">;</span>
-</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">isNailed</span> <span class="o">=</span> <span class="n">isNailed</span><span class="o">;</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">public</span> <span class="kt">double</span> <span class="nf">getSpeed</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>        <span class="k">switch</span> <span class="o">(</span><span class="n">type</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>            <span class="k">case</span> <span class="nl">EUROPEAN:</span>
-</span><span class='line'>                <span class="k">return</span> <span class="nf">getBaseSpeed</span><span class="o">();</span>
-</span><span class='line'>            <span class="k">case</span> <span class="nl">AFRICAN:</span>
-</span><span class='line'>                <span class="k">return</span> <span class="n">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">getBaseSpeed</span><span class="o">()</span> <span class="o">-</span> <span class="n">getLoadFactor</span><span class="o">()</span> <span class="o">*</span> <span class="n">numberOfCoconuts</span><span class="o">);</span>
-</span><span class='line'>            <span class="k">case</span> <span class="nl">NORWEGIAN_BLUE:</span>
-</span><span class='line'>                <span class="k">return</span> <span class="o">(</span><span class="n">isNailed</span><span class="o">)</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="n">getBaseSpeed</span><span class="o">(</span><span class="n">voltage</span><span class="o">);</span>
-</span><span class='line'>        <span class="o">}</span>
-</span><span class='line'>        <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="s">&quot;Should be unreachable&quot;</span><span class="o">);</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">private</span> <span class="kt">double</span> <span class="nf">getBaseSpeed</span><span class="o">(</span><span class="kt">double</span> <span class="n">voltage</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">Math</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="mf">24.0</span><span class="o">,</span> <span class="n">voltage</span> <span class="o">*</span> <span class="n">getBaseSpeed</span><span class="o">());</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">private</span> <span class="kt">double</span> <span class="nf">getLoadFactor</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="mf">9.0</span><span class="o">;</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">private</span> <span class="kt">double</span> <span class="nf">getBaseSpeed</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="mf">12.0</span><span class="o">;</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Cette classe utilise une structure conditionnelle dans la méthode <code>getSpeed</code> permettant de calculer la vitesse du perroquet. Ceci n'est pas convenable car il faudrait ajouter une nouvelle structure de ce type à chaque fois qu'un comportement dépend du type de perroquet. De plus, il faudrait ajouter une clause à chacune de ces structures dès qu'un nouveau type de perroquet est ajouté. Finalement, si la manière de calculer la vitesse d'un des types de perroquet changeait, il faudrait modifier cette classe. Cela implique que cette classe a plusieurs raisons de changer : elle ne respecte donc pas le <a href="https://www.youtube.com/watch?v=-mroBlWUBBM">Single Responsibility Principle</a>.</p>
-
-<h2>Lecture des tests et début du refactoring</h2>
-
-<p>Je commence par lire les tests existants. Je remarque qu'il y a des tests associés à chaque type de perroquet.
-Je décide de commencer par traiter les cas concernant le perroquet européen. Il y a un seul test associé à ce perroquet :</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Test</span>
-</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">getSpeedOfEuropeanParrot</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>    <span class="n">Parrot</span> <span class="n">parrot</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">Parrot</span><span class="o">(</span><span class="n">ParrotTypeEnum</span><span class="o">.</span><span class="na">EUROPEAN</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
-</span><span class='line'>    <span class="n">assertEquals</span><span class="o">(</span><span class="n">parrot</span><span class="o">.</span><span class="na">getSpeed</span><span class="o">(),</span> <span class="mf">12.0</span><span class="o">);</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Je lance le harnais de test pour m'assurer que tous les tests sont verts et que je pars donc d'une bonne base.</p>
-
-<p>Je remplace dans ce test la classe <code>Parrot</code> par la classe fille <code>EuropeanParrot</code>. Le constructeur de cette nouvelle classe n'a aucun paramètre. En effet, les valeurs passées au constructeur de la classe mère sont toutes à des valeurs par défaut.<br/>
-Comme il n'y a qu'un seul test associé à ce perroquet, il est déduit que la vitesse de ce perroquet n'est affectée par aucun paramètre externe. L'implémentation vient confirmer cette affirmation et qu'il ne s'agit pas d'un oubli de test.</p>
-
-<p>Dans la nouvelle classe, j'appelle le contructeur de la classe mère et je surcharge la méthode <code>getSpeed</code> :</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">EuropeanParrot</span> <span class="kd">extends</span> <span class="n">Parrot</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">public</span> <span class="nf">EuropeanParrot</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>        <span class="kd">super</span><span class="o">(</span><span class="n">ParrotTypeEnum</span><span class="o">.</span><span class="na">EUROPEAN</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nd">@Override</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="kt">double</span> <span class="nf">getSpeed</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="nf">getBaseSpeed</span><span class="o">();</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>La méthode <code>getBaseSpeed()</code> est toujours celle de la classe mère avec une nouvelle visibilité : <code>protected</code>. En effet, cette méthode est utilisée lors du calcul de la vitesse de tous les types de perroquet.</p>
-
-<p>De plus, je remplace l'implémentation dans la classe mère par un déclenchement de l'exception <code>IllegalStateException</code>. Ainsi, je peux être certaine qu'il s'agit de la nouvelle implémentation qui est utilisée.</p>
-
-<p>Je lance le harnais de test pour vérifier que mon refactoring n'a pas engendré de régression.</p>
-
-<p>Finalement, je déplace mon test dans une nouvelle classe de test, associée à la nouvelle classe <code>EuropeanParrot</code>. J'en profite pour renommer le test avec un nom qui explicite le métier. Le nouveau test est le suivant :</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Test</span>
-</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">should_have_speed_equal_to_base_speed</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>    <span class="c1">// given</span>
-</span><span class='line'>    <span class="n">Parrot</span> <span class="n">parrot</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">EuropeanParrot</span><span class="o">();</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// when</span>
-</span><span class='line'>    <span class="kt">double</span> <span class="n">speed</span> <span class="o">=</span> <span class="n">parrot</span><span class="o">.</span><span class="na">getSpeed</span><span class="o">();</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// then</span>
-</span><span class='line'>    <span class="n">assertEquals</span><span class="o">(</span><span class="n">speed</span><span class="o">,</span> <span class="mf">12.0</span><span class="o">);</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Je relance les tests pour m'assurer qu'ils sont toujours verts.</p>
-
-<h2>Extraction des perroquets dans des sous-classes</h2>
-
-<p>Comme pour le perroquet européen, j'extrait les deux autres perroquets (africain et norvégien) dans des sous-classes. J'itère les mêmes opérations que précédemment.</p>
-
-<p>J'ai pu constater que le facteur externe affectant la vitesse du perroquet africain est le nombre de noix de coco qu'il porte. Ce facteur n'affectant que ce type de perroquet, il est supprimé de la classe mère et déplacé dans cette classe spécifique.
-La classe <code>AfricanParrot</code> est la suivante :</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AfricanParrot</span> <span class="kd">extends</span> <span class="n">Parrot</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">numberOfCoconuts</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">public</span> <span class="nf">AfricanParrot</span><span class="o">(</span><span class="kt">int</span> <span class="n">numberOfCoconuts</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="kd">super</span><span class="o">(</span><span class="n">ParrotTypeEnum</span><span class="o">.</span><span class="na">AFRICAN</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
-</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">numberOfCoconuts</span> <span class="o">=</span> <span class="n">numberOfCoconuts</span><span class="o">;</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nd">@Override</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="kt">double</span> <span class="nf">getSpeed</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">getBaseSpeed</span><span class="o">()</span> <span class="o">-</span> <span class="n">getLoadFactor</span><span class="o">()</span> <span class="o">*</span> <span class="n">numberOfCoconuts</span><span class="o">);</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">private</span> <span class="kt">double</span> <span class="nf">getLoadFactor</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="mf">9.0</span><span class="o">;</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>De même, les facteurs affectant la vitesse du perroquet norvégien sont le voltage et le fait d'avoir été abbatu. Ces facteurs n'affectant que ce type de perroquet, ils sont supprimés de la classe mère et utilisés dans cette classe fille. La classe <code>NorwegianParrot</code> est la suivante :</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">NorwegianParrot</span> <span class="kd">extends</span> <span class="n">Parrot</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">boolean</span> <span class="n">isNailed</span><span class="o">;</span>
-</span><span class='line'>    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">double</span> <span class="n">voltage</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">public</span> <span class="nf">NorwegianParrot</span><span class="o">(</span><span class="kt">double</span> <span class="n">voltage</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">isNailed</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="kd">super</span><span class="o">(</span><span class="n">ParrotTypeEnum</span><span class="o">.</span><span class="na">NORWEGIAN_BLUE</span><span class="o">);</span>
-</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">voltage</span> <span class="o">=</span> <span class="n">voltage</span><span class="o">;</span>
-</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">isNailed</span> <span class="o">=</span> <span class="n">isNailed</span><span class="o">;</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nd">@Override</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="kt">double</span> <span class="nf">getSpeed</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="o">(</span><span class="n">isNailed</span><span class="o">)</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="n">getBaseSpeed</span><span class="o">(</span><span class="n">voltage</span><span class="o">);</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">private</span> <span class="kt">double</span> <span class="nf">getBaseSpeed</span><span class="o">(</span><span class="kt">double</span> <span class="n">voltage</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">Math</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="mf">24.0</span><span class="o">,</span> <span class="n">voltage</span> <span class="o">*</span> <span class="n">getBaseSpeed</span><span class="o">());</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Abstraction de la classe mère</h2>
-
-<p>Après ces étapes d'extraction, la classe <code>Parrot</code> est comme suit :</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Parrot</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">private</span> <span class="n">ParrotTypeEnum</span> <span class="n">type</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">public</span> <span class="nf">Parrot</span><span class="o">(</span><span class="n">ParrotTypeEnum</span> <span class="n">_type</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">type</span> <span class="o">=</span> <span class="n">_type</span><span class="o">;</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">public</span> <span class="kt">double</span> <span class="nf">getSpeed</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>        <span class="k">switch</span> <span class="o">(</span><span class="n">type</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>            <span class="k">case</span> <span class="nl">EUROPEAN:</span>
-</span><span class='line'>                <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="s">&quot;Should be overridden&quot;</span><span class="o">);</span>
-</span><span class='line'>            <span class="k">case</span> <span class="nl">AFRICAN:</span>
-</span><span class='line'>                <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="s">&quot;Should be overridden&quot;</span><span class="o">);</span>
-</span><span class='line'>            <span class="k">case</span> <span class="nl">NORWEGIAN_BLUE:</span>
-</span><span class='line'>                <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="s">&quot;Should be overridden&quot;</span><span class="o">);</span>
-</span><span class='line'>        <span class="o">}</span>
-</span><span class='line'>        <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="s">&quot;Should be unreachable&quot;</span><span class="o">);</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">protected</span> <span class="kt">double</span> <span class="nf">getBaseSpeed</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="mf">12.0</span><span class="o">;</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>La méthode <code>getSpeed</code> n'étant plus utilisée, je la rends abstraite, ainsi que la classe.<br/>
-Je relance le harnais de test pour vérifier qu'il n'y a pas eu de régression.</p>
-
-<p>De plus, je supprime l'énumération <code>ParrotTypeEnum</code> portant sur le type de perroquet car elle n'a plus lieu d'être. Par conséquent, les appels du constructeur de la super classe dans les classes filles disparaissent également. Je relance les tests pour vérifier qu'ils passent encore.<br/>
-La classe <code>Parrot</code> devient :</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Parrot</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">double</span> <span class="nf">computeSpeed</span><span class="o">();</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">protected</span> <span class="kt">double</span> <span class="nf">getBaseSpeed</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="mf">12.0</span><span class="o">;</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Conclusion</h2>
-
-<p>Ce kata permet de remplacer une structure conditionnelle par du polymorphisme. Chacune des classes n'a plus qu'une seule raison de changer. De plus, pour ajouter un nouveau type de perroquet, il suffit de créer une nouvelle classe qui hérite de la classe <code>Parrot</code>, sans avoir à modifier quoi que ce soit par ailleurs. Le code est donc plus SOLID.
-Un autre exemple de ce type de refactoring a été développé sur une des vidéos de ma chaîne YouTube <a href="https://www.youtube.com/watch?v=sxQAULX96P0">Crafties</a>.</p>
-</div>
-
-
-  <footer>
-    <p class="meta">
-      
-  
-
-
-
-  <span class="byline author vcard">Authored by <span class="fn">
-  
-    Nadia Humbert-Labeaumaz
-  
-  </span></span>
-
-
-      
-
-
-
-
-<time class='entry-date' datetime='2016-04-20T16:26:03+02:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:26 pm</span></time>
-      
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/kata/'>kata</a>, <a class='category' href='/blog/categories/polymorphisme/'>polymorphisme</a>, <a class='category' href='/blog/categories/refactoring/'>refactoring</a>
-  
-</span>
-
-
-    </p>
-    
-      <div class="sharing">
-  
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="https://nphumbert.github.io/blog/2016/04/20/polymorphisme-avec-le-kata-parrot-refactoring/" data-via="nphumbert" data-counturl="https://nphumbert.github.io/blog/2016/04/20/polymorphisme-avec-le-kata-parrot-refactoring/" >Tweet</a>
-  
-  
-  <div class="g-plusone" data-size="medium"></div>
-  
-  
-</div>
-
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2016/04/13/once-upon-a-time-tdd-and-me/" title="Previous Post: Once upon a time TDD... and me">&laquo; Once upon a time TDD... and me</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2016/05/08/decouverte-de-kotlin-par-la-pratique/" title="Next Post: Découverte de Kotlin par la pratique">Découverte de Kotlin par la pratique &raquo;</a>
-      
-    </p>
-  </footer>
-</article>
-
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-  </section>
-
-
-</div>
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2018 - Nadia Humbert-Labeaumaz -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
-</p>
-
-</footer>
-  
-
-<script type="text/javascript">
-      var disqus_shortname = 'nphumbert';
-      
-        
-        // var disqus_developer = 1;
-        var disqus_identifier = 'https://nphumbert.github.io/blog/2016/04/20/polymorphisme-avec-le-kata-parrot-refactoring/';
-        var disqus_url = 'https://nphumbert.github.io/blog/2016/04/20/polymorphisme-avec-le-kata-parrot-refactoring/';
-        var disqus_script = 'embed.js';
-      
-    (function () {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    }());
-</script>
-
-
-
-
-
-
-
-
-  <script type="text/javascript">
-    (function() {
-      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
-      script.src = 'https://apis.google.com/js/plusone.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
-    })();
-  </script>
-
-
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = '//platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
-
-
-
-
-
-</body>
-</html>
+<!doctype html><html lang=en-US><head><meta charset=utf-8><title>Polymorphisme avec le kata parrot refactoring</title>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta name=description content="Entrepreneur, consultant, bio-sciences and software engineer."><meta name=author content="Nadia Humbert-Labeaumaz"><meta name=generator content="Hugo 0.123.1"><meta property="og:image" content="https://nadia-humbert-labeaumaz.github.io/images/blog/kata-parrot/header.jpg"><meta property="og:title" content="Polymorphisme avec le kata parrot refactoring"><meta property="og:description" content="Ce kata est tiré d&rsquo;un exemple du livre &ldquo;Refactoring, Improving the Design of Existing Code&rdquo; de Martin Fowler, et a été créé par Emilie Bache.
+L&rsquo;exemple contient des signes de mauvais design et permet notamment de pratiquer le polymorphisme.
+Dans cet article, une solution à ce kata sera développée. Le projet qui a servi de support se trouve sur GitHub avec la solution respective."><meta property="og:type" content="article"><meta property="og:url" content="https://nadia-humbert-labeaumaz.github.io/blog/2016/04/20/polymorphisme-avec-le-kata-parrot-refactoring/"><meta property="og:image" content="https://nadia-humbert-labeaumaz.github.io/images/slider.jpg"><meta property="article:section" content="blog"><meta property="article:published_time" content="2016-04-20T16:26:03+02:00"><meta property="article:modified_time" content="2016-04-20T16:26:03+02:00"><meta property="og:site_name" content="Nadia Humbert-Labeaumaz"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://nadia-humbert-labeaumaz.github.io/images/slider.jpg"><meta name=twitter:title content="Polymorphisme avec le kata parrot refactoring"><meta name=twitter:description content="Ce kata est tiré d&rsquo;un exemple du livre &ldquo;Refactoring, Improving the Design of Existing Code&rdquo; de Martin Fowler, et a été créé par Emilie Bache.
+L&rsquo;exemple contient des signes de mauvais design et permet notamment de pratiquer le polymorphisme.
+Dans cet article, une solution à ce kata sera développée. Le projet qui a servi de support se trouve sur GitHub avec la solution respective."><script async src="https://www.googletagmanager.com/gtag/js?id=G-FDXGPB3FE3"></script><script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-FDXGPB3FE3",{anonymize_ip:!1})}</script><link rel=stylesheet href=/plugins/bootstrap/css/bootstrap.min.css media=screen><link rel=stylesheet href=/plugins/ionicons/css/ionicons.min.css><link rel=stylesheet href=/plugins/magnific-popup/magnific-popup.min.css><link rel=stylesheet href=/plugins/slick/slick.css><link rel=stylesheet href=/scss/style.min.css media=screen><link rel="shortcut icon" href=/images/favicon.png type=image/x-icon><link rel=icon href=/images/favicon.png type=image/x-icon><link rel=canonical href=https://nadia-humbert-labeaumaz.github.io/blog/2016/04/20/polymorphisme-avec-le-kata-parrot-refactoring/></head><body><div class=preloader></div><header class=navigation><div class=container-fluid><div class=row><div class=col-md-12><nav class=navbar><div class=navbar-header><button type=button class="navbar-toggle collapsed" data-toggle=collapse data-target=#navigation>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span></button></div><div class="collapse navbar-collapse" id=navigation><ul class="nav navbar-nav navbar-right"><li><a href=/>Home</a></li><li><a href=/about>About</a></li><li><a href=/experience>Experience</a></li><li><a href=/blog>Blog</a></li><li><a href=/categories/case-studies>Case Studies</a></li><li class=dropdown><a href=# class=dropdown-toggle data-toggle=dropdown role=button aria-haspopup=true aria-expanded=false>Crafties <span class=ion-ios-arrow-down></span></a><ul class=dropdown-menu><li><a href=/crafties>Videos</a></li><li><a href=/drafties>Drafties</a></li><li><a href=/talks>Talks</a></li></ul></li><li><a href=https://www.timeforachange.xyz target=_blank>Time for a Change</a></li></ul></div></nav></div></div></div></header><section class="page-title bg-2" style=background-image:url(/images/blog/kata-parrot/header.jpg)><div class=container><div class=row><div class=col-md-12><div class=block><h1>Polymorphisme avec le kata parrot refactoring</h1><p></p></div></div></div></div></section><section class=page-wrapper><div class=container><div class=row><div class=col-md-8><div class="post post-single"><h2 class=post-title>Polymorphisme avec le kata parrot refactoring</h2><div class=post-meta><ul><li><i class=ion-calendar></i> April 20, 2016</li><li><i class=ion-android-people></i>
+Posted by
+<a class=text-primary href=/author/nadia-humbert-labeaumaz>Nadia Humbert-Labeaumaz</a></li><li><i class=ion-pricetags></i>
+<a href=/tags/refactoring>Refactoring</a></li></ul></div><div class=post-thumb><img class=img-responsive src=/images/blog/kata-parrot/header.jpg alt="Polymorphisme avec le kata parrot refactoring"></div><div class="post-content post-excerpt"><p>Ce kata est tiré d&rsquo;un exemple du livre &ldquo;Refactoring, Improving the Design of Existing Code&rdquo; de Martin Fowler, et a été créé par Emilie Bache.
+L&rsquo;exemple contient des signes de mauvais design et permet notamment de pratiquer le polymorphisme.<br>Dans cet article, une solution à ce kata sera développée. Le projet qui a servi de support se trouve sur <a href=https://github.com/nphumbert/kata-parrot-refactoring>GitHub</a> avec la solution respective.</p><h2 id=contexte>Contexte</h2><p>Il s&rsquo;agit d&rsquo;un projet où l&rsquo;on calcule la vitesse d&rsquo;un perroquet en fonction de son origine. La classe <code>Parrot</code> initiale est la suivante :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Parrot</span> {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> ParrotTypeEnum type;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>int</span> numberOfCoconuts <span style=color:#f92672>=</span> 0;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>double</span> voltage;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>boolean</span> isNailed;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#a6e22e>Parrot</span>(ParrotTypeEnum _type, <span style=color:#66d9ef>int</span> numberOfCoconuts, <span style=color:#66d9ef>double</span> voltage, <span style=color:#66d9ef>boolean</span> isNailed) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>type</span> <span style=color:#f92672>=</span> _type;
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>numberOfCoconuts</span> <span style=color:#f92672>=</span> numberOfCoconuts;
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>voltage</span> <span style=color:#f92672>=</span> voltage;
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>isNailed</span> <span style=color:#f92672>=</span> isNailed;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>double</span> <span style=color:#a6e22e>getSpeed</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>switch</span> (type) {
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>case</span> EUROPEAN:
+</span></span><span style=display:flex><span>                <span style=color:#66d9ef>return</span> getBaseSpeed();
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>case</span> AFRICAN:
+</span></span><span style=display:flex><span>                <span style=color:#66d9ef>return</span> Math.<span style=color:#a6e22e>max</span>(0, getBaseSpeed() <span style=color:#f92672>-</span> getLoadFactor() <span style=color:#f92672>*</span> numberOfCoconuts);
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>case</span> NORWEGIAN_BLUE:
+</span></span><span style=display:flex><span>                <span style=color:#66d9ef>return</span> (isNailed) <span style=color:#f92672>?</span> 0 : getBaseSpeed(voltage);
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> RuntimeException(<span style=color:#e6db74>&#34;Should be unreachable&#34;</span>);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>double</span> <span style=color:#a6e22e>getBaseSpeed</span>(<span style=color:#66d9ef>double</span> voltage) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> Math.<span style=color:#a6e22e>min</span>(24.<span style=color:#a6e22e>0</span>, voltage <span style=color:#f92672>*</span> getBaseSpeed());
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>double</span> <span style=color:#a6e22e>getLoadFactor</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> 9.<span style=color:#a6e22e>0</span>;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>double</span> <span style=color:#a6e22e>getBaseSpeed</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> 12.<span style=color:#a6e22e>0</span>;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>Cette classe utilise une structure conditionnelle dans la méthode <code>getSpeed</code> permettant de calculer la vitesse du perroquet. Ceci n&rsquo;est pas convenable car il faudrait ajouter une nouvelle structure de ce type à chaque fois qu&rsquo;un comportement dépend du type de perroquet. De plus, il faudrait ajouter une clause à chacune de ces structures dès qu&rsquo;un nouveau type de perroquet est ajouté. Finalement, si la manière de calculer la vitesse d&rsquo;un des types de perroquet changeait, il faudrait modifier cette classe. Cela implique que cette classe a plusieurs raisons de changer : elle ne respecte donc pas le <a href="https://www.youtube.com/watch?v=-mroBlWUBBM">Single Responsibility Principle</a>.</p><h2 id=lecture-des-tests-et-début-du-refactoring>Lecture des tests et début du refactoring</h2><p>Je commence par lire les tests existants. Je remarque qu&rsquo;il y a des tests associés à chaque type de perroquet.
+Je décide de commencer par traiter les cas concernant le perroquet européen. Il y a un seul test associé à ce perroquet :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#a6e22e>@Test</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>getSpeedOfEuropeanParrot</span>() {
+</span></span><span style=display:flex><span>    Parrot parrot <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Parrot(ParrotTypeEnum.<span style=color:#a6e22e>EUROPEAN</span>, 0, 0, <span style=color:#66d9ef>false</span>);
+</span></span><span style=display:flex><span>    assertEquals(parrot.<span style=color:#a6e22e>getSpeed</span>(), 12.<span style=color:#a6e22e>0</span>);
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>Je lance le harnais de test pour m&rsquo;assurer que tous les tests sont verts et que je pars donc d&rsquo;une bonne base.</p><p>Je remplace dans ce test la classe <code>Parrot</code> par la classe fille <code>EuropeanParrot</code>. Le constructeur de cette nouvelle classe n&rsquo;a aucun paramètre. En effet, les valeurs passées au constructeur de la classe mère sont toutes à des valeurs par défaut.<br>Comme il n&rsquo;y a qu&rsquo;un seul test associé à ce perroquet, il est déduit que la vitesse de ce perroquet n&rsquo;est affectée par aucun paramètre externe. L&rsquo;implémentation vient confirmer cette affirmation et qu&rsquo;il ne s&rsquo;agit pas d&rsquo;un oubli de test.</p><p>Dans la nouvelle classe, j&rsquo;appelle le contructeur de la classe mère et je surcharge la méthode <code>getSpeed</code> :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>EuropeanParrot</span> <span style=color:#66d9ef>extends</span> Parrot {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#a6e22e>EuropeanParrot</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>super</span>(ParrotTypeEnum.<span style=color:#a6e22e>EUROPEAN</span>, 0, 0, <span style=color:#66d9ef>false</span>);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>double</span> <span style=color:#a6e22e>getSpeed</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> getBaseSpeed();
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>La méthode <code>getBaseSpeed()</code> est toujours celle de la classe mère avec une nouvelle visibilité : <code>protected</code>. En effet, cette méthode est utilisée lors du calcul de la vitesse de tous les types de perroquet.</p><p>De plus, je remplace l&rsquo;implémentation dans la classe mère par un déclenchement de l&rsquo;exception <code>IllegalStateException</code>. Ainsi, je peux être certaine qu&rsquo;il s&rsquo;agit de la nouvelle implémentation qui est utilisée.</p><p>Je lance le harnais de test pour vérifier que mon refactoring n&rsquo;a pas engendré de régression.</p><p>Finalement, je déplace mon test dans une nouvelle classe de test, associée à la nouvelle classe <code>EuropeanParrot</code>. J&rsquo;en profite pour renommer le test avec un nom qui explicite le métier. Le nouveau test est le suivant :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#a6e22e>@Test</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>should_have_speed_equal_to_base_speed</span>() {
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// given</span>
+</span></span><span style=display:flex><span>    Parrot parrot <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> EuropeanParrot();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// when</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>double</span> speed <span style=color:#f92672>=</span> parrot.<span style=color:#a6e22e>getSpeed</span>();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// then</span>
+</span></span><span style=display:flex><span>    assertEquals(speed, 12.<span style=color:#a6e22e>0</span>);
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>Je relance les tests pour m&rsquo;assurer qu&rsquo;ils sont toujours verts.</p><h2 id=extraction-des-perroquets-dans-des-sous-classes>Extraction des perroquets dans des sous-classes</h2><p>Comme pour le perroquet européen, j&rsquo;extrait les deux autres perroquets (africain et norvégien) dans des sous-classes. J&rsquo;itère les mêmes opérations que précédemment.</p><p>J&rsquo;ai pu constater que le facteur externe affectant la vitesse du perroquet africain est le nombre de noix de coco qu&rsquo;il porte. Ce facteur n&rsquo;affectant que ce type de perroquet, il est supprimé de la classe mère et déplacé dans cette classe spécifique.
+La classe <code>AfricanParrot</code> est la suivante :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>AfricanParrot</span> <span style=color:#66d9ef>extends</span> Parrot {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>final</span> <span style=color:#66d9ef>int</span> numberOfCoconuts;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#a6e22e>AfricanParrot</span>(<span style=color:#66d9ef>int</span> numberOfCoconuts) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>super</span>(ParrotTypeEnum.<span style=color:#a6e22e>AFRICAN</span>, 0, <span style=color:#66d9ef>false</span>);
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>numberOfCoconuts</span> <span style=color:#f92672>=</span> numberOfCoconuts;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>double</span> <span style=color:#a6e22e>getSpeed</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> Math.<span style=color:#a6e22e>max</span>(0, getBaseSpeed() <span style=color:#f92672>-</span> getLoadFactor() <span style=color:#f92672>*</span> numberOfCoconuts);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>double</span> <span style=color:#a6e22e>getLoadFactor</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> 9.<span style=color:#a6e22e>0</span>;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>De même, les facteurs affectant la vitesse du perroquet norvégien sont le voltage et le fait d&rsquo;avoir été abbatu. Ces facteurs n&rsquo;affectant que ce type de perroquet, ils sont supprimés de la classe mère et utilisés dans cette classe fille. La classe <code>NorwegianParrot</code> est la suivante :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>NorwegianParrot</span> <span style=color:#66d9ef>extends</span> Parrot {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>final</span> <span style=color:#66d9ef>boolean</span> isNailed;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>final</span> <span style=color:#66d9ef>double</span> voltage;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#a6e22e>NorwegianParrot</span>(<span style=color:#66d9ef>double</span> voltage, <span style=color:#66d9ef>boolean</span> isNailed) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>super</span>(ParrotTypeEnum.<span style=color:#a6e22e>NORWEGIAN_BLUE</span>);
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>voltage</span> <span style=color:#f92672>=</span> voltage;
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>isNailed</span> <span style=color:#f92672>=</span> isNailed;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>double</span> <span style=color:#a6e22e>getSpeed</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> (isNailed) <span style=color:#f92672>?</span> 0 : getBaseSpeed(voltage);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>double</span> <span style=color:#a6e22e>getBaseSpeed</span>(<span style=color:#66d9ef>double</span> voltage) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> Math.<span style=color:#a6e22e>min</span>(24.<span style=color:#a6e22e>0</span>, voltage <span style=color:#f92672>*</span> getBaseSpeed());
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h2 id=abstraction-de-la-classe-mère>Abstraction de la classe mère</h2><p>Après ces étapes d&rsquo;extraction, la classe <code>Parrot</code> est comme suit :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Parrot</span> {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> ParrotTypeEnum type;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#a6e22e>Parrot</span>(ParrotTypeEnum _type) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>type</span> <span style=color:#f92672>=</span> _type;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>double</span> <span style=color:#a6e22e>getSpeed</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>switch</span> (type) {
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>case</span> EUROPEAN:
+</span></span><span style=display:flex><span>                <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> IllegalStateException(<span style=color:#e6db74>&#34;Should be overridden&#34;</span>);
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>case</span> AFRICAN:
+</span></span><span style=display:flex><span>                <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> IllegalStateException(<span style=color:#e6db74>&#34;Should be overridden&#34;</span>);
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>case</span> NORWEGIAN_BLUE:
+</span></span><span style=display:flex><span>                <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> IllegalStateException(<span style=color:#e6db74>&#34;Should be overridden&#34;</span>);
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> RuntimeException(<span style=color:#e6db74>&#34;Should be unreachable&#34;</span>);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>protected</span> <span style=color:#66d9ef>double</span> <span style=color:#a6e22e>getBaseSpeed</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> 12.<span style=color:#a6e22e>0</span>;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>La méthode <code>getSpeed</code> n&rsquo;étant plus utilisée, je la rends abstraite, ainsi que la classe.<br>Je relance le harnais de test pour vérifier qu&rsquo;il n&rsquo;y a pas eu de régression.</p><p>De plus, je supprime l&rsquo;énumération <code>ParrotTypeEnum</code> portant sur le type de perroquet car elle n&rsquo;a plus lieu d&rsquo;être. Par conséquent, les appels du constructeur de la super classe dans les classes filles disparaissent également. Je relance les tests pour vérifier qu&rsquo;ils passent encore.<br>La classe <code>Parrot</code> devient :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>abstract</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Parrot</span> {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>abstract</span> <span style=color:#66d9ef>double</span> <span style=color:#a6e22e>computeSpeed</span>();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>protected</span> <span style=color:#66d9ef>double</span> <span style=color:#a6e22e>getBaseSpeed</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> 12.<span style=color:#a6e22e>0</span>;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h2 id=conclusion>Conclusion</h2><p>Ce kata permet de remplacer une structure conditionnelle par du polymorphisme. Chacune des classes n&rsquo;a plus qu&rsquo;une seule raison de changer. De plus, pour ajouter un nouveau type de perroquet, il suffit de créer une nouvelle classe qui hérite de la classe <code>Parrot</code>, sans avoir à modifier quoi que ce soit par ailleurs. Le code est donc plus SOLID.
+Un autre exemple de ce type de refactoring a été développé sur une des vidéos de ma chaîne YouTube <a href="https://www.youtube.com/watch?v=sxQAULX96P0">Crafties</a>.</p></div><div class=post-comments></div></div></div><div class=col-md-4><aside class=sidebar><div class="widget widget-latest-post"><h4 class=widget-title>Latest Posts</h4><div class=media><a class=pull-left href=/blog/2021/04/28/effecting-long-lasting-changes/><img class=media-object src=/images/blog/effecting-long-lasting-changes/header.jpg alt="How to Effect Long-Lasting Organizational Changes"></a><div class=media-body><h4 class=media-heading><a href=/blog/2021/04/28/effecting-long-lasting-changes/>How to Effect Long-Lasting Organizational Changes</a></h4></div></div><div class=media><a class=pull-left href=/blog/2021/01/14/what-is-a-social-entrepreneur/><img class=media-object src=/images/blog/what-is-a-social-entrepreneur/header.jpg alt="What is a Social Entrepreneur?"></a><div class=media-body><h4 class=media-heading><a href=/blog/2021/01/14/what-is-a-social-entrepreneur/>What is a Social Entrepreneur?</a></h4></div></div><div class=media><a class=pull-left href=/blog/2020/07/05/debt-sme-nz/><img class=media-object src=/images/blog/debt-sme-nz/header.jpg alt="Debt and SMEs in New Zealand"></a><div class=media-body><h4 class=media-heading><a href=/blog/2020/07/05/debt-sme-nz/>Debt and SMEs in New Zealand</a></h4></div></div><div class=media><a class=pull-left href=/blog/2019/06/27/cloudy-relationship-france-diesel/><img class=media-object src=/images/blog/diesel/header.jpg alt="The Cloudy Relationship Between France and Diesel"></a><div class=media-body><h4 class=media-heading><a href=/blog/2019/06/27/cloudy-relationship-france-diesel/>The Cloudy Relationship Between France and Diesel</a></h4></div></div></div><div class="widget widget-category"><h4 class=widget-title>Categories</h4><ul class=widget-category-list><li><a href=/categories/business/>Business</a></li><li><a href=/categories/case-studies/>Case Studies</a></li><li><a href=/categories/software/>Software</a></li></ul></div><div class="widget widget-tag"><h4 class=widget-title>Tags</h4><ul class=widget-tag-list><li><a href=/tags/change-management/>Change Management</a></li><li><a href=/tags/economics/>Economics</a></li><li><a href=/tags/finance/>Finance</a></li><li><a href=/tags/java/>Java</a></li><li><a href=/tags/refactoring/>Refactoring</a></li><li><a href=/tags/social-entrepreneurship/>Social Entrepreneurship</a></li><li><a href=/tags/software-design/>Software Design</a></li><li><a href=/tags/software-testing/>Software Testing</a></li></ul></div></aside></div></div></div></section><footer class=footer><div class=container><div class=row><div class=col-md-12><div class=footer-menu><ul><li><a href=/>Home</a></li><li><a href=/about>About</a></li><li><a href=/experience>Experience</a></li><li><a href=/blog>Blog</a></li><li><a href=/categories/case-studies>Case Studies</a></li></ul></div><div class=footer-menu><ul><li><a href=https://www.linkedin.com/in/nadia-humbert-labeaumaz/ target=_blank><i class=ion-social-linkedin-outline></i></a></li><li><a href=https://github.com/nphumbert target=_blank><i class=ion-social-github-outline></i></a></li><li><a href=https://twitter.com/nphumbert target=_blank><i class=ion-social-twitter-outline></i></a></li></ul></div><p class=copyright></p></div></div></div></footer><script src=/plugins/jquery/jquery.min.js></script><script src=/plugins/bootstrap/js/bootstrap.min.js></script><script src=/plugins/slick/slick.min.js></script><script src=/plugins/magnific-popup/magnific-popup.min.js></script><script src=/plugins/shuffle/shuffle.min.js></script><script src=/plugins/google-map/gmap.js defer></script><script src=/js/script.min.js></script></body></html>

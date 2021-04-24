@@ -1,4 +1,0 @@
-User-agent: *
-Disallow:
-
-Sitemap: https://nphumbert.github.io/sitemap.xml
